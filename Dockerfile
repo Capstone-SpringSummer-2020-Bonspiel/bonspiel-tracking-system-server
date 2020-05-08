@@ -7,4 +7,4 @@ RUN npm install
 RUN cd ../
 COPY . .
 EXPOSE $PORT 
-CMD ["node", "./server/server.js"]
+CMD ["node", "./server.js"]
