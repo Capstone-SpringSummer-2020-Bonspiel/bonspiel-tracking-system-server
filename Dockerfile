@@ -11,4 +11,4 @@ EXPOSE $PORT
 ARG NODE_ENV
 ENV NODE_ENV $NODE_ENV
 
-CMD ["node", "./server.js"]
+CMD ["node", "./server/server.js"]

@@ -2,10 +2,10 @@
 
 const express = require('express');
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
 
-process.env.NODE_CONFIG_DIR = './server/config';
+process.env.NODE_CONFIG_DIR = './config';
 const config = require('config');
 
 const app = express();
