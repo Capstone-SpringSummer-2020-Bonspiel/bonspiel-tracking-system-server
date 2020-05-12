@@ -7,4 +7,8 @@ RUN npm install
 RUN cd ../
 COPY . .
 EXPOSE $PORT 
-CMD ["node", "./server.js"]
+
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
+
+CMD ["node", "./server/server.js"]
