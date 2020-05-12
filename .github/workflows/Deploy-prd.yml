@@ -1,7 +1,10 @@
-name: Deploy
+name: Deploy-prd
 
 on:
   push:
+    branches:
+      - master
+  pull_request:
     branches:
       - master
 
