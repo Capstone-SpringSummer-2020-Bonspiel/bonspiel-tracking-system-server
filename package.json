@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Capstone-SpringSummer-2020/bonspiel-tracking-system-server#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pg": "^8.1.0"
   }
 }
