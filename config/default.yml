@@ -2,3 +2,6 @@
 #THESE ARE OVERRIDDEN IF THE SAME JSON OBJECT IS DEFINED IN EITHER dev.yml or prd.yml
 
 test: testvalue
+host: bonspiel-1.cjb7ejiq8hxn.us-west-2.rds.amazonaws.com
+user: capstone
+pass: jWy8XTG36FcTtRUQPa2PqFvfjLqfsL
