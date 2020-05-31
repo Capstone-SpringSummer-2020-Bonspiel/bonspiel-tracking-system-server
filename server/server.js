@@ -1,6 +1,9 @@
 'use strict'
 
 const express = require('express');
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('js-yaml');
+const fs = require('fs');
 
 const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
@@ -9,6 +12,17 @@ process.env.NODE_CONFIG_DIR = './config';
 const config = require('config');
 
 const app = express();
+const swaggerConfig = loadSwaggerConfig();
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerConfig));
+
+function loadSwaggerConfig() {
+  try {
+    return YAML.safeLoad(fs.readFileSync('./config/swagger.yaml', 'utf-8'));
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 /****************************************************************************/
 
