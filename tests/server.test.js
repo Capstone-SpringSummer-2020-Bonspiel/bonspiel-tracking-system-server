@@ -9,3 +9,7 @@ describe("Smoke test", () => {
     assert.isString(response.data);
   })
 });
+
+describe("Game Service Tests", () => {
+  it("Should Get a game from a specific draw")
+});

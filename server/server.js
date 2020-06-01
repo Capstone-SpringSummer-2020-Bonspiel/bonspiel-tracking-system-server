@@ -1,9 +1,13 @@
 'use strict'
 
 const express = require('express');
+<<<<<<< HEAD
 const swaggerUI = require('swagger-ui-express');
 const YAML = require('js-yaml');
 const fs = require('fs');
+=======
+const routes = require('../routes/routes');
+>>>>>>> aaron/BP-63_Get-Route-Game-In-Draw
 
 const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
@@ -67,6 +71,8 @@ app.post('/api/create-curling-event', (req, res) => {
 });
 
 /****************************************************************************/
+
+app.use('/', routes);
 
 app.all('*', (req, res) => {
   res.send('Hello World!');
