@@ -6,11 +6,11 @@ class CurlingEventService {
 
   constructor() {
     this.#pool = new Pool({
-      user: config.db.DB_USER,
-      host: config.db.DB_HOST,
+      user: config.db.user,
+      host: config.db.host,
       database: 'postgres',
-      password: config.db.DB_PASS,
-      port: config.db.DB_PORT,
+      password: config.db.pass,
+      port: config.db.port,
     });
   }
 

@@ -9,6 +9,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: jwsi/secret-parser@v1
+        with:
+          filename: config/default.yml
+          secret-name: DB_USER
+          secret-value: ${{ secrets.DB_USER }}
+          secret-name: DB_HOST
+          secret-value: ${{ secrets.DB_HOST }}
+          secret-name: DB_PASS
+          secret-value: ${{ secrets.DB_PASS }}
+          secret-name: DB_PORT
+          secret-value: ${{ secrets.DB_PORT }}
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.0.4 # This is the action
         with:

@@ -15,7 +15,10 @@ const config = require('config');
 const app = express();
 const swaggerConfig = loadSwaggerConfig();
 
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerConfig));
+swaggerConfig.host = config.backend.url;
+fs.writeFileSync('./config/swagger.yaml', YAML.safeDump(swaggerConfig), 'utf8');
+
+app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerConfig));
 
 function loadSwaggerConfig() {
   try {
@@ -26,11 +29,7 @@ function loadSwaggerConfig() {
 }
 
 
-app.use('/', routes);
-
-app.all('*', (req, res) => {
-  res.send('Hello World!');
-})
+app.use('/api/v1', routes);
 
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);

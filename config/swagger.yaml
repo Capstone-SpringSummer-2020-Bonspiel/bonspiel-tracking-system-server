@@ -3,25 +3,22 @@ info:
   title: Bonspiel Tracking System API
   version: 0.1.0
 
-servers:
-  - url: https://bonspiel-backend.herokuapp.com
-    description: Production server
-  - url: https://bonspiel-server-devl.herokuapp.com
-    description: Development server
+host:
+basePath: "/api/v1"
 
 paths:
   /curlingevent:
     get:
       summary: Returns all curling events
       responses:
-        '200':
+        "200":
           description: A JSON array of curling event objects
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CurlingEvent'
+                  $ref: "#/components/schemas/CurlingEvent"
   /curlingevent/{curling_event_id}/teams:
     get:
       summary: Returns all teams by curling_event_id
@@ -34,14 +31,14 @@ paths:
             minimum: 0
           description: The curling event id
       responses:
-        '200':
+        "200":
           description: A JSON array of team objects
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Team'
+                  $ref: "#/components/schemas/Team"
   /curlingevent/{curling_event_id}/games:
     get:
       summary: Returns all games by curling_event_id
@@ -54,14 +51,14 @@ paths:
             minimum: 0
           description: The curling event id
       responses:
-        '200':
+        "200":
           description: A JSON array of game objects sorted by team
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TeamGame'
+                  $ref: "#/components/schemas/TeamGame"
   /query:
     post:
       summary: Queries the database without UPDATE, INSERT, CREATE, or DELETE
@@ -72,13 +69,12 @@ paths:
             schema:
               type: string
       responses:
-        '200':
+        "200":
           description: Straight from the database
           content:
             application/json:
               schema:
                 type: object
-
 
 components:
   schemas:
@@ -112,8 +108,8 @@ components:
       type: object
       properties:
         team:
-          $ref: '#/components/schemas/Team'
+          $ref: "#/components/schemas/Team"
         games:
           type: array
           items:
-            $ref: '#/components/schemas/Game'
+            $ref: "#/components/schemas/Game"
