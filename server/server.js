@@ -23,7 +23,7 @@ fs.writeFileSync('./config/swagger.yaml', YAML.safeDump(swaggerConfig), 'utf8');
 
 swaggerConfig = loadSwaggerConfig(); //reload for updated swagger
 
-console.log("baseUrl", swaggerConfig.host);
+console.debug("baseUrl", swaggerConfig.host);
 
 app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerConfig));
 
@@ -31,7 +31,7 @@ function loadSwaggerConfig() {
   try {
     return YAML.safeLoad(fs.readFileSync('./config/swagger.yaml', 'utf-8'));
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 }
 
@@ -39,6 +39,6 @@ function loadSwaggerConfig() {
 app.use('/api/v1', routes);
 
 app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
-console.log("Backend Environment", config.env);
-console.log("Backend URL", config.backend.url);
+console.debug(`Running on http://${HOST}:${PORT}`);
+console.debug("Backend Environment", config.env);
+console.debug("Backend URL", config.backend.url);
