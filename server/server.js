@@ -15,7 +15,7 @@ const config = require('config');
 const app = express();
 let swaggerConfig = loadSwaggerConfig();
 
-swaggerConfig.host = config.backend.url;
+swaggerConfig.host = config.backend.url.replace("http://", "").replace("/", "");
 fs.writeFileSync('./config/swagger.yaml', YAML.safeDump(swaggerConfig), 'utf8');
 
 swaggerConfig = loadSwaggerConfig(); //reload for updated swagger
