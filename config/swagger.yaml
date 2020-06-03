@@ -20,7 +20,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/CurlingEvent"
-  /curlingevent/{curling_event_id}/teams:
+  "/curlingevent/{curling_event_id}/teams":
     get:
       summary: Returns all teams by curling_event_id
       parameters:
@@ -40,7 +40,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Team"
-  /curlingevent/{curling_event_id}/games:
+  "/curlingevent/{curling_event_id}/games":
     get:
       summary: Returns all games by curling_event_id
       parameters:
@@ -62,7 +62,7 @@ paths:
                   $ref: "#/components/schemas/TeamGame"
   /query:
     post:
-      summary: Queries the database without UPDATE, INSERT, CREATE, or DELETE
+      summary: "Queries the database without UPDATE, INSERT, CREATE, or DELETE"
       requestBody:
         required: true
         content:
@@ -76,7 +76,6 @@ paths:
             application/json:
               schema:
                 type: object
-
 components:
   schemas:
     CurlingEvent:
@@ -114,3 +113,4 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Game"
+host: bonspiel-server-devl.herokuapp.com

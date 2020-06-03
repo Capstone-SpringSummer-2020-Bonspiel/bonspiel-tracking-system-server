@@ -25,15 +25,34 @@ const pool = new Pool({
 });
 
 // TEMP Fetch curling events
-router.get('/api/fetch-curling-events', (req, res) => {
+router.get('/fetch-curling-events', (req, res) => {
   pool.query('SELECT * FROM public.curlingevent ORDER BY id ASC', (err, _res) => {
     console.log(err, _res);
     res.send(_res);
   });
 });
 
+router.post('/getTable/', (req, res) => {
+  const tableName = req.body.tableName
+  pool.query(`SELECT * from public.${tableName}`, (err, data) => {
+    console.log(err, data);
+    res.send(data);
+  });
+});
+
+router.post('/DANGEROUSADHOC', (req, res) => {
+  const sql = req.body.sql;
+  if (sql.includes("DROP") || sql.includes("drop")) {
+    res.sendStatus(500);
+  }
+  pool.query(sql, (err, data) => {
+    console.log(err, data);
+    res.send(data);
+  });
+})
+
 // TEMP Create a curling event
-router.post('/api/create-curling-event', (req, res) => {
+router.post('/create-curling-event', (req, res) => {
   pool.query(`
     INSERT INTO public.curlingevent (
       name,
