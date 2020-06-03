@@ -2,14 +2,16 @@ const express = require('express');
 const router = express.Router();
 const CurlingEventService = require('../services/CurlingEventService');
 
-router.get('/curlingEvent/', (req, res) => {
+router.get('/curlingEvent/', async (req, res) => {
   let curlingEventService = new CurlingEventService();
 
-  let events = curlingEventService.getAllEvents();
-  if (events == undefined || events == null) {
-    res.sendStatus(404);
+  try {
+    let events = await curlingEventService.getAllEvents()
+    res.status(200).send(events);
   }
-  res.status(200).send(events);
+  catch (error) {
+    res.status(404).send(error);
+  }
 });
 
 /****************************************************************************/

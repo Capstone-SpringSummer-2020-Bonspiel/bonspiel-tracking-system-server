@@ -14,11 +14,17 @@ class CurlingEventService {
     });
   }
 
-  getAllEvents() {
-    this.#pool.query('SELECT * FROM public.curlingevent ORDER BY id ASC', (err, _res) => {
-    });
+  async getAllEvents() {
+    try {
+      const data = await this.#pool
+        .query('SELECT * FROM public.curlingevent ORDER BY id ASC')
+      return data.rows;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
   }
-
 }
 
 module.exports = CurlingEventService;
