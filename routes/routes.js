@@ -45,7 +45,10 @@ router.post('/DANGEROUSADHOC', (req, res) => {
   if (sql.includes("DROP") || sql.includes("drop")) {
     res.sendStatus(500);
   }
-  pool.query(sql);
+  pool.query(sql, (err, data) => {
+    console.log(err, data);
+    res.send(data);
+  });
 })
 
 // TEMP Create a curling event
