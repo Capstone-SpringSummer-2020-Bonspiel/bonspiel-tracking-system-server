@@ -11,22 +11,22 @@ jobs:
     steps:
       - uses: jwsi/secret-parser@v1
         with:
-          filename: config/default.yml
+          filename: ../config/default.yml
           secret-name: DB_USER
           secret-value: ${{ secrets.DB_USER }}
       - uses: jwsi/secret-parser@v1
         with:
-          filename: config/default.yml
+          filename: ../config/default.yml
           secret-name: DB_HOST
           secret-value: ${{ secrets.HOST}}
       - uses: jwsi/secret-parser@v1
         with:
-          filename: config/default.yml
+          filename: ../config/default.yml
           secret-name: DB_PASS
           secret-value: ${{ secrets.DB_PASS }}
       - uses: jwsi/secret-parser@v1
         with:
-          filename: config/default.yml
+          filename: ../config/default.yml
           secret-name: DB_PORT
           secret-value: ${{ secrets.DB_PORT }}
       - uses: actions/checkout@v2
