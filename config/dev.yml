@@ -6,9 +6,3 @@ env: dev
 
 backend:
   url: https://bonspiel-server-devl.herokuapp.com/
-
-db:
-  user: capstone
-  pass: jWy8XTG36FcTtRUQPa2PqFvfjLqfsL
-  host: bonspiel-1.cjb7ejiq8hxn.us-west-2.rds.amazonaws.com  
-  port: 5432
