@@ -18,6 +18,8 @@ const swaggerConfig = loadSwaggerConfig();
 swaggerConfig.host = config.backend.url;
 fs.writeFileSync('./config/swagger.yaml', YAML.safeDump(swaggerConfig), 'utf8');
 
+console.log("hostVal", loadSwaggerConfig().host);
+
 app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerConfig));
 
 function loadSwaggerConfig() {
