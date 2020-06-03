@@ -5,6 +5,7 @@ const swaggerUI = require('swagger-ui-express');
 const YAML = require('js-yaml');
 const fs = require('fs');
 const routes = require('../routes/routes');
+const cors = require('cors');
 
 const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
