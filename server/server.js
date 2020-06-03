@@ -20,6 +20,8 @@ fs.writeFileSync('./config/swagger.yaml', YAML.safeDump(swaggerConfig), 'utf8');
 
 swaggerConfig = loadSwaggerConfig(); //reload for updated swagger
 
+console.log("baseUrl", swaggerConfig.host);
+
 app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerConfig));
 
 function loadSwaggerConfig() {
