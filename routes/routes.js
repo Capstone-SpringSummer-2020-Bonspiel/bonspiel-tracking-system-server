@@ -3,9 +3,9 @@ const router = express.Router();
 const CurlingEventService = require('../services/CurlingEventService');
 
 router.get('/curlingEvent/', (req, res) => {
-  let gameService = new CurlingEventService();
+  let curlingEventService = new CurlingEventService();
 
-  let events = CurlingEventService.getAllEvents();
+  let events = curlingEventService.getAllEvents();
   if (events == undefined || events == null) {
     res.sendStatus(404);
   }
