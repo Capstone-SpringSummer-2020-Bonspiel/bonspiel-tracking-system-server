@@ -18,7 +18,7 @@ app.use(cors());
 
 let swaggerConfig = loadSwaggerConfig();
 
-swaggerConfig.host = config.backend.url.replace("https://", "").replace("/", "");
+swaggerConfig.host = config.backend.url;
 fs.writeFileSync('./config/swagger.yaml', YAML.safeDump(swaggerConfig), 'utf8');
 
 swaggerConfig = loadSwaggerConfig(); //reload for updated swagger
