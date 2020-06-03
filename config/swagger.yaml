@@ -5,7 +5,7 @@ info:
 
 servers:
   - url:
-    description: Base url
+    description: "Base url"
 
 paths:
   /curlingevent:
