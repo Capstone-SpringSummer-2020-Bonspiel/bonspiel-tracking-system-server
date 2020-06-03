@@ -14,7 +14,7 @@ class CurlingEventService {
     });
   }
 
-  GetAllEvents() {
+  getAllEvents() {
     pool.query('SELECT * FROM public.curlingevent ORDER BY id ASC', (err, _res) => {
     });
   }
