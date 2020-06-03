@@ -13,6 +13,8 @@ process.env.NODE_CONFIG_DIR = './config';
 const config = require('config');
 
 const app = express();
+app.use(cors());
+
 let swaggerConfig = loadSwaggerConfig();
 
 swaggerConfig.host = config.backend.url.replace("http://", "").replace("/", "");
