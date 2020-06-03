@@ -1,4 +1,8 @@
 #USE ALL DEFAULT CONFIGURATION VALUES HERE (INDEPENDENT OF ENVIRONMENT)
 #THESE ARE OVERRIDDEN IF THE SAME JSON OBJECT IS DEFINED IN EITHER dev.yml or prd.yml
 
-test: testvalue
+db:
+  host: ${{ secrets.DB_HOST }}
+  user: ${{ secrets.DB_USER }}
+  pass: ${{ secrets.DB_PASS }}
+  port: ${{ secrets.DB_PORT }}

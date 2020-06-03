@@ -1,6 +1,12 @@
 'use strict'
 
 const express = require('express');
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('js-yaml');
+const fs = require('fs');
+const routes = require('../routes/routes');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
@@ -9,56 +15,33 @@ process.env.NODE_CONFIG_DIR = './config';
 const config = require('config');
 
 const app = express();
+app.use(cors());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
-/****************************************************************************/
+app.use(bodyParser.json());
 
-// Setup postgres db connection
-const { Pool, Client } = require('pg');
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: 'postgres',
-  password: process.env.DB_PASS,
-  port: process.env.DB_PORT,
-});
+let swaggerConfig = loadSwaggerConfig();
 
-// Fetch curling events
-app.get('/api/fetch-curling-events', (req, res) => {
-  pool.query('SELECT * FROM public.curlingevent ORDER BY id ASC', (err, _res) => {
-    console.log(err, _res);
-    res.send(_res);
-  });
-});
+swaggerConfig.servers[0].url = config.backend.url + "api/v1";
+fs.writeFileSync('./config/swagger.yaml', YAML.safeDump(swaggerConfig), 'utf8');
 
-// Create a curling event
-app.post('/api/create-curling-event', (req, res) => {
-  pool.query(`
-    INSERT INTO public.curlingevent (
-      name,
-      event_type,
-      info,
-      completed,
-      begin_date,
-      end_date)
-    VALUES (
-      '${req.body.name}',
-      '${req.body.eventType}',
-      '${req.body.info}',
-      '${req.body.completed}',
-      '${req.body.beginDate}',
-      '${req.body.endDate}')`, (err, _res) => {
-    console.log(err, _res);
-    res.send(_res);
-  });
-});
+swaggerConfig = loadSwaggerConfig(); //reload for updated swagger
+function loadSwaggerConfig() {
+  try {
+    return YAML.safeLoad(fs.readFileSync('./config/swagger.yaml', 'utf-8'));
+  } catch (e) {
+    console.error(e);
+  }
+}
 
-/****************************************************************************/
+console.debug("baseUrl", swaggerConfig.host);
 
-app.all('*', (req, res) => {
-  res.send('Hello World!');
-})
+app.use('/api/v1/', routes);
+app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerConfig));
 
 app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
-console.log("Backend Environment", config.env);
-console.log("Backend URL", config.backend.url);
+console.debug(`Running on http://${HOST}:${PORT}`);
+console.debug("Backend Environment", config.env);
+console.debug("Backend URL", config.backend.url);
