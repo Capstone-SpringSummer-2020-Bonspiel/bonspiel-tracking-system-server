@@ -3,8 +3,9 @@ info:
   title: Bonspiel Tracking System API
   version: 0.1.0
 
-host:
-basePath: "/api/v1"
+servers:
+  - url:
+    description: Base url
 
 paths:
   /curlingevent:
