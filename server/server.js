@@ -13,12 +13,12 @@ process.env.NODE_CONFIG_DIR = './config';
 const config = require('config');
 
 const app = express();
-const swaggerConfig = loadSwaggerConfig();
+let swaggerConfig = loadSwaggerConfig();
 
 swaggerConfig.host = config.backend.url;
 fs.writeFileSync('./config/swagger.yaml', YAML.safeDump(swaggerConfig), 'utf8');
 
-console.log("hostVal", loadSwaggerConfig().host);
+swaggerConfig = loadSwaggerConfig(); //reload for updated swagger
 
 app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerConfig));
 
