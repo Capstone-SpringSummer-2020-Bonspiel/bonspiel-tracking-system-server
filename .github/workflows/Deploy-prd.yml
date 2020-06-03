@@ -9,6 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: jwsi/secret-parser@v1
         with:
           filename: ./config/default.yml
@@ -29,7 +30,6 @@ jobs:
           filename: ./config/default.yml
           secret-name: DB_PORT
           secret-value: ${{ secrets.DB_PORT }}
-      - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.0.4 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
