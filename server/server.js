@@ -6,6 +6,7 @@ const YAML = require('js-yaml');
 const fs = require('fs');
 const routes = require('../routes/routes');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
@@ -15,6 +16,11 @@ const config = require('config');
 
 const app = express();
 app.use(cors());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+app.use(bodyParser.json());
 
 let swaggerConfig = loadSwaggerConfig();
 
@@ -22,11 +28,6 @@ swaggerConfig.host = config.backend.url.replace("https://", "").replace("/", "")
 fs.writeFileSync('./config/swagger.yaml', YAML.safeDump(swaggerConfig), 'utf8');
 
 swaggerConfig = loadSwaggerConfig(); //reload for updated swagger
-
-console.debug("baseUrl", swaggerConfig.host);
-
-app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerConfig));
-
 function loadSwaggerConfig() {
   try {
     return YAML.safeLoad(fs.readFileSync('./config/swagger.yaml', 'utf-8'));
@@ -35,8 +36,10 @@ function loadSwaggerConfig() {
   }
 }
 
+console.debug("baseUrl", swaggerConfig.host);
 
-app.use('/api/v1', routes);
+app.use('/api/v1/', routes);
+app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerConfig));
 
 app.listen(PORT, HOST);
 console.debug(`Running on http://${HOST}:${PORT}`);

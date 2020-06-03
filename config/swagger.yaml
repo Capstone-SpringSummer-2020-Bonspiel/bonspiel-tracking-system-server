@@ -2,8 +2,6 @@ openapi: 3.0.0
 info:
   title: Bonspiel Tracking System API
   version: 0.1.0
-host: bonspiel-server-devl.herokuapp.com
-basePath: /api/v1
 paths:
   /curlingevent:
     get:
@@ -110,3 +108,4 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Game'
+host: bonspiel-server-devl.herokuapp.com
