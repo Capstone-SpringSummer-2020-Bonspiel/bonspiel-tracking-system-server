@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 
 let swaggerConfig = loadSwaggerConfig();
 
-swaggerConfig.servers[0].url = config.backend.url;
+swaggerConfig.servers[0].url = config.backend.url + "api/v1";
 fs.writeFileSync('./config/swagger.yaml', YAML.safeDump(swaggerConfig), 'utf8');
 
 swaggerConfig = loadSwaggerConfig(); //reload for updated swagger
