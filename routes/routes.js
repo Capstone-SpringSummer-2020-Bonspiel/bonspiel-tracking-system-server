@@ -2,11 +2,22 @@ const express = require('express');
 const router = express.Router();
 const CurlingEventService = require('../services/CurlingEventService');
 
+router.get('/curlingEvent/:curlingEventId/teams', async (req, res) => {
+  const curlingEventService = new CurlingEventService();
+  try {
+    let events = await curlingEventService.getAllTeamsByCurlingEvent(req.params.curlingEventId);
+    res.status(200).send(events);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
 router.get('/curlingEvent/', async (req, res) => {
-  let curlingEventService = new CurlingEventService();
+  const curlingEventService = new CurlingEventService();
 
   try {
-    let events = await curlingEventService.getAllEvents()
+    let events = await curlingEventService.getAllEvents();
     res.status(200).send(events);
   }
   catch (error) {
@@ -35,21 +46,28 @@ router.get('/fetch-curling-events', (req, res) => {
 });
 
 router.post('/getTable/', (req, res) => {
-  const tableName = req.body.tableName
-  pool.query(`SELECT * from public.${tableName}`, (err, data) => {
-    console.log(err, data);
-    res.send(data);
+  const tableName = [req.body.tableName];
+  pool.query(`SELECT * from public.$1`, tableName, (err, data) => {
+    if (err !== null || err !== undefined) {
+      console.log(err, data);
+      res.send(err.message);
+    }
+    else {
+      res.send(data);
+    }
   });
 });
 
 router.post('/DANGEROUSADHOC', (req, res) => {
-  const sql = req.body.sql;
-  if (sql.includes("DROP") || sql.includes("drop")) {
-    res.sendStatus(500);
-  }
-  pool.query(sql, (err, data) => {
-    console.log(err, data);
-    res.send(data);
+  const sql = [req.body.sql];
+  pool.query('$1', sql, (err, data) => {
+    if (err !== null || err !== undefined) {
+      console.log(err, data);
+      res.send(err.message);
+    }
+    else {
+      res.send(data);
+    }
   });
 })
 

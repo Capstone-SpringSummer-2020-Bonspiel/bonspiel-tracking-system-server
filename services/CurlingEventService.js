@@ -1,5 +1,6 @@
 const { Pool, Client } = require('pg');
 const config = require('config');
+const Queries = require('./queries/Queries');
 
 class CurlingEventService {
   #pool
@@ -18,6 +19,19 @@ class CurlingEventService {
     try {
       const data = await this.#pool
         .query('SELECT * FROM public.curlingevent ORDER BY id ASC')
+      return data.rows;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
+
+  async getAllTeamsByCurlingEvent(curlingEventId) {
+    try {
+      const values = [curlingEventId];
+      const data = await this.#pool
+        .query(Queries.GET_ALL_TEAMS_IN_CURLING_EVENT, values);
       return data.rows;
     }
     catch (error) {
