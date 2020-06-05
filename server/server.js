@@ -45,4 +45,3 @@ app.listen(PORT, HOST);
 console.debug(`Running on http://${HOST}:${PORT}`);
 console.debug("Backend Environment", config.env);
 console.debug("Backend URL", config.backend.url);
-console.debug(config.db);
