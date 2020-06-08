@@ -39,6 +39,19 @@ class CurlingEventService {
       throw error;
     }
   }
+
+  async getAllGamesByTeam(curlingEventId, curlingTeamId) {
+    try {
+      const values = [curlingEventId, curlingTeamId];
+      const data = await this.#pool
+        .query(Queries.GET_ALL_GAMES_BY_TEAM_IN_CURLING_EVENT, values);
+      return data.rows;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
 }
 
 module.exports = CurlingEventService;

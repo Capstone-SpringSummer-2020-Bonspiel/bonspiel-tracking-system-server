@@ -2,6 +2,20 @@ const express = require('express');
 const router = express.Router();
 const CurlingEventService = require('../services/CurlingEventService');
 
+router.get('/curlingEvent/:curlingEventId/teams/:teamId/games', async (req, res) => {
+  const curlingEventService = new CurlingEventService();
+  const curlingEventId = req.params.curlingEventId;
+  const teamId = req.params.teamId;
+
+  try {
+    let gamesByTeam = await curlingEventService.getAllGamesByTeam(curlingEventId, teamId);
+    res.status(200).send(gamesByTeam);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
 router.get('/curlingEvent/:curlingEventId/teams', async (req, res) => {
   const curlingEventService = new CurlingEventService();
   try {

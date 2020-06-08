@@ -137,19 +137,31 @@ components:
         id:
           type: integer
           format: int64
-        bracket:
+        event_type:
           type: string
-        pool:
-          type: string
+        bracket_id:
+          type: integer
+          format: int64
+        pool_id:
+          type: integer 
+          format: int64
+        curlingteam1_id:
+          type: integer
+          format: int64
+        curlingteam2_id:
+          type: integer
+          format: int64
+        ice_sheet: 
+          type: integer
+        finished:
+          type: boolean
+        winner:
+          type: integer
     TeamGame:
       type: object
       properties:
-        team:
-          $ref: '#/components/schemas/Team'
-        games:
-          type: array
-          items:
-            $ref: '#/components/schemas/Game'
+        team_name:
+          type: string
     DrawGame:
       type: object
       properties:
