@@ -19,7 +19,7 @@ jobs:
         with:
           filename: ./config/default.yml
           secret-name: DB_HOST
-          secret-value: ${{ secrets.HOST}}
+          secret-value: ${{ secrets.DB_HOST}}
       - uses: jwsi/secret-parser@v1
         with:
           filename: ./config/default.yml
