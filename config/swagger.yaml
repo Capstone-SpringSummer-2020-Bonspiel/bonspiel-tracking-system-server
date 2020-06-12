@@ -6,7 +6,7 @@ servers:
   - url: 'localhost:8080/api/v1'
     description: Base url
 paths:
-  /curlingevent:
+  /events:
     get:
       summary: Returns all curling events
       responses:
@@ -18,7 +18,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CurlingEvent'
-  '/curlingevent/{curling_event_id}/teams':
+  '/events/{curling_event_id}/teams':
     get:
       summary: Returns all teams by curling_event_id
       parameters:
@@ -38,7 +38,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Team'
-  '/curlingevent/{curling_event_id}/games':
+  '/events/{curling_event_id}/games':
     get:
       summary: Returns all games by curling_event_id
       parameters:
@@ -58,7 +58,27 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TeamGame'
-  '/curlingevent/{curling_event_id}/teams/{team_id}/games':
+  '/events/{curling_event_id}/draws':
+    get:
+      summary: Returns all draws by in a curling event 
+      parameters:
+        - in: path
+          name: curling_event_id
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+          description: The curling event id
+      responses:
+        '200':
+          description: A JSON array of draw objects sorted by team
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Draw'
+  '/events/{curling_event_id}/teams/{team_id}/games':
     get:
       summary: Returns all games played by a team in a specific curling event
       parameters:
@@ -171,3 +191,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Game'
+    Draw:
+      type: object
+      properties:
+        draw_id:
+          type: integer
+        event_id:
+          type: integer
+        name:
+          type: string
+        start:
+          type: date-time
+        video-url:
+          type: string

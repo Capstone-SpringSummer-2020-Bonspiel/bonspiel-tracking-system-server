@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const CurlingEventService = require('../services/CurlingEventService');
 
-router.get('/curlingEvent/:curlingEventId/teams/:teamId/games', async (req, res) => {
+router.get('/events/:curlingEventId/teams/:teamId/games', async (req, res) => {
   const curlingEventService = new CurlingEventService();
   const curlingEventId = req.params.curlingEventId;
   const teamId = req.params.teamId;
@@ -16,7 +16,7 @@ router.get('/curlingEvent/:curlingEventId/teams/:teamId/games', async (req, res)
   }
 });
 
-router.get('/curlingEvent/:curlingEventId/teams', async (req, res) => {
+router.get('/events/:curlingEventId/teams', async (req, res) => {
   const curlingEventService = new CurlingEventService();
   try {
     let events = await curlingEventService.getAllTeamsByCurlingEvent(req.params.curlingEventId);
@@ -27,7 +27,43 @@ router.get('/curlingEvent/:curlingEventId/teams', async (req, res) => {
   }
 });
 
-router.get('/curlingEvent/', async (req, res) => {
+router.get('/events/:curlingEventId/games', async (req, res) => {
+  const curlingEventService = new CurlingEventService();
+  try {
+    let events = await curlingEventService.getAllGames(req.params.curlingEventId);
+    res.status(200).send(events);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+
+});
+
+router.get('/events/:curlingEventId/draws', async (req, res) => {
+  const curlingEventService = new CurlingEventService();
+  try {
+    let events = await curlingEventService.getAllDraws(req.params.curlingEventId);
+    res.status(200).send(events);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
+// TODO: Get Standings by curling event
+router.get('/events/standings', async (req, res) => {
+  const curlingEventService = new CurlingEventService();
+
+  try {
+    let events = await curlingEventService.getStandings(req.params.curlingEventId);
+    res.status(200).send(events);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
+router.get('/events/', async (req, res) => {
   const curlingEventService = new CurlingEventService();
 
   try {

@@ -52,6 +52,46 @@ class CurlingEventService {
       throw error;
     }
   }
+
+  async getStandings(curlingEventId) {
+    try {
+      const values = [curlingEventId];
+      const data = await this.#pool
+        .query(Queries.GET_STANDINGS, values);
+      return data.rows;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+
+  }
+
+  async getAllGames(curlingeventId) {
+    try {
+      const values = [curlingEventId];
+      const data = await this.#pool
+        .query(Queries.GET_ALL_GAMES_IN_CURLING_EVENT, values);
+      return data.rows;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
+
+  async getAllDraws(curlingEventId) {
+    try {
+      const values = [curlingEventId];
+      const data = await this.#pool
+        .query(Queries.GET_ALL_DRAWS_IN_CURLING_EVENT, values);
+      return data.rows;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
 }
 
 module.exports = CurlingEventService;
