@@ -16,6 +16,21 @@ router.get('/events/:curlingEventId/teams/:teamId/games', async (req, res) => {
   }
 });
 
+router.get('/events/:curlingEventId/teams/:teamId/scores', async (req, res) => {
+  const curlingEventService = new CurlingEventService();
+  const curlingEventId = req.params.curlingEventId;
+  const teamId = req.params.teamId;
+
+  try {
+    let gamesByTeam = await curlingEventService.getAllGamesAndScoresByTeam(curlingEventId, teamId);
+    res.status(200).send(gamesByTeam);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
+
 router.get('/events/:curlingEventId/teams', async (req, res) => {
   const curlingEventService = new CurlingEventService();
   try {
@@ -50,12 +65,11 @@ router.get('/events/:curlingEventId/draws', async (req, res) => {
   }
 });
 
-// TODO: Get Standings by curling event
-router.get('/events/standings', async (req, res) => {
+router.get('/events/:curlingEventId/scores', async (req, res) => {
   const curlingEventService = new CurlingEventService();
 
   try {
-    let events = await curlingEventService.getStandings(req.params.curlingEventId);
+    let events = await curlingEventService.getAllGamesAndScores(req.params.curlingEventId);
     res.status(200).send(events);
   }
   catch (error) {

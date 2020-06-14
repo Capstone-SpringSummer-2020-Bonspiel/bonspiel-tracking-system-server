@@ -59,12 +59,49 @@ JOIN public.curlingevent ON curlingevent.id=draw.event_id
 WHERE curlingevent.id=$1
 `;
 
-const GET_STANDINGS = ``;
+const GET_ALL_GAMES_AND_SCORES = `
+SELECT curlingteam.name, game.*, endscore.*
+FROM public.game
+JOIN public.curlingteam ON game.curlingteam1_id=curlingteam.id
+JOIN public.eventteams ON eventteams.team_id=curlingteam.id
+JOIN public.curlingevent ON curlingevent.id=eventteams.event_id
+JOIN public.endscore ON game.id=endscore.game_id
+WHERE curlingevent.id=$1
+UNION
+SELECT curlingteam.name, game.*, endscore.*
+FROM public.game
+JOIN public.curlingteam ON game.curlingteam2_id=curlingteam.id
+JOIN public.eventteams ON eventteams.team_id=curlingteam.id
+JOIN public.curlingevent ON curlingevent.id=eventteams.event_id
+JOIN public.endscore ON game.id=endscore.game_id
+WHERE curlingevent.id=$1;
+`;
+
+const GET_ALL_GAMES_AND_SCORES_BY_TEAM_IN_CURLING_EVENT = `
+SELECT curlingteam.name, game.*, endscore.*
+FROM public.game
+JOIN public.curlingteam ON game.curlingteam1_id=curlingteam.id
+JOIN public.eventteams ON eventteams.team_id=curlingteam.id
+JOIN public.curlingevent ON curlingevent.id=eventteams.event_id
+JOIN public.endscore ON game.id=endscore.game_id
+WHERE curlingevent.id=$1
+AND curlingteam.id=$2
+UNION
+SELECT curlingteam.name, game.*, endscore.*
+FROM public.game
+JOIN public.curlingteam ON game.curlingteam2_id=curlingteam.id
+JOIN public.eventteams ON eventteams.team_id=curlingteam.id
+JOIN public.curlingevent ON curlingevent.id=eventteams.event_id
+JOIN public.endscore ON game.id=endscore.game_id
+WHERE curlingevent.id=$1
+AND curlingteam.id=$2;
+`;
 
 module.exports = {
   GET_ALL_TEAMS_IN_CURLING_EVENT,
   GET_ALL_TEAMS,
   GET_ALL_GAMES_BY_TEAM_IN_CURLING_EVENT,
   GET_ALL_DRAWS_IN_CURLING_EVENT,
-  GET_STANDINGS
+  GET_ALL_GAMES_AND_SCORES,
+  GET_ALL_GAMES_AND_SCORES_BY_TEAM_IN_CURLING_EVENT
 };

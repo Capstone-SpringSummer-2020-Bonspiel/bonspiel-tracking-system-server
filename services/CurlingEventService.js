@@ -53,11 +53,24 @@ class CurlingEventService {
     }
   }
 
-  async getStandings(curlingEventId) {
+  async getAllGamesAndScoresByTeam(curlingEventId, curlingTeamId) {
+    try {
+      const values = [curlingEventId, curlingTeamId];
+      const data = await this.#pool
+        .query(Queries.GET_ALL_GAMES_AND_SCORES_BY_TEAM_IN_CURLING_EVENT, values);
+      return data.rows;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
+
+  async getAllGamesAndScores(curlingEventId) {
     try {
       const values = [curlingEventId];
       const data = await this.#pool
-        .query(Queries.GET_STANDINGS, values);
+        .query(Queries.GET_ALL_GAMES_AND_SCORES, values);
       return data.rows;
     }
     catch (error) {
