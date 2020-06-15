@@ -112,28 +112,24 @@ router.get('/fetch-curling-events', (req, res) => {
 
 router.post('/getTable/', (req, res) => {
   const tableName = req.body.tableName;
-  pool.query(`SELECT * from public.${tableName}`, (err, data) => {
-    if (err !== null && err !== undefined) {
-      console.log(err, data);
+  pool.query(`SELECT * from public.${tableName}`)
+    .then(data => res.send(data))
+    .catch(err => {
+      err.message = `Error in getTable ${err.message}`;
+      console.error(err.message);
       res.send(err.message);
-    }
-    else {
-      res.send(data);
-    }
-  });
+    });
 });
 
 router.post('/DANGEROUSADHOC', (req, res) => {
   const sql = req.body.sql;
-  pool.query(sql, (err, data) => {
-    if (err !== null && err !== undefined) {
-      console.log(err, data);
+  pool.query(sql)
+    .then(data => res.send(data))
+    .catch(err => {
+      err.message = `Error in getTable ${err.message}`;
+      console.error(err.message);
       res.send(err.message);
-    }
-    else {
-      res.send(data);
-    }
-  });
+    })
 })
 
 // TEMP Create a curling event
