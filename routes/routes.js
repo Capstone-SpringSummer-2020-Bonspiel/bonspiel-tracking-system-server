@@ -121,7 +121,7 @@ router.post('/getTable/', (req, res) => {
     });
 });
 
-router.post('/DANGEROUSADHOC', (req, res) => {
+router.post('/DANGEROUSADHOC', async (req, res) => {
   try {
     const sql = req.body.sql;
     const bannedCalls =
