@@ -139,7 +139,7 @@ router.post('/DANGEROUSADHOC', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.statusCode = err.status;
-    res.send(err);
+    res.send(err.message);
   }
 });
 
