@@ -122,26 +122,26 @@ router.post('/getTable/', (req, res) => {
 });
 
 router.post('/DANGEROUSADHOC', (req, res) => {
-  const sql = req.body.sql;
-  const bannedCalls =
-    ["CREATE", "UPDATE", "DELETE", "DROP",
-      "ALTER", "TRUNCATE", "RENAME", "COMMENT"];
+  try {
+    const sql = req.body.sql;
+    const bannedCalls =
+      ["CREATE", "UPDATE", "DELETE", "DROP",
+        "ALTER", "TRUNCATE", "RENAME", "COMMENT"];
 
-  Promise.resolve(() => {
     if (bannedCalls.some(type => sql.toUpperCase().contains(type))) {
       const err = new Error("Illegal call");
       err.status = 400;
       err.message = `Illegal call is one of ${bannedCalls.toString()}`;
       throw err;
     }
-  })
-    .then(() => pool.query(sql))
-    .then(data => res.send(data))
-    .catch(err => {
-      console.error(err);
-      res.send(err);
-    });
-})
+    const data = await pool.query(sql);
+    res.send(data);
+  } catch {
+    console.error(err);
+    res.statusCode = err.status;
+    res.send(err);
+  }
+});
 
 // TEMP Create a curling event
 router.post('/create-curling-event', (req, res) => {
