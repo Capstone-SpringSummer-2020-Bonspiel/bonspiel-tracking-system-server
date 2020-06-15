@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const config = require('config');
 const CurlingEventService = require('../services/CurlingEventService');
 
 router.get('/events/:curlingEventId/teams/:teamId/games', async (req, res) => {
@@ -94,6 +93,7 @@ router.get('/events/', async (req, res) => {
 
 // Setup postgres db connection
 const { Pool, Client } = require('pg');
+const config = require('config');
 const pool = new Pool({
   user: config.db.user,
   host: config.db.host,
@@ -112,7 +112,7 @@ router.get('/fetch-curling-events', (req, res) => {
 
 router.post('/getTable/', (req, res) => {
   const tableName = [req.body.tableName];
-  pool.query(`SELECT * from public.$1', tableName`, (err, data) => {
+  pool.query(`SELECT * from public.$1`, tableName, (err, data) => {
     if (err !== null || err !== undefined) {
       console.log(err, data);
       res.send(err.message);
