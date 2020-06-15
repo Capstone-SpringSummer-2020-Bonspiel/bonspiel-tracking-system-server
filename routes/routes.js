@@ -112,7 +112,7 @@ router.get('/fetch-curling-events', (req, res) => {
 
 router.post('/getTable/', (req, res) => {
   const tableName = [req.body.tableName];
-  pool.query(`SELECT * from public.$1`, tableName, (err, data) => {
+  pool.query(`SELECT * from public.$1::text`, tableName, (err, data) => {
     if (err !== null || err !== undefined) {
       console.log(err, data);
       res.send(err.message);
@@ -125,7 +125,7 @@ router.post('/getTable/', (req, res) => {
 
 router.post('/DANGEROUSADHOC', (req, res) => {
   const sql = [req.body.sql];
-  pool.query(`$1`, sql, (err, data) => {
+  pool.query(`$1::text`, sql, (err, data) => {
     if (err !== null || err !== undefined) {
       console.log(err, data);
       res.send(err.message);
