@@ -136,7 +136,7 @@ router.post('/DANGEROUSADHOC', async (req, res) => {
     }
     const data = await pool.query(sql);
     res.send(data);
-  } catch {
+  } catch (err) {
     console.error(err);
     res.statusCode = err.status;
     res.send(err);
