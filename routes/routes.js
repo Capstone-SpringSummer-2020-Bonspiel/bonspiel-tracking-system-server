@@ -128,7 +128,7 @@ router.post('/DANGEROUSADHOC', async (req, res) => {
       ["CREATE", "UPDATE", "DELETE", "DROP",
         "ALTER", "TRUNCATE", "RENAME", "COMMENT"];
 
-    if (bannedCalls.some(type => sql.toUpperCase().contains(type))) {
+    if (bannedCalls.some(type => sql.toUpperCase().includes(type))) {
       const err = new Error("Illegal call");
       err.status = 400;
       err.message = `Illegal call is one of ${bannedCalls.toString()}`;
