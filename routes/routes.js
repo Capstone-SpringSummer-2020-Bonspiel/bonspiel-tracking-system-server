@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const config = require('config');
 const CurlingEventService = require('../services/CurlingEventService');
 
 router.get('/events/:curlingEventId/teams/:teamId/games', async (req, res) => {
