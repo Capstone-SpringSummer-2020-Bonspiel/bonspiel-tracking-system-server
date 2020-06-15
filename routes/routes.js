@@ -89,21 +89,21 @@ router.get('/events/', async (req, res) => {
   }
 });
 
-/****************************************************************************/
+/*THIS CODE WILL GO AWAY***************************************************************************/
 
 // Setup postgres db connection
 const { Pool, Client } = require('pg');
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
+  user: config.db.user,
+  host: config.db.host,
   database: 'postgres',
-  password: process.env.DB_PASS,
-  port: process.env.DB_PORT,
+  password: config.db.pass,
+  port: config.db.port,
 });
 
 // TEMP Fetch curling events
 router.get('/fetch-curling-events', (req, res) => {
-  pool.query('SELECT * FROM public.curlingevent ORDER BY id ASC', (err, _res) => {
+  pool.query(`SELECT * FROM public.curlingevent ORDER BY id ASC`, (err, _res) => {
     console.log(err, _res);
     res.send(_res);
   });
@@ -111,7 +111,7 @@ router.get('/fetch-curling-events', (req, res) => {
 
 router.post('/getTable/', (req, res) => {
   const tableName = [req.body.tableName];
-  pool.query(`SELECT * from public.$1`, tableName, (err, data) => {
+  pool.query(`SELECT * from public.$1', tableName`, (err, data) => {
     if (err !== null || err !== undefined) {
       console.log(err, data);
       res.send(err.message);
