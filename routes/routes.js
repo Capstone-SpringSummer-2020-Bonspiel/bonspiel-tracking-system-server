@@ -124,7 +124,7 @@ router.post('/getTable/', (req, res) => {
 
 router.post('/DANGEROUSADHOC', (req, res) => {
   const sql = [req.body.sql];
-  pool.query('$1', sql, (err, data) => {
+  pool.query(`$1`, sql, (err, data) => {
     if (err !== null || err !== undefined) {
       console.log(err, data);
       res.send(err.message);
