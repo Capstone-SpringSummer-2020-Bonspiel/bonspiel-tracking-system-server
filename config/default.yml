@@ -6,3 +6,5 @@ db:
   user: ${{ secrets.DB_USER }}
   pass: ${{ secrets.DB_PASS }}
   port: ${{ secrets.DB_PORT }}
+
+maxConnections: 20
