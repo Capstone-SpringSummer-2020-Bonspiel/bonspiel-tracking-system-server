@@ -12,7 +12,12 @@ class CurlingEventService {
       database: 'postgres',
       password: config.db.pass,
       port: config.db.port,
+      max: config.maxConnections
     });
+  }
+
+  getPool() {
+    return this.#pool;
   }
 
   async getAllEvents() {
