@@ -34,12 +34,12 @@ AND curlingevent.id=$1;
 `;
 
 const GET_ALL_GAMES_IN_CURLING_EVENT = `
-SELECT curlingteam1.name as team_name1, curlingteam2.name as team_name2 game.*
+SELECT curlingteam1.name as team_name1, curlingteam2.name as team_name2, game.*
 FROM public.game
 JOIN public.curlingteam as curlingteam1 ON game.curlingteam1_id=curlingteam1.id
 JOIN public.curlingteam as curlingteam2 ON game.curlingteam2_id=curlingteam2.id
 JOIN public.draw ON game.draw_id=draw.id
-WHERE draw.event_id=1
+WHERE draw.event_id=$1
 ORDER BY game.id;`;
 
 const GET_ALL_DRAWS_IN_CURLING_EVENT = `
