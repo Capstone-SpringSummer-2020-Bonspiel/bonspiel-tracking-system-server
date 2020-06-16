@@ -80,7 +80,7 @@ class CurlingEventService {
 
   }
 
-  async getAllGames(curlingeventId) {
+  async getAllGames(curlingEventId) {
     try {
       const values = [curlingEventId];
       const data = await this.#pool
