@@ -53,7 +53,7 @@ ORDER BY team_name;
 `;
 
 const GET_ALL_DRAWS_IN_CURLING_EVENT = `
-SELECT *
+SELECT draw.*
 FROM public.draw
 JOIN public.curlingevent ON curlingevent.id=draw.event_id
 WHERE curlingevent.id=$1
