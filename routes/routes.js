@@ -1,76 +1,121 @@
 const express = require('express');
 const router = express.Router();
 const CurlingEventService = require('../services/CurlingEventService');
+const curlingEventService = new CurlingEventService();
 
-router.get('/curlingEvent/', (req, res) => {
-  let curlingEventService = new CurlingEventService();
+router.get('/events/:curlingEventId/teams/:teamId/games', async (req, res) => {
+  const curlingEventId = req.params.curlingEventId;
+  const teamId = req.params.teamId;
 
-  let events = curlingEventService.getAllEvents();
-  if (events == undefined || events == null) {
-    res.sendStatus(404);
+  try {
+    let gamesByTeam = await curlingEventService.getAllGamesByTeam(curlingEventId, teamId);
+    res.status(200).send(gamesByTeam);
   }
-  res.status(200).send(events);
+  catch (error) {
+    res.status(404).send(error);
+  }
 });
 
-/****************************************************************************/
+router.get('/events/:curlingEventId/teams/:teamId/scores', async (req, res) => {
+  const curlingEventId = req.params.curlingEventId;
+  const teamId = req.params.teamId;
 
-// Setup postgres db connection
-const { Pool, Client } = require('pg');
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: 'postgres',
-  password: process.env.DB_PASS,
-  port: process.env.DB_PORT,
+  try {
+    let gamesByTeam = await curlingEventService.getAllGamesAndScoresByTeam(curlingEventId, teamId);
+    res.status(200).send(gamesByTeam);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
 });
 
-// TEMP Fetch curling events
-router.get('/fetch-curling-events', (req, res) => {
-  pool.query('SELECT * FROM public.curlingevent ORDER BY id ASC', (err, _res) => {
-    console.log(err, _res);
-    res.send(_res);
-  });
+
+router.get('/events/:curlingEventId/teams', async (req, res) => {
+  try {
+    let events = await curlingEventService.getAllTeamsByCurlingEvent(req.params.curlingEventId);
+    res.status(200).send(events);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
 });
+
+router.get('/events/:curlingEventId/games', async (req, res) => {
+  try {
+    let events = await curlingEventService.getAllGames(req.params.curlingEventId);
+    res.status(200).send(events);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+
+});
+
+router.get('/events/:curlingEventId/draws', async (req, res) => {
+  try {
+    let events = await curlingEventService.getAllDraws(req.params.curlingEventId);
+    res.status(200).send(events);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
+router.get('/events/:curlingEventId/scores', async (req, res) => {
+
+  try {
+    let events = await curlingEventService.getAllGamesAndScores(req.params.curlingEventId);
+    res.status(200).send(events);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
+router.get('/events/', async (req, res) => {
+
+  try {
+    let events = await curlingEventService.getAllEvents();
+    res.status(200).send(events);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
+/*THIS CODE WILL GO AWAY***************************************************************************/
 
 router.post('/getTable/', (req, res) => {
-  const tableName = req.body.tableName
-  pool.query(`SELECT * from public.${tableName}`, (err, data) => {
-    console.log(err, data);
-    res.send(data);
-  });
+  const tableName = req.body.tableName;
+  curlingEventService.getPool().query(`SELECT * from public.${tableName}`)
+    .then(data => res.send(data))
+    .catch(err => {
+      err.message = `Error in getTable ${err.message}`;
+      console.error(err.message);
+      res.send(err.message);
+    });
 });
 
-router.post('/DANGEROUSADHOC', (req, res) => {
-  const sql = req.body.sql;
-  if (sql.includes("DROP") || sql.includes("drop")) {
-    res.sendStatus(500);
-  }
-  pool.query(sql, (err, data) => {
-    console.log(err, data);
-    res.send(data);
-  });
-})
+router.post('/DANGEROUSADHOC', async (req, res) => {
+  try {
+    const sql = req.body.sql;
+    const bannedCalls =
+      ["CREATE", "UPDATE", "DELETE", "DROP",
+        "ALTER", "TRUNCATE", "RENAME", "COMMENT"];
 
-// TEMP Create a curling event
-router.post('/create-curling-event', (req, res) => {
-  pool.query(`
-    INSERT INTO public.curlingevent (
-      name,
-      event_type,
-      info,
-      completed,
-      begin_date,
-      end_date)
-    VALUES (
-      '${req.body.name}',
-      '${req.body.eventType}',
-      '${req.body.info}',
-      '${req.body.completed}',
-      '${req.body.beginDate}',
-      '${req.body.endDate}')`, (err, _res) => {
-    console.log(err, _res);
-    res.send(_res);
-  });
+    if (bannedCalls.some(type => sql.toUpperCase().includes(type))) {
+      const err = new Error("Illegal call");
+      err.status = 400;
+      err.message = `Illegal call is one of ${bannedCalls.toString()}`;
+      throw err;
+    }
+    const data = await curlingEventService.getPool().query(sql);
+    res.send(data);
+  } catch (err) {
+    console.error(err);
+    res.statusCode = err.status;
+    res.send(err.message);
+  }
 });
 
 /****************************************************************************/

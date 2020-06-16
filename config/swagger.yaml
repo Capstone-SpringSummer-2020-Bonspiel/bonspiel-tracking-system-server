@@ -2,25 +2,23 @@ openapi: 3.0.0
 info:
   title: Bonspiel Tracking System API
   version: 0.1.0
-
 servers:
-  - url:
-    description: "Base url"
-
+  - url: 'localhost:8080/api/v1'
+    description: Base url
 paths:
-  /curlingevent:
+  /events:
     get:
       summary: Returns all curling events
       responses:
-        "200":
+        '200':
           description: A JSON array of curling event objects
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/CurlingEvent"
-  "/curlingevent/{curling_event_id}/teams":
+                  $ref: '#/components/schemas/CurlingEvent'
+  '/events/{curling_event_id}/teams':
     get:
       summary: Returns all teams by curling_event_id
       parameters:
@@ -32,15 +30,15 @@ paths:
             minimum: 0
           description: The curling event id
       responses:
-        "200":
+        '200':
           description: A JSON array of team objects
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Team"
-  "/curlingevent/{curling_event_id}/games":
+                  $ref: '#/components/schemas/Team'
+  '/events/{curling_event_id}/games':
     get:
       summary: Returns all games by curling_event_id
       parameters:
@@ -52,17 +50,113 @@ paths:
             minimum: 0
           description: The curling event id
       responses:
-        "200":
+        '200':
           description: A JSON array of game objects sorted by team
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/TeamGame"
+                  $ref: '#/components/schemas/TeamGame'
+  '/events/{curling_event_id}/draws':
+    get:
+      summary: Returns all draws by in a curling event
+      parameters:
+        - in: path
+          name: curling_event_id
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+          description: The curling event id
+      responses:
+        '200':
+          description: A JSON array of draw objects sorted by team
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Draw'
+  '/events/{curling_event_id}/teams/{team_id}/games':
+    get:
+      summary: Returns all games played by a team in a specific curling event
+      parameters:
+        - in: path
+          name: curling_event_id
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+          description: The curling event id
+        - in: path
+          name: team_id
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+          description: The team id
+      responses:
+        '200':
+          description: A JSON array of game objects sorted by draw
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DrawGame'
+  '/events/{curling_event_id}/teams/{team_id}/scores':
+    get:
+      summary: >-
+        Returns all scores and games played by a team in a specific curling
+        event
+      parameters:
+        - in: path
+          name: curling_event_id
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+          description: The curling event id
+        - in: path
+          name: team_id
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+          description: The team id
+      responses:
+        '200':
+          description: A JSON array of game objects sorted by draw
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DrawGame'
+  '/events/{curling_event_id}/scores':
+    get:
+      summary: Returns all games and scores in a specific curling event
+      parameters:
+        - in: path
+          name: curling_event_id
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+          description: The curling event id
+      responses:
+        '200':
+          description: A JSON array of game objects sorted by draw
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Game'
   /query:
     post:
-      summary: "Queries the database without UPDATE, INSERT, CREATE, or DELETE"
+      summary: 'Queries the database without UPDATE, INSERT, CREATE, or DELETE'
       requestBody:
         required: true
         content:
@@ -70,7 +164,7 @@ paths:
             schema:
               type: string
       responses:
-        "200":
+        '200':
           description: Straight from the database
           content:
             application/json:
@@ -86,6 +180,18 @@ components:
           format: int64
         name:
           type: string
+        begin_date:
+          type: string
+          format: date-time
+        end_date:
+          type: string
+          format: date-time
+        completed:
+          type: boolean
+        info:
+          type: string
+        event_type:
+          type: string
     Team:
       type: object
       properties:
@@ -100,17 +206,50 @@ components:
         id:
           type: integer
           format: int64
-        bracket:
+        event_type:
           type: string
-        pool:
-          type: string
+        bracket_id:
+          type: integer
+          format: int64
+        pool_id:
+          type: integer
+          format: int64
+        curlingteam1_id:
+          type: integer
+          format: int64
+        curlingteam2_id:
+          type: integer
+          format: int64
+        ice_sheet:
+          type: integer
+        finished:
+          type: boolean
+        winner:
+          type: integer
     TeamGame:
       type: object
       properties:
-        team:
-          $ref: "#/components/schemas/Team"
+        team_name:
+          type: string
+    DrawGame:
+      type: object
+      properties:
+        draw_id:
+          type: integer
         games:
           type: array
           items:
-            $ref: "#/components/schemas/Game"
-host: bonspiel-server-devl.herokuapp.com
+            $ref: '#/components/schemas/Game'
+    Draw:
+      type: object
+      properties:
+        draw_id:
+          type: integer
+        event_id:
+          type: integer
+        name:
+          type: string
+        start:
+          type: date-time
+        video-url:
+          type: string
