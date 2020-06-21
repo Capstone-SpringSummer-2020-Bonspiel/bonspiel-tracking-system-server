@@ -29,7 +29,6 @@ router.get('/events/:curlingEventId/teams/:teamId/scores', async (req, res) => {
   }
 });
 
-
 router.get('/events/:curlingEventId/teams', async (req, res) => {
   try {
     let events = await curlingEventService.getAllTeamsByCurlingEvent(req.params.curlingEventId);
@@ -42,8 +41,8 @@ router.get('/events/:curlingEventId/teams', async (req, res) => {
 
 router.get('/events/:curlingEventId/games', async (req, res) => {
   try {
-    let events = await curlingEventService.getAllGames(req.params.curlingEventId);
-    res.status(200).send(events);
+    let games = await curlingEventService.getAllGames(req.params.curlingEventId);
+    res.status(200).send(games);
   }
   catch (error) {
     res.status(404).send(error);
@@ -53,8 +52,8 @@ router.get('/events/:curlingEventId/games', async (req, res) => {
 
 router.get('/events/:curlingEventId/draws', async (req, res) => {
   try {
-    let events = await curlingEventService.getAllDraws(req.params.curlingEventId);
-    res.status(200).send(events);
+    let draws = await curlingEventService.getAllDraws(req.params.curlingEventId);
+    res.status(200).send(draws);
   }
   catch (error) {
     res.status(404).send(error);
@@ -64,8 +63,8 @@ router.get('/events/:curlingEventId/draws', async (req, res) => {
 router.get('/events/:curlingEventId/scores', async (req, res) => {
 
   try {
-    let events = await curlingEventService.getAllGamesAndScores(req.params.curlingEventId);
-    res.status(200).send(events);
+    let scores = await curlingEventService.getAllGamesAndScores(req.params.curlingEventId);
+    res.status(200).send(scores);
   }
   catch (error) {
     res.status(404).send(error);
@@ -73,7 +72,6 @@ router.get('/events/:curlingEventId/scores', async (req, res) => {
 });
 
 router.get('/events/', async (req, res) => {
-
   try {
     let events = await curlingEventService.getAllEvents();
     res.status(200).send(events);
@@ -82,6 +80,27 @@ router.get('/events/', async (req, res) => {
     res.status(404).send(error);
   }
 });
+
+router.get('/teams/', async (req, res) => {
+  try {
+    let curlers = await curlingEventService.getAllCurlers();
+    res.status(200).send(curlers);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
+router.get('/teams/:teamId', async (req, res) => {
+  try {
+    let team = await curlingEventService.getCurlingTeam(req.params.teamId);
+    res.status(200).send(team);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
 
 /*THIS CODE WILL GO AWAY***************************************************************************/
 

@@ -32,6 +32,32 @@ class CurlingEventService {
     }
   }
 
+  async getAllCurlers() {
+    try {
+      const data = await this.#pool
+        .query(Queries.GET_ALL_CURLERS);
+      return data.rows;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
+
+  async getCurlingTeam(teamId) {
+    try {
+      const values = [teamId];
+      const data = await this.#pool
+        .query(Queries.GET_CURLING_TEAM, values);
+      return data.rows;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
+
+
   async getAllTeamsByCurlingEvent(curlingEventId) {
     try {
       const values = [curlingEventId];

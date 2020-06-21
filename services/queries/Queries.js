@@ -7,9 +7,17 @@ FROM public.eventteams as eventTeams join curlingteam on eventTeams.team_id=curl
 WHERE eventTeams.event_id=$1;
 `;
 
-const GET_ALL_TEAMS = `
-SELECT team.id, team.name
-FROM public.curlingteam;
+const GET_ALL_CURLERS = `
+SELECT curler.id as curler_id, curler.name as curler_name, curler.position as curler_position, curlingteam.id as curlingteam_id, curler.affiliation as curler_affiliation, curlingteam.affiliation as curlingteam_affiliation, curlingteam.name as curlingteam_name, curlingteam.note as curlingteam_note
+FROM curlingteam
+FULL JOIN curler on curler.curlingteam_id=curlingteam.id;
+`;
+
+const GET_CURLING_TEAM = `
+SELECT curler.id as curler_id, curler.name as curler_name, curler.position as curler_position, curlingteam.id as curlingteam_id, curler.affiliation as curler_affiliation, curlingteam.affiliation as curlingteam_affiliation, curlingteam.name as curlingteam_name, curlingteam.note as curlingteam_note
+FROM curlingteam
+FULL JOIN curler on curler.curlingteam_id=curlingteam.id
+WHERE curlingteam.id=$1;
 `;
 
 /*
@@ -88,11 +96,12 @@ AND curlingteam.id=$2;
 `;
 
 module.exports = {
+  GET_ALL_CURLERS,
   GET_ALL_TEAMS_IN_CURLING_EVENT,
-  GET_ALL_TEAMS,
   GET_ALL_GAMES_IN_CURLING_EVENT,
   GET_ALL_GAMES_BY_TEAM_IN_CURLING_EVENT,
   GET_ALL_DRAWS_IN_CURLING_EVENT,
   GET_ALL_GAMES_AND_SCORES,
-  GET_ALL_GAMES_AND_SCORES_BY_TEAM_IN_CURLING_EVENT
+  GET_ALL_GAMES_AND_SCORES_BY_TEAM_IN_CURLING_EVENT,
+  GET_CURLING_TEAM,
 };
