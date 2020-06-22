@@ -70,7 +70,7 @@ class CurlingEventService {
         }
       }
 
-      return teamObj;
+      return Object.values(teamObj);
     }
     catch (error) {
       console.error(error.message);
