@@ -32,6 +32,9 @@ class CurlingEventService {
     }
   }
 
+  /*
+   * Gets all curlers and sorts them into teams.
+  */
   async getAllCurlers() {
     try {
       const curlers = await this.#pool
