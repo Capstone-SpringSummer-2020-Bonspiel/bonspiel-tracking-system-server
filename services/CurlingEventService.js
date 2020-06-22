@@ -62,7 +62,9 @@ class CurlingEventService {
       }
 
       for (const curler of curlers.rows) {
-        teamObj[curler.curlingteam_name].curlers.push(curler);
+        if (curler.curler_id !== null) {
+          teamObj[curler.curlingteam_name].curlers.push(curler);
+        }
       }
 
       return teamObj;
