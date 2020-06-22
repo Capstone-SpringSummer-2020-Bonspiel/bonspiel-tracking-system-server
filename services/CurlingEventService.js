@@ -34,9 +34,37 @@ class CurlingEventService {
 
   async getAllCurlers() {
     try {
-      const data = await this.#pool
+      const curlers = await this.#pool
         .query(Queries.GET_ALL_CURLERS);
-      return data.rows;
+
+      /*
+      {
+        "{curlingteam_name}": {
+          id: {curlingteam_id}
+          curlers: [{}, {}, ...]
+        }
+      }
+      */
+      let teamNames = [...new Set(curlers.rows.map((value, index, self) => {
+        return JSON.stringify({
+          "curlingteam_name": value.curlingteam_name,
+          "id": value.curlingteam_id
+        });
+      }))].map((val => JSON.parse(val)));
+
+      let teamObj = {};
+      for (const team of teamNames) {
+        teamObj[team.curlingteam_name] = {
+          "id": team.id,
+          "curlers": []
+        }
+      }
+
+      for (const curler of curlers.rows) {
+        teamObj[curler.curlingteam_name].curlers.push(curler);
+      }
+
+      return teamObj;
     }
     catch (error) {
       console.error(error.message);
