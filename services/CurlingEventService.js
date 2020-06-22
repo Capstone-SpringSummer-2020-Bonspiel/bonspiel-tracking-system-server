@@ -55,6 +55,7 @@ class CurlingEventService {
       let teamObj = {};
       for (const team of teamNames) {
         teamObj[team.curlingteam_name] = {
+          "team_name": team.curlingteam_name,
           "id": team.id,
           "curlers": []
         }
