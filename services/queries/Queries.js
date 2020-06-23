@@ -2,8 +2,10 @@
  * @param event_id
  */
 const GET_ALL_TEAMS_IN_CURLING_EVENT = `
-SELECT *
-FROM public.eventteams as eventTeams join curlingteam on eventTeams.team_id=curlingteam.id
+SELECT curler.id as curler_id, curler.name as curler_name, curler.position as curler_position, curlingteam.id as curlingteam_id, curler.affiliation as curler_affiliation, curlingteam.affiliation as curlingteam_affiliation, curlingteam.name as curlingteam_name, curlingteam.note as curlingteam_note
+FROM eventteams as eventTeams 
+JOIN curlingteam on eventTeams.team_id=curlingteam.id
+FULL JOIN curler on curler.curlingteam_id=curlingteam.id
 WHERE eventTeams.event_id=$1;
 `;
 
