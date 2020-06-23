@@ -97,6 +97,8 @@ class CurlingEventService {
       const values = [curlingEventId];
       const curlers = await this.#pool
         .query(Queries.GET_ALL_TEAMS_IN_CURLING_EVENT, values);
+
+      if (curlers.rows.length <= 0) return [];
       let teamNames = [...new Set(curlers.rows.map((value, index, self) => {
         return JSON.stringify({
           "curlingteam_name": value.curlingteam_name,
