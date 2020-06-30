@@ -34,7 +34,7 @@ create table Organization (
  */
 create table Pool (
 	ID Serial PRIMARY KEY,
-	event_id integer NOT NULL REFERENCES CurlingEvent ON DELETE CASCADE,
+	event_id integer NOT NULL REFERENCES CurlingEvent,
 	name text,
 	color text
 );
@@ -46,7 +46,7 @@ create table Pool (
  */
 create table Bracket (
 	ID Serial NOT NULL PRIMARY KEY,
-	event_id integer NOT NULL REFERENCES CurlingEvent(ID) ON DELETE CASCADE,
+	event_id integer NOT NULL REFERENCES CurlingEvent(ID),
 	name text
 );
 
@@ -70,7 +70,7 @@ create table CurlingTeam (
 );
 
 create table eventteams (
-	event_id integer REFERENCES curlingevent(ID) ON DELETE CASCADE,
+	event_id integer REFERENCES curlingevent(ID),
 	team_id integer REFERENCES curlingteam(ID),
 	PRIMARY KEY(event_id, team_id)
 );
@@ -90,7 +90,7 @@ create table Curler (
 /* Draw - a collection of curling games that all start at the begin at the same time. */
 create table Draw (
 	ID serial PRIMARY KEY,
-	event_id integer NOT NULL REFERENCES CurlingEvent(ID) ON DELETE CASCADE,
+	event_id integer NOT NULL REFERENCES CurlingEvent(ID),
 	name text,
 	start timestamp,
 	video_url text
@@ -113,7 +113,7 @@ create table Game (
 	notes text,
 	bracket_id integer REFERENCES Bracket(ID) DEFAULT NULL,
 	pool_id integer REFERENCES Pool(ID) DEFAULT NULL,
-	draw_id integer NOT NULL REFERENCES Draw(ID) ON DELETE CASCADE, 
+	draw_id integer NOT NULL REFERENCES Draw(ID), 
 	CurlingTeam1_id integer REFERENCES CurlingTeam(ID),
 	CurlingTeam2_id integer REFERENCES CurlingTeam(ID),
 	stone_color1 valid_stone_colors,
@@ -136,7 +136,7 @@ create table Game (
  */
 create table EndScore (
     	ID Serial PRIMARY KEY,
-    	game_id integer NOT NULL REFERENCES Game(ID) ON DELETE CASCADE,
+    	game_id integer NOT NULL REFERENCES Game(ID),
 	end_number integer,
     	blank boolean,	
     	CurlingTeam1_scored boolean,
