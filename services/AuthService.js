@@ -1,4 +1,5 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 const jwtKey = "privateKey"; // config.jwtKey
 const jwtExpirySeconds = 600 // 10 minutes
@@ -6,6 +7,14 @@ const jwtExpirySeconds = 600 // 10 minutes
 const users = {
   admin: "password"
 } // Can store in db later
+
+function generateSalt(length) {
+  return crypto.randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
+}
+
+function hash(password, salt) {
+
+}
 
 class AuthService {
   signIn(req, res) {
