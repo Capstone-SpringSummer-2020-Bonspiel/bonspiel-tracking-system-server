@@ -153,7 +153,7 @@ create table Email (
 );
 
 create table Hash (
-	user text,
+	usern text,
 	hash text,
-	PRIMARY KEY(user, hash)
+	PRIMARY KEY(usern, hash)
 );
