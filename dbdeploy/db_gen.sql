@@ -1,4 +1,4 @@
-drop table if exists CurlingEvent, Organization, Pool, Bracket, CurlingTeam, Curler, Draw, Game, EndScore, Email, EventTeams CASCADE;
+drop table if exists CurlingEvent, Organization, Pool, Bracket, CurlingTeam, Curler, Draw, Game, EndScore, Email, EventTeams, Hash CASCADE;
 drop type if exists valid_event_types, valid_position_types, valid_stone_colors, valid_ice_sheets CASCADE;
 
 
@@ -34,7 +34,7 @@ create table Organization (
  */
 create table Pool (
 	ID Serial PRIMARY KEY,
-	event_id integer NOT NULL REFERENCES CurlingEvent,
+	event_id integer NOT NULL REFERENCES CurlingEvent ON DELETE CASCADE,
 	name text,
 	color text
 );
@@ -46,7 +46,7 @@ create table Pool (
  */
 create table Bracket (
 	ID Serial NOT NULL PRIMARY KEY,
-	event_id integer NOT NULL REFERENCES CurlingEvent(ID),
+	event_id integer NOT NULL REFERENCES CurlingEvent(ID) ON DELETE CASCADE,
 	name text
 );
 
@@ -70,7 +70,7 @@ create table CurlingTeam (
 );
 
 create table eventteams (
-	event_id integer REFERENCES curlingevent(ID),
+	event_id integer REFERENCES curlingevent(ID) ON DELETE CASCADE,
 	team_id integer REFERENCES curlingteam(ID),
 	PRIMARY KEY(event_id, team_id)
 );
@@ -90,7 +90,7 @@ create table Curler (
 /* Draw - a collection of curling games that all start at the begin at the same time. */
 create table Draw (
 	ID serial PRIMARY KEY,
-	event_id integer NOT NULL REFERENCES CurlingEvent(ID),
+	event_id integer NOT NULL REFERENCES CurlingEvent(ID) ON DELETE CASCADE,
 	name text,
 	start timestamp,
 	video_url text
@@ -113,13 +113,13 @@ create table Game (
 	notes text,
 	bracket_id integer REFERENCES Bracket(ID) DEFAULT NULL,
 	pool_id integer REFERENCES Pool(ID) DEFAULT NULL,
-	draw_id integer NOT NULL REFERENCES Draw(ID), 
+	draw_id integer NOT NULL REFERENCES Draw(ID) ON DELETE CASCADE, 
 	CurlingTeam1_id integer REFERENCES CurlingTeam(ID),
 	CurlingTeam2_id integer REFERENCES CurlingTeam(ID),
 	stone_color1 valid_stone_colors,
 	stone_color2 valid_stone_colors,
-	last_game_team1 integer REFERENCES Game(ID),
-	last_game_team2 integer REFERENCES Game(ID),
+	winner_dest integer REFERENCES Game(ID),
+	loser_dest integer REFERENCES Game(ID),
 	ice_sheet valid_ice_sheets,
 	finished boolean,
 	/*currentEnd integer,*/
@@ -136,7 +136,7 @@ create table Game (
  */
 create table EndScore (
     	ID Serial PRIMARY KEY,
-    	game_id integer NOT NULL REFERENCES Game(ID),
+    	game_id integer NOT NULL REFERENCES Game(ID) ON DELETE CASCADE,
 	end_number integer,
     	blank boolean,	
     	CurlingTeam1_scored boolean,
@@ -152,3 +152,8 @@ create table Email (
 	PRIMARY KEY(name, email)
 );
 
+create table Hash (
+	user text,
+	hash text,
+	PRIMARY KEY(user, hash)
+);
