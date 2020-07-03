@@ -154,6 +154,27 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Game'
+  /teams:
+    get:
+      summary: returns all teams
+      responses:
+        '200':
+          description: all teams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+  'teams/{team_id}':
+    get:
+      summary: returns a single team
+      responses:
+        '200':
+          description: the requested team
+          content:
+            application/json:
+              schema: '$ref:''#/components/schemas/Team'''
   /query:
     post:
       summary: 'Queries the database without UPDATE, INSERT, CREATE, or DELETE'
