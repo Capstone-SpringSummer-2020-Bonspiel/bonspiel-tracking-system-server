@@ -28,6 +28,7 @@ app.use(cookieParser())
 let swaggerConfig = loadSwaggerConfig();
 
 swaggerConfig.servers[0].url = config.backend.url + "api/v1";
+swaggerConfig.servers[1].url = config.backend.url + "api/v1/admin";
 fs.writeFileSync('./config/swagger.yaml', YAML.safeDump(swaggerConfig), 'utf8');
 
 swaggerConfig = loadSwaggerConfig(); //reload for updated swagger
