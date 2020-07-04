@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const curlingEventService = require('../server/server');
 const CurlingEventService = require('../services/CurlingEventService');
 const curlingEventService = new CurlingEventService();
 
