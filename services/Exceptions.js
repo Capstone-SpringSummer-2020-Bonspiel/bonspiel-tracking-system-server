@@ -2,7 +2,7 @@
 class Exceptions {
 
   deleteDrawException = (techDesc) => {
-    return removeLineBreaks(
+    return this.removeLineBreaks(
       `Failed to delete draw.
      Draw may contain games in bracket event connected to other games. 
      Make sure to delete draws from oldest to newest.
