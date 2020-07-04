@@ -24,7 +24,7 @@ router.delete('/draw/:drawId', async (req, res) => {
   }
   catch (error) {
     console.error(error.message);
-    res.status(400).send(JSON.stringify(error));
+    res.status(400).send({ error, message: error.message });
   }
 });
 
