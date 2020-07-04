@@ -29,7 +29,7 @@ class CurlingEventService {
         .query(Queries.DELETE_DRAW, values);
       return data;
     }
-    catch {
+    catch (error) {
       error.message = Exceptions.deleteDrawException(error.message);
       throw error;
     }
