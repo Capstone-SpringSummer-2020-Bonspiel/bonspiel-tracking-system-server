@@ -9,6 +9,8 @@ const adminRoutes = require('../routes/adminRoutes');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const CurlingEventService = require('../services/CurlingEventService');
+const curlingEventService = new CurlingEventService();
 
 const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
@@ -50,3 +52,5 @@ app.listen(PORT, HOST);
 console.debug(`Running on http://${HOST}:${PORT}`);
 console.debug("Backend Environment", config.env);
 console.debug("Backend URL", config.backend.url);
+
+module.exports = curlingEventService;

@@ -97,6 +97,10 @@ WHERE curlingevent.id=$1
 AND curlingteam.id=$2;
 `;
 
+const DELETE_DRAW = `
+DELETE FROM draw WHERE id=$1
+`;
+
 module.exports = {
   GET_ALL_CURLERS,
   GET_ALL_GAMES_IN_CURLING_EVENT,
@@ -106,4 +110,5 @@ module.exports = {
   GET_ALL_GAMES_AND_SCORES_BY_TEAM_IN_CURLING_EVENT,
   GET_ALL_TEAMS_IN_CURLING_EVENT,
   GET_CURLING_TEAM,
+  DELETE_DRAW
 };

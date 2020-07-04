@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const AuthService = require('../services/AuthService');
 const authService = new AuthService();
+const curlingEventService = require('../server/server');
 
 router.post('/signIn', authService.signIn);
 
@@ -11,6 +12,19 @@ router.use(authService.authorize);
 
 router.get('/testAuth', (req, res) => {
   return res.send("Nice");
-})
+});
+
+router.delete('/draw/:drawId', async (req, res) => {
+  const drawId = req.params.drawId;
+
+  try {
+    let success = await curlingEventService.deleteDraw(drawId);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(404).send(error);
+  }
+});
 
 module.exports = router;

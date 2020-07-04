@@ -1,6 +1,8 @@
 const { Pool, Client } = require('pg');
 const config = require('config');
 const Queries = require('./queries/Queries');
+const Exception = require('../services/Exceptions');
+const Exceptions = new Exception();
 
 class CurlingEventService {
   #pool
@@ -18,6 +20,19 @@ class CurlingEventService {
 
   getPool() {
     return this.#pool;
+  }
+
+  async deleteDraw(drawId) {
+    try {
+      const values = [drawId];
+      const data = await this.#pool
+        .query(Queries.DELETE_DRAW, values);
+      return data;
+    }
+    catch {
+      error.message = Exceptions.deleteDrawException(error.message);
+      throw error;
+    }
   }
 
   async getAllEvents() {
