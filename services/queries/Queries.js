@@ -97,6 +97,17 @@ WHERE curlingevent.id=$1
 AND curlingteam.id=$2;
 `;
 
+const GET_ADMIN_DATA = `
+SELECT *
+FROM admins
+WHERE username=$1;
+`;
+
+const CREATE_ADMIN = `
+INSERT INTO admins(username, hash, salt, "hashLength")
+VALUES ($1, $2, $3, $4);
+`;
+
 module.exports = {
   GET_ALL_CURLERS,
   GET_ALL_GAMES_IN_CURLING_EVENT,
@@ -106,4 +117,6 @@ module.exports = {
   GET_ALL_GAMES_AND_SCORES_BY_TEAM_IN_CURLING_EVENT,
   GET_ALL_TEAMS_IN_CURLING_EVENT,
   GET_CURLING_TEAM,
+  GET_ADMIN_DATA,
+  CREATE_ADMIN
 };
