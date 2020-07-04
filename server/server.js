@@ -11,7 +11,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const CurlingEventService = require('../services/CurlingEventService')
 const curlingEventService = new CurlingEventService();
-module.exports = { curlingEventService };
+module.exports.curlingEventService = curlingEventService;
 
 const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
