@@ -20,7 +20,7 @@ class Exceptions {
   };
 
   invalidIdException = () => {
-    invalidIdError = new Error('No records deleted. Id may be invalid');
+    let invalidIdError = new Error('No records deleted. Id may be invalid');
     return invalidIdError;
   }
 
