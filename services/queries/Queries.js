@@ -109,6 +109,10 @@ const DELETE_CURLER = `
 DELETE FROM curler WHERE id=$1
 `;
 
+const DELETE_ORG = `
+DELETE FROM organization WHERE id=$1
+`;
+
 module.exports = {
   GET_ALL_CURLERS,
   GET_ALL_GAMES_IN_CURLING_EVENT,
@@ -120,5 +124,6 @@ module.exports = {
   GET_CURLING_TEAM,
   DELETE_DRAW,
   DELETE_TEAM,
-  DELETE_CURLER
+  DELETE_CURLER,
+  DELETE_ORG
 };

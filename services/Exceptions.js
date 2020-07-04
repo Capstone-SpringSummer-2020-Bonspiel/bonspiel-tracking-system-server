@@ -19,6 +19,15 @@ class Exceptions {
     );
   };
 
+  deleteOrgException = (techDesc) => {
+    return this.removeLineBreaks(
+      `Failed to delete organization.
+     A curler may be part of organization. A curling team may be part of organization.
+     Remove curler and/or curling team from organization first.
+     Technical Description: ${techDesc}`
+    );
+  };
+
   invalidIdException = () => {
     let invalidIdError = new Error('No records deleted. Id may be invalid');
     return invalidIdError;

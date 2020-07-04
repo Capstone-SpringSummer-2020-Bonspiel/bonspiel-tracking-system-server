@@ -53,4 +53,17 @@ router.delete('/curler/:curlerId', async (req, res) => {
   }
 });
 
+router.delete('/org/:orgId', async (req, res) => {
+  const orgId = req.params.orgId;
+
+  try {
+    let success = await curlingEventService.deleteOrg(curleorgIdrId);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
 module.exports = router;

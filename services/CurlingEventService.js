@@ -69,6 +69,22 @@ class CurlingEventService {
     }
   }
 
+  async deleteOrg(orgId) {
+    try {
+      const values = [orgId];
+      const data = await this.#pool
+        .query(Queries.DELETE_ORG, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      error.message = Exceptions.deleteOrgException(error.message);
+      throw error;
+    }
+  }
+
   async getAllEvents() {
     try {
       const data = await this.#pool
