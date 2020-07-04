@@ -54,6 +54,21 @@ class CurlingEventService {
     }
   }
 
+  async deleteCurler(curlerId) {
+    try {
+      const values = [curlerId];
+      const data = await this.#pool
+        .query(Queries.DELETE_CURLER, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      throw error;
+    }
+  }
+
   async getAllEvents() {
     try {
       const data = await this.#pool

@@ -101,9 +101,12 @@ const DELETE_DRAW = `
 DELETE FROM draw WHERE id=$1
 `;
 
-
 const DELETE_TEAM = `
 DELETE FROM curlingteam WHERE id=$1
+`;
+
+const DELETE_CURLER = `
+DELETE FROM curler WHERE id=$1
 `;
 
 module.exports = {
@@ -115,5 +118,7 @@ module.exports = {
   GET_ALL_GAMES_AND_SCORES_BY_TEAM_IN_CURLING_EVENT,
   GET_ALL_TEAMS_IN_CURLING_EVENT,
   GET_CURLING_TEAM,
-  DELETE_DRAW
+  DELETE_DRAW,
+  DELETE_TEAM,
+  DELETE_CURLER
 };

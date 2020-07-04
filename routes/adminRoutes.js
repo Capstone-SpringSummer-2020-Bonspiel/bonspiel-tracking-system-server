@@ -40,4 +40,17 @@ router.delete('/team/:teamId', async (req, res) => {
   }
 });
 
+router.delete('/curler/:curlerId', async (req, res) => {
+  const curlerId = req.params.curlerId;
+
+  try {
+    let success = await curlingEventService.deleteCurler(curlerId);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
 module.exports = router;
