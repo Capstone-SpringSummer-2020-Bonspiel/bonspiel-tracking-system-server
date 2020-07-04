@@ -9,8 +9,9 @@ const adminRoutes = require('../routes/adminRoutes');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const CurlingEventService = require('../services/CurlingEventService');
-module.exports = new CurlingEventService();
+const CurlingEventService = require('../services/CurlingEventService')
+const curlingEventService = new CurlingEventService();
+module.exports = { curlingEventService };
 
 const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
