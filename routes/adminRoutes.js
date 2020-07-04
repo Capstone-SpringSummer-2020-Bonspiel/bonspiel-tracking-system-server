@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const AuthService = require('../services/AuthService');
 const authService = new AuthService();
-const CurlingEventService = require('../services/CurlingEventService');
-const curlingEventService = new CurlingEventService();
+import curlingEventService from '../server/server';
 
 router.post('/signIn', authService.signIn);
 

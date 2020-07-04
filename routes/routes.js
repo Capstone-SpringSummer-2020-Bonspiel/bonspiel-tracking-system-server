@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const CurlingEventService = require('../services/CurlingEventService');
-const curlingEventService = new CurlingEventService();
+import curlingEventService from '../server/server';
 
 router.get('/events/:curlingEventId/teams/:teamId/games', async (req, res) => {
   const curlingEventId = req.params.curlingEventId;
