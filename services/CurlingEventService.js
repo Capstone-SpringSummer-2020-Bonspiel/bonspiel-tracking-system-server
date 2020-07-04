@@ -27,10 +27,29 @@ class CurlingEventService {
       const values = [drawId];
       const data = await this.#pool
         .query(Queries.DELETE_DRAW, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
       return data;
     }
     catch (error) {
       error.message = Exceptions.deleteDrawException(error.message);
+      throw error;
+    }
+  }
+
+  async deleteTeam(teamId) {
+    try {
+      const values = [teamId];
+      const data = await this.#pool
+        .query(Queries.DELETE_TEAM, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      error.message = Exceptions.deleteTeamException(error.message);
       throw error;
     }
   }

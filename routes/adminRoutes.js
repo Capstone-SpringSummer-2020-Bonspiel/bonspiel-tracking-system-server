@@ -27,4 +27,17 @@ router.delete('/draw/:drawId', async (req, res) => {
   }
 });
 
+router.delete('/team/:teamId', async (req, res) => {
+  const teamId = req.params.teamId;
+
+  try {
+    let success = await curlingEventService.deleteTeam(teamId);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
 module.exports = router;

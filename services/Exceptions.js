@@ -10,6 +10,20 @@ class Exceptions {
     );
   };
 
+  deleteTeamException = (techDesc) => {
+    return this.removeLineBreaks(
+      `Failed to delete team.
+     Team may be enrolled in a curling event. Team may be part of undeleted games.
+     Remove team from the event and any existing games first.
+     Technical Description: ${techDesc}`
+    );
+  };
+
+  invalidIdException = () => {
+    invalidIdError = new Error('No records deleted. Id may be invalid');
+    return invalidIdError;
+  }
+
   removeLineBreaks = (sentence) => sentence.replace(/(\r\n|\n|\r)/gm, "");
 }
 
