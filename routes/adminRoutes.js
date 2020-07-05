@@ -70,7 +70,7 @@ router.delete('/org/:orgId', async (req, res) => {
   const orgId = req.params.orgId;
 
   try {
-    let success = await curlingEventService.deleteOrg(curleorgIdrId);
+    let success = await curlingEventService.deleteOrg(orgId);
     res.status(200).send(success);
   }
   catch (error) {
