@@ -1,6 +1,8 @@
 const { Pool, Client } = require('pg');
 const config = require('config');
 const Queries = require('./queries/Queries');
+const Exception = require('../services/Exceptions');
+const Exceptions = new Exception();
 
 class CurlingEventService {
   #pool
@@ -20,6 +22,101 @@ class CurlingEventService {
     return this.#pool;
   }
 
+  async deleteDraw(drawId) {
+    try {
+      const values = [drawId];
+      const data = await this.#pool
+        .query(Queries.DELETE_DRAW, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      error.message = Exceptions.deleteDrawException(error.message);
+      throw error;
+    }
+  }
+
+  async deleteTeam(teamId) {
+    try {
+      const values = [teamId];
+      const data = await this.#pool
+        .query(Queries.DELETE_TEAM, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      error.message = Exceptions.deleteTeamException(error.message);
+      throw error;
+    }
+  }
+
+  async deleteCurler(curlerId) {
+    try {
+      const values = [curlerId];
+      const data = await this.#pool
+        .query(Queries.DELETE_CURLER, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteOrg(orgId) {
+    try {
+      const values = [orgId];
+      const data = await this.#pool
+        .query(Queries.DELETE_ORG, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      error.message = Exceptions.deleteOrgException(error.message);
+      throw error;
+    }
+  }
+
+  async deletePool(poolId) {
+    try {
+      const values = [poolId];
+      const data = await this.#pool
+        .query(Queries.DELETE_POOL, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      error.message = Exceptions.deletePoolException(error.message);
+      throw error;
+    }
+  }
+
+  async deleteBracket(bracketId) {
+    try {
+      const values = [bracketId];
+      const data = await this.#pool
+        .query(Queries.DELETE_BRACKET, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      error.message = Exceptions.deleteBracketException(error.message);
+      throw error;
+    }
+  }
+
   async getAllEvents() {
     try {
       const data = await this.#pool
@@ -29,6 +126,83 @@ class CurlingEventService {
     catch (error) {
       console.error(error.message);
       throw error;
+    }
+  }
+
+  async checkGamesPlayedByTeamInEvent(eventId, teamId) {
+    try {
+      const values = [eventId, teamId];
+      let data = await this.#pool
+        .query(Queries.GET_GAMES_PLAYED_BY_TEAM_IN_EVENT, values);
+      if (data.rows.length != 0) {
+        throw new Error(Exceptions.teamHasPlayedGamesException(`${data.rows.length} games played`));
+      }
+    }
+    catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteTeamInEvent(eventId, teamId) {
+    try {
+      const values = [eventId, teamId];
+      let data = await this.#pool
+        .query(Queries.DELETE_TEAM_IN_EVENT, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      throw error
+    }
+  }
+
+  async deleteGame(gameId) {
+    try {
+      const values = [gameId];
+      let data = await this.#pool
+        .query(Queries.DELETE_GAME, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      error.message = Exceptions.deleteGameException(error.message);
+      throw error;
+    }
+  }
+
+  async checkGameIfFinished(endId) {
+    try {
+      const values = [endId];
+      let data = await this.#pool
+        .query(Queries.GET_GAME_FROM_END_ID, values);
+      if (data.rows.length == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      if (data.rows[0].finished) {
+        throw new Error(Exceptions.gameFinishedException());
+      }
+    }
+    catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteEnd(endId) {
+    try {
+      const values = [endId];
+      let data = await this.#pool
+        .query(Queries.DELETE_END, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      throw error
     }
   }
 

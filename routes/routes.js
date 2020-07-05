@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const CurlingEventService = require('../services/CurlingEventService');
+const CurlingEventService = require('../services/CurlingEventService')
 const curlingEventService = new CurlingEventService();
 
 router.get('/events/:curlingEventId/teams/:teamId/games', async (req, res) => {
@@ -141,4 +141,4 @@ router.post('/DANGEROUSADHOC', async (req, res) => {
 
 
 
-module.exports = router;
+module.exports = { router, curlingEventService };

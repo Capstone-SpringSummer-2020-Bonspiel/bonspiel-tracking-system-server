@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
 const jwtKey = "privateKey"; // config.jwtKey
-const jwtExpirySeconds = 600 // 10 minutes
+const jwtExpirySeconds = config.jwtExpirySeconds // 10 minutes
 
 function generateSalt(length) {
   return crypto.randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
@@ -31,16 +31,8 @@ function saltHashPassword(password, hashLength) {
 class AuthService {
   #pool;
 
-  constructor() {
-    this.#pool = new Pool({
-      user: config.db.user,
-      host: config.db.host,
-      database: 'postgres',
-      password: config.db.pass,
-      port: config.db.port,
-      max: config.maxConnections
-    });
-
+  constructor(pool) {
+    this.#pool = pool;
   }
 
   async signIn(username, password) {
