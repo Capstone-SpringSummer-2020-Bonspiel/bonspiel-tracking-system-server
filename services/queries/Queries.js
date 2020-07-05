@@ -129,49 +129,6 @@ JOIN game ON endscore.game_id=game.id
 WHERE endscore.id=$1
 `;
 
-const DELETE_DRAW = `
-DELETE FROM draw WHERE id=$1
-`;
-
-const DELETE_TEAM = `
-DELETE FROM curlingteam WHERE id=$1
-`;
-
-const DELETE_CURLER = `
-DELETE FROM curler WHERE id=$1
-`;
-
-const DELETE_ORG = `
-DELETE FROM organization WHERE id=$1
-`;
-
-const DELETE_POOL = `
-DELETE FROM pool WHERE id=$1
-`;
-
-const DELETE_BRACKET = `
-DELETE FROM bracket WHERE id=$1
-`;
-
-const DELETE_TEAM_IN_EVENT = `
-DELETE FROM eventteams WHERE event_id=$1 AND team_id=$2
-`;
-
-const DELETE_GAME = `
-DELETE FROM game WHERE id=$1
-`;
-
-const DELETE_END = `
-DELETE FROM endscore WHERE id=$1
-`;
-
-const GET_GAME_FROM_END_ID = `
-SELECT * 
-FROM endscore
-JOIN game ON endscore.game_id=game.id
-WHERE endscore.id=$1
-`;
-
 const GET_ADMIN_DATA = `
 SELECT *
 FROM admins
