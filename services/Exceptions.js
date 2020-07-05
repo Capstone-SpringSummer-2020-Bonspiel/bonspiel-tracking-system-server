@@ -60,7 +60,7 @@ class Exceptions {
   }
 
   throwIfNull = (obj) => {
-    for (key in obj) {
+    for (let key in obj) {
       if (!obj[key]) {
         throw this.nullException(key);
       }
