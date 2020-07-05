@@ -93,7 +93,7 @@ router.delete('/pool/:poolId', async (req, res) => {
 });
 
 router.delete('/bracket/:bracketId', async (req, res) => {
-  const poolId = req.params.poolId;
+  const bracketId = req.params.poolId;
 
   try {
     let success = await curlingEventService.deleteBracket(bracketId);
