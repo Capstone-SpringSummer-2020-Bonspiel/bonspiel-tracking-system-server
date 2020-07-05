@@ -133,6 +133,10 @@ const DELETE_TEAM_IN_EVENT = `
 DELETE FROM eventteams WHERE event_id=$1 AND team_id=$2
 `;
 
+const DELETE_GAME = `
+DELETE FROM game WHERE id=$1
+`;
+
 const GET_ADMIN_DATA = `
 SELECT *
 FROM admins
@@ -161,6 +165,7 @@ module.exports = {
   DELETE_POOL,
   DELETE_BRACKET,
   DELETE_TEAM_IN_EVENT,
+  DELETE_GAME,
   GET_ADMIN_DATA,
   CREATE_ADMIN
 };

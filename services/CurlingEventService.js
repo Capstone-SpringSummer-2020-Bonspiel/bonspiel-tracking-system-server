@@ -158,6 +158,22 @@ class CurlingEventService {
     }
   }
 
+  async deleteGame(gameId) {
+    try {
+      const values = [gameId];
+      let data = await this.#pool
+        .query(Queries.DELETE_GAME, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      error.message = Exceptions.deleteGameException(error.message);
+      throw error;
+    }
+  }
+
   /*
    * Gets all curlers and sorts them into teams.
   */

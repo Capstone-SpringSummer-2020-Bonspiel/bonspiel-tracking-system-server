@@ -30,21 +30,32 @@ class Exceptions {
 
   deleteBracketException = (techDesc) => {
     return this.removeLineBreaks(
-      `Failed to delete bracket. A game may exist that is part of bracket
+      `Failed to delete bracket. 
+       A game may exist that is part of bracket
        Detail: ${techDesc}`
     );
   };
 
   deletePoolException = (techDesc) => {
     return this.removeLineBreaks(
-      `Failed to delete pool. A game may exist that is part of pool
+      `Failed to delete pool. 
+       A game may exist that is part of pool
        Detail: ${techDesc}`
     );
   };
 
   teamHasPlayedGamesException = (techDesc) => {
     return this.removeLineBreaks(
-      `Failed to remove team from event. One or more games exist that team has played in curling event.
+      `Failed to remove team from event. 
+       One or more games exist that team has played in curling event.
+       Detail: ${techDesc}`
+    );
+  }
+
+  deleteGameException = (techDesc) => {
+    return this.removeLineBreaks(
+      `Failed to remove game. 
+       If for bracket event, a game in previous draw may have dest to this game.
        Detail: ${techDesc}`
     );
   }

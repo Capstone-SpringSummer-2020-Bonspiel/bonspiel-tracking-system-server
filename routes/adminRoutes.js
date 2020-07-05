@@ -130,6 +130,21 @@ router.delete('/event/:eventId/team/:teamId', async (req, res) => {
   }
 });
 
+router.delete('/game/:gameId', async (req, res) => {
+
+  try {
+    const gameId = req.params.gameId;
+    Exceptions.throwIfNull({ gameId });
+
+    let success = await curlingEventService.deleteGame(gameId);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
 router.post('/createAdmin', (req, res) => {
   let { username, password, hashLength } = req.body;
   const result = authService.createNewAdmin(username, password, hashLength);
