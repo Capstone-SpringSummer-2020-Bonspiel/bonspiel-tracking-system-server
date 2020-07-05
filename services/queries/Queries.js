@@ -113,6 +113,17 @@ const DELETE_ORG = `
 DELETE FROM organization WHERE id=$1
 `;
 
+const GET_ADMIN_DATA = `
+SELECT *
+FROM admins
+WHERE username=$1;
+`;
+
+const CREATE_ADMIN = `
+INSERT INTO admins(username, hash, salt, "hashLength")
+VALUES ($1, $2, $3, $4);
+`;
+
 module.exports = {
   GET_ALL_CURLERS,
   GET_ALL_GAMES_IN_CURLING_EVENT,
@@ -125,5 +136,7 @@ module.exports = {
   DELETE_DRAW,
   DELETE_TEAM,
   DELETE_CURLER,
-  DELETE_ORG
+  DELETE_ORG,
+  GET_ADMIN_DATA,
+  CREATE_ADMIN
 };

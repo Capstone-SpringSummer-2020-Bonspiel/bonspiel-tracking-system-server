@@ -4,7 +4,18 @@ const AuthService = require('../services/AuthService');
 const authService = new AuthService();
 const { curlingEventService } = require('../routes/routes');
 
-router.post('/signIn', authService.signIn);
+router.post('/signIn', async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    let authData = await authService.signIn(username, password);
+
+    // Max age is in milliseconds.
+    res.cookie("token", authData.token, { maxAge: authData.jwtExpirySeconds * 1000 })
+    res.end();
+  } catch (err) {
+    return res.status(401).end();
+  }
+});
 
 router.use(authService.authorize);
 
@@ -64,6 +75,12 @@ router.delete('/org/:orgId', async (req, res) => {
     console.error(error.message);
     res.status(400).send({ error, message: error.message });
   }
+});
+
+router.post('/createAdmin', (req, res) => {
+  let { username, password, hashLength } = req.body;
+  const result = authService.createNewAdmin(username, password, hashLength);
+  res.status(result !== null ? 200 : 400).send(result);
 });
 
 module.exports = router;
