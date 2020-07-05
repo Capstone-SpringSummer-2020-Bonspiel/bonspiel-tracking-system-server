@@ -42,8 +42,15 @@ class Exceptions {
     );
   };
 
+  teamHasPlayedGamesException = (techDesc) => {
+    return this.removeLineBreaks(
+      `Failed to remove team from event. One or more games exist that team has played in curling event.
+       Detail: ${techDesc}`
+    );
+  }
+
   invalidIdException = () => {
-    let invalidIdError = new Error('No records deleted. Id may be invalid');
+    let invalidIdError = new Error('No records deleted. Id(s) may be invalid');
     return invalidIdError;
   }
 
