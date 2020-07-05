@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const AuthService = require('../services/AuthService');
-const authService = new AuthService();
 const { curlingEventService } = require('../routes/routes');
+const AuthService = require('../services/AuthService');
+const authService = new AuthService(curlingEventService.getPool());
 
 router.post('/signIn', async (req, res) => {
   const { username, password } = req.body;
@@ -16,6 +16,8 @@ router.post('/signIn', async (req, res) => {
     return res.status(401).end();
   }
 });
+
+router.post('/refresh', async (req, res) => authService.refresh(req, res));
 
 router.use(authService.authorize);
 

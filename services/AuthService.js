@@ -31,16 +31,8 @@ function saltHashPassword(password, hashLength) {
 class AuthService {
   #pool;
 
-  constructor() {
-    this.#pool = new Pool({
-      user: config.db.user,
-      host: config.db.host,
-      database: 'postgres',
-      password: config.db.pass,
-      port: config.db.port,
-      max: config.maxConnections
-    });
-
+  constructor(pool) {
+    this.#pool = pool;
   }
 
   async signIn(username, password) {
