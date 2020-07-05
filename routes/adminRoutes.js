@@ -120,7 +120,7 @@ router.delete('/event/:eventId/team/:teamId', async (req, res) => {
     const teamId = req.params.teamId;
     Exceptions.throwIfNull({ teamId, eventId });
 
-    curlingEventService.checkGamesPlayedByTeamInEvent(eventId, teamId);
+    await curlingEventService.checkGamesPlayedByTeamInEvent(eventId, teamId);
     let success = await curlingEventService.deleteTeamInEvent(eventId, teamId);
     res.status(200).send(success);
   }
