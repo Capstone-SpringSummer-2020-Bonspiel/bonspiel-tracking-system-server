@@ -55,8 +55,15 @@ class Exceptions {
   deleteGameException = (techDesc) => {
     return this.removeLineBreaks(
       `Failed to remove game. 
-       If for bracket event, a game in previous draw may have dest to this game.
+       If for bracket event, a game in previous draw may have a destination to this game.
        Detail: ${techDesc}`
+    );
+  }
+
+  gameFinishedException = () => {
+    return this.removeLineBreaks(
+      `Failed to delete end. 
+       Game is marked as finished.`
     );
   }
 

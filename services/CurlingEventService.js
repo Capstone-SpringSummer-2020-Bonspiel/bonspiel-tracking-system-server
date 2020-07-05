@@ -174,6 +174,38 @@ class CurlingEventService {
     }
   }
 
+  async checkGameIfFinished(endId) {
+    try {
+      const values = [endId];
+      let data = await this.#pool
+        .query(Queries.GET_GAME_FROM_END_ID, values);
+      if (data.rows.length == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      if (data.rows[0].finished) {
+        throw new Error(Exceptions.gameFinishedException());
+      }
+    }
+    catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteEnd(endId) {
+    try {
+      const values = [endId];
+      let data = await this.#pool
+        .query(Queries.DELETE_END, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      throw error
+    }
+  }
+
   /*
    * Gets all curlers and sorts them into teams.
   */

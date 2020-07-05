@@ -145,6 +145,22 @@ router.delete('/game/:gameId', async (req, res) => {
   }
 });
 
+router.delete('/end/:endId', async (req, res) => {
+
+  try {
+    const endId = req.params.endId;
+    Exceptions.throwIfNull({ endId });
+
+    await curlingEventService.checkGameIfFinished(endId);
+    let success = await curlingEventService.deleteEnd(endId);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
 router.post('/createAdmin', (req, res) => {
   let { username, password, hashLength } = req.body;
   const result = authService.createNewAdmin(username, password, hashLength);
