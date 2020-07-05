@@ -38,7 +38,7 @@ class Exceptions {
     return nullException;
   }
 
-  removeLineBreaks = (sentence) => sentence.replace(/(\r\n|\n|\r)/gm, "").replace(/ +(?= )/g, '');
+  removeLineBreaks = (sentence) => sentence.replace(/(\r\n|\n|\r|\t)/gm, "").replace(/ +(?= )/g, '');
 }
 
 module.exports = Exceptions;
