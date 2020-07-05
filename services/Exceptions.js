@@ -47,9 +47,17 @@ class Exceptions {
     return invalidIdError;
   }
 
-  nullException = () => {
-    let nullException = new Error('Non-nullable fields are null');
+  nullException = (field) => {
+    let nullException = new Error(`Non-nullable field [${field}] is null`);
     return nullException;
+  }
+
+  throwIfNull = (obj) => {
+    for (key in obj) {
+      if (!obj[key]) {
+        throw this.nullException(key);
+      }
+    }
   }
 
   removeLineBreaks = (sentence) => sentence.replace(/(\r\n|\n|\r|\t)/gm, "").replace(/ +(?= )/g, '');
