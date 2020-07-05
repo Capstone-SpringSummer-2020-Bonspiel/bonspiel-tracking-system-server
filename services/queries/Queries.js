@@ -129,14 +129,6 @@ JOIN game ON endscore.game_id=game.id
 WHERE endscore.id=$1
 `;
 
-const GET_GAMES_PLAYED_BY_TEAM_IN_EVENT = `
-SELECT *
-FROM public.game
-JOIN public.draw ON draw.id=game.draw_id
-WHERE draw.event_id=$1
-AND (game.curlingteam2_id=$2 OR game.curlingteam1_id=$2)
-`;
-
 const DELETE_DRAW = `
 DELETE FROM draw WHERE id=$1
 `;
