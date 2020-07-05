@@ -19,11 +19,10 @@ router.post('/signIn', async (req, res) => {
   }
 });
 
-router.post('/refresh', async (req, res) => authService.refresh(req, res));
-
 router.use(authService.authorize);
-
 // Put all routes that need admin auth below 
+
+router.post('/refresh', async (req, res) => authService.refresh(req, res));
 
 router.get('/testAuth', (req, res) => {
   return res.send("Nice");

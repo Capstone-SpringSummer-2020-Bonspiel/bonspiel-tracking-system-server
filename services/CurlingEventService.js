@@ -307,7 +307,7 @@ class CurlingEventService {
     try {
       const values = [curlingEventId, curlingTeamId];
       const data = await this.#pool
-        .query(Queries.GET_ALL_GAMES_BY_TEAM_IN_CURLING_EVENT, values);
+        .query(Queries.GET_ALL_GAMES_BY_TEAM, values);
       return data.rows;
     }
     catch (error) {
@@ -320,7 +320,7 @@ class CurlingEventService {
     try {
       const values = [curlingEventId, curlingTeamId];
       const data = await this.#pool
-        .query(Queries.GET_ALL_GAMES_AND_SCORES_BY_TEAM_IN_CURLING_EVENT, values);
+        .query(Queries.GET_ALL_GAMES_AND_SCORES_BY_TEAM, values);
       return data.rows;
     }
     catch (error) {

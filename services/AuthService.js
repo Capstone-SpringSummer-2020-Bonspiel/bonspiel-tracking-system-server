@@ -135,7 +135,7 @@ class AuthService {
     }
 
     const currentUnixSeconds = Math.round(Number(new Date()) / 1000);
-    const expiryThreshold = 30; // seconds
+    const expiryThreshold = 600; // seconds
     if (payload.exp - currentUnixSeconds > expiryThreshold) {
       return res.status(400).end();
     }
