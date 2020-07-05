@@ -8,3 +8,4 @@ db:
   port: ${{ secrets.DB_PORT }}
 
 maxConnections: 20
+jwtExpirySeconds: 600
