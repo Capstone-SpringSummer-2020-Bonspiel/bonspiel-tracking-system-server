@@ -33,6 +33,11 @@ class Exceptions {
     return invalidIdError;
   }
 
+  nullException = () => {
+    let nullException = new Error('Non-nullable fields are null');
+    return nullException;
+  }
+
   removeLineBreaks = (sentence) => sentence.replace(/(\r\n|\n|\r)/gm, "");
 }
 
