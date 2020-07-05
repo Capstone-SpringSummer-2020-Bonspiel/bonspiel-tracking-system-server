@@ -85,6 +85,38 @@ class CurlingEventService {
     }
   }
 
+  async deletePool(poolId) {
+    try {
+      const values = [poolId];
+      const data = await this.#pool
+        .query(Queries.DELETE_POOL, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      error.message = Exceptions.deletePoolException(error.message);
+      throw error;
+    }
+  }
+
+  async deleteBracket(bracketId) {
+    try {
+      const values = [bracketId];
+      const data = await this.#pool
+        .query(Queries.DELETE_BRACKET, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+    }
+    catch (error) {
+      error.message = Exceptions.deleteBracketException(error.message);
+      throw error;
+    }
+  }
+
   async getAllEvents() {
     try {
       const data = await this.#pool

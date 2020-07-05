@@ -28,6 +28,20 @@ class Exceptions {
     );
   };
 
+  deleteBracketException = (techDesc) => {
+    return this.removeLineBreaks(
+      `Failed to delete bracket. A game may exist that is part of bracket
+       Detail: ${techDesc}`
+    );
+  };
+
+  deletePoolException = (techDesc) => {
+    return this.removeLineBreaks(
+      `Failed to delete pool. A game may exist that is part of pool
+       Detail: ${techDesc}`
+    );
+  };
+
   invalidIdException = () => {
     let invalidIdError = new Error('No records deleted. Id may be invalid');
     return invalidIdError;

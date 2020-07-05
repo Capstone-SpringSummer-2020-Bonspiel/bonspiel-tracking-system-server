@@ -113,6 +113,14 @@ const DELETE_ORG = `
 DELETE FROM organization WHERE id=$1
 `;
 
+const DELETE_POOL = `
+DELETE FROM pool WHERE id=$1
+`;
+
+const DELETE_BRACKET = `
+DELETE FROM bracket WHERE id=$1
+`;
+
 const GET_ADMIN_DATA = `
 SELECT *
 FROM admins
@@ -137,6 +145,8 @@ module.exports = {
   DELETE_TEAM,
   DELETE_CURLER,
   DELETE_ORG,
+  DELETE_POOL,
+  DELETE_BRACKET,
   GET_ADMIN_DATA,
   CREATE_ADMIN
 };

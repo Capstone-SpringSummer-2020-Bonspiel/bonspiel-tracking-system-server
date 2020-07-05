@@ -79,6 +79,32 @@ router.delete('/org/:orgId', async (req, res) => {
   }
 });
 
+router.delete('/pool/:poolId', async (req, res) => {
+  const poolId = req.params.poolId;
+
+  try {
+    let success = await curlingEventService.deletePool(poolId);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.delete('/bracket/:bracketId', async (req, res) => {
+  const poolId = req.params.poolId;
+
+  try {
+    let success = await curlingEventService.deleteBracket(bracketId);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
 router.post('/createAdmin', (req, res) => {
   let { username, password, hashLength } = req.body;
   const result = authService.createNewAdmin(username, password, hashLength);
