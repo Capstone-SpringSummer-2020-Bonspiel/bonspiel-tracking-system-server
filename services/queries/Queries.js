@@ -77,7 +77,6 @@ WHERE draw.event_id=$1
 AND (curlingteam1_id=$2 OR curlingteam2_id=$2);
 `;
 
-
 const GET_GAMES_PLAYED_BY_TEAM_IN_EVENT = `
 SELECT *
 FROM public.game
