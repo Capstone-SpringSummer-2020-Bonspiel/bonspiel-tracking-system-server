@@ -6,7 +6,7 @@ class Exceptions {
       `Failed to delete draw.
      Draw may contain games in bracket event connected to other games. 
      Make sure to delete draws from oldest to newest.
-     Technical Description: ${techDesc}`
+     Detail: ${techDesc}`
     );
   };
 
@@ -15,7 +15,7 @@ class Exceptions {
       `Failed to delete team.
      Team may be enrolled in a curling event. Team may be part of undeleted games.
      Remove team from the event and any existing games first.
-     Technical Description: ${techDesc}`
+     Detail: ${techDesc}`
     );
   };
 
@@ -24,7 +24,7 @@ class Exceptions {
       `Failed to delete organization.
      A curler may be part of organization. A curling team may be part of organization.
      Remove curler and/or curling team from organization first.
-     Technical Description: ${techDesc}`
+     Detail: ${techDesc}`
     );
   };
 
