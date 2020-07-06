@@ -164,8 +164,15 @@ router.post('/createAdmin', (req, res) => {
   let { username, password } = req.body;
   const result = authService.createNewAdmin(username, password);
   result.then((account) => {
-    res.status(account !== null ? 200 : 400).send(account);
-  })
+    res.status(200).send(account);
+  }).catch(err => {
+    if (err.message.includes("admin_pkey")) {
+      res.status(400).send("Username is taken");
+    }
+    else {
+      res.status(400).send(err.message);
+    }
+  });
 });
 
 module.exports = router;
