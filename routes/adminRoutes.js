@@ -180,9 +180,39 @@ router.post('/:eventId/game', (req, res) => {
     let game = req.body;
     let { eventType, notes, bracketId, poolId,
       drawId, curlingTeam1Id, curlingTeam2Id, stoneColor1,
-      stoneColor2, destWinner, destLoser, iceSheet, Finished, WinnerId } = game;
+      stoneColor2, destWinner, destLoser, iceSheet, finished, winnerId } = game;
 
     let success = await curlingEventService.addGame(game);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.post('/:eventId/draw', (req, res) => {
+  try {
+    let eventId = req.params.eventId;
+    let draw = req.body;
+    let { name, start, videoUrl } = draw;
+
+    let success = await curlingEventService.addDraw(draw, eventId);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.post('/event', (req, res) => {
+  try {
+    let eventId = req.params.eventId;
+    let event = req.body;
+    let { name, beginDate, endDate, completed, info, eventType } = event;
+
+    let success = await curlingEventService.addEvent(event);
     res.status(200).send(success);
   }
   catch (error) {

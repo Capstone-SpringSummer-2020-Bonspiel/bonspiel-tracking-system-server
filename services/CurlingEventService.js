@@ -380,6 +380,33 @@ class CurlingEventService {
       throw error;
     }
   }
+
+  async addDraw(draw, eventId) {
+    try {
+      let drawData = Object.values(draw);
+      drawData.unshift(eventId);
+
+      const data = await this.#pool
+        .query(Queries.INSERT_DRAW, drawData);
+      return data.rows;
+    }
+    catch (error) {
+      error.message = Exceptions.invalidIdException().message;
+      throw error;
+    }
+  }
+
+  async addEvent(event) {
+    try {
+      const data = await this.#pool
+        .query(Queries.INSERT_EVENT, Object.values(event));
+      return data.rows;
+    }
+    catch (error) {
+      error.message = Exceptions.invalidIdException().message;
+      throw error;
+    }
+  }
 }
 
 module.exports = CurlingEventService;
