@@ -175,10 +175,20 @@ router.post('/createAdmin', (req, res) => {
   });
 });
 
-/*
 router.post('/:eventId/game', (req, res) => {
+  try {
+    let game = req.body;
+    let { eventType, notes, bracketId, poolId,
+      drawId, curlingTeam1Id, curlingTeam2Id, stoneColor1,
+      stoneColor2, destWinner, destLoser, iceSheet, Finished, WinnerId } = game;
 
+    let success = await curlingEventService.addGame(game);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
 });
-*/
 
 module.exports = router;

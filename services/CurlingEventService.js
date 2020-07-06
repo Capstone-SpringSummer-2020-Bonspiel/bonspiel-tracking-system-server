@@ -368,6 +368,18 @@ class CurlingEventService {
       throw error;
     }
   }
+
+  async addGame(game) {
+    try {
+      const data = await this.#pool
+        .query(Queries.INSERT_GAME, Object.values(game));
+      return data.rows;
+    }
+    catch (error) {
+      error.message = Exceptions.invalidIdException().message;
+      throw error;
+    }
+  }
 }
 
 module.exports = CurlingEventService;
