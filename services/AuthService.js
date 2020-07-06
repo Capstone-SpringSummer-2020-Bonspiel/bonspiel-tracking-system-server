@@ -4,6 +4,8 @@ const config = require('config');
 
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const Exceptions = new (require('./Exceptions'));
+
 
 const jwtKey = "privateKey"; // config.jwtKey
 const jwtExpirySeconds = config.jwtExpirySeconds // 10 minutes
@@ -77,22 +79,18 @@ class AuthService {
     }
   }
 
-  async createNewAdmin(username, password, hashLength) {
-    try {
-      let hashData = saltHashPassword(password, hashLength);
-      const values = [username, hashData.password, hashData.salt, hashLength];
-      await this.#pool
-        .query(Queries.CREATE_ADMIN, values);
-      return {
-        username,
-        hashedPassword,
-        salt,
-        hashLength
-      }
-    }
-    catch (err) {
-      console.error(err.message);
-      return null;
+  async createNewAdmin(username, password) {
+    Exceptions.throwIfNull({ username, password });
+    let hashLength = config.hashLength;
+    let hashData = saltHashPassword(password, hashLength);
+    const values = [username, hashData.password, hashData.salt, hashLength];
+    await this.#pool
+      .query(Queries.CREATE_ADMIN, values);
+    return {
+      username,
+      password: hashData.password,
+      salt: hashData.salt,
+      hashLength
     }
   }
 
