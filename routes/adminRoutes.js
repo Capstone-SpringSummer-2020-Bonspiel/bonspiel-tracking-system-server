@@ -59,12 +59,6 @@ router.post('/team/', async (req, res) => {
   try {
     let { name, affiliation, note } = req.body;
     Exceptions.throwIfNull({ name });
-    if (affiliation == undefined) {
-      affiliation = null;
-    }
-    if (note == undefined) {
-      note = null;
-    }
     let success = await curlingEventService.createTeam(name, affiliation, note);
     res.status(200).send(success);
   }
@@ -107,9 +101,6 @@ router.post('/curler/', async (req, res) => {
   try {
     let { name, position, affiliation, curlingTeamId } = req.body;
     Exceptions.throwIfNull({ name, position, curlingTeamId });
-    if (affiliation == undefined) {
-      affiliation = null;
-    }
     let success = await curlingEventService.createCurler(name, position, affiliation, curlingTeamId);
     res.status(200).send(success);
   }
