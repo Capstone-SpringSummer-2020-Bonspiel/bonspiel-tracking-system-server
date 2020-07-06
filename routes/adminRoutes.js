@@ -19,8 +19,6 @@ router.post('/signIn', async (req, res) => {
   }
 });
 
-router.post('/refresh', async (req, res) => authService.refresh(req, res));
-
 router.use(authService.authorize);
 // Put all routes that need admin auth below 
 
@@ -163,9 +161,11 @@ router.delete('/end/:endId', async (req, res) => {
 });
 
 router.post('/createAdmin', (req, res) => {
-  let { username, password, hashLength } = req.body;
-  const result = authService.createNewAdmin(username, password, hashLength);
-  res.status(result !== null ? 200 : 400).send(result);
+  let { username, password } = req.body;
+  const result = authService.createNewAdmin(username, password);
+  result.then((account) => {
+    res.status(account !== null ? 200 : 400).send(account);
+  })
 });
 
 module.exports = router;

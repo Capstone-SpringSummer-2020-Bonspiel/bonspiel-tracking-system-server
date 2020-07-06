@@ -77,16 +77,17 @@ class AuthService {
     }
   }
 
-  async createNewAdmin(username, password, hashLength) {
+  async createNewAdmin(username, password) {
     try {
+      let hashLength = config.hashLength;
       let hashData = saltHashPassword(password, hashLength);
       const values = [username, hashData.password, hashData.salt, hashLength];
       await this.#pool
         .query(Queries.CREATE_ADMIN, values);
       return {
         username,
-        hashedPassword,
-        salt,
+        password: hashData.password,
+        salt: hashData.salt,
         hashLength
       }
     }
