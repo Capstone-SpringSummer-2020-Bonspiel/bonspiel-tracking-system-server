@@ -80,12 +80,7 @@ class AuthService {
   }
 
   async createNewAdmin(username, password) {
-    if (username == null) {
-      throw Exceptions.nullException("username")
-    }
-    if (password == null) {
-      throw Exceptions.nullException("password")
-    }
+    Exceptions.throwIfNull({ username, password });
     let hashLength = config.hashLength;
     let hashData = saltHashPassword(password, hashLength);
     const values = [username, hashData.password, hashData.salt, hashLength];
