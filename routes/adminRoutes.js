@@ -55,11 +55,12 @@ router.delete('/team/:teamId', async (req, res) => {
   }
 });
 
-router.post('/team/', async (req, res) => {
+router.put('/team/:teamId', async (req, res) => {
   try {
-    let { name, affiliation, note } = req.body;
-    Exceptions.throwIfNull({ name });
-    let success = await curlingEventService.createTeam(name, affiliation, note);
+    const id = req.params.teamId;
+    const { name, affiliation, note } = req.body;
+    Exceptions.throwIfNull({ id, name });
+    let success = await curlingEventService.updateTeam(id, name, affiliation, note);
     res.status(200).send(success);
   }
   catch (error) {
@@ -68,14 +69,11 @@ router.post('/team/', async (req, res) => {
   }
 });
 
-router.put('/team/', async (req, res) => {
+router.post('/team/', async (req, res) => {
   try {
-    let { id, name, affiliation, note } = req.body;
-    Exceptions.throwIfNull({ id, name });
-    if (name === undefined || affiliation === undefined || note === undefined) {
-      throw Exceptions.updateException("Missing fields. Mark as null if field is null.")
-    }
-    let success = await curlingEventService.updateTeam(id, name, affiliation, note);
+    let { name, affiliation, note } = req.body;
+    Exceptions.throwIfNull({ name });
+    let success = await curlingEventService.createTeam(name, affiliation, note);
     res.status(200).send(success);
   }
   catch (error) {
@@ -97,11 +95,12 @@ router.delete('/curler/:curlerId', async (req, res) => {
   }
 });
 
-router.post('/curler/', async (req, res) => {
+router.put('/curler/:curlerId', async (req, res) => {
   try {
+    const id = req.params.curlerId;
     let { name, position, affiliation, curlingTeamId } = req.body;
-    Exceptions.throwIfNull({ name, position, curlingTeamId });
-    let success = await curlingEventService.createCurler(name, position, affiliation, curlingTeamId);
+    Exceptions.throwIfNull({ id, name, position, curlingTeamId });
+    let success = await curlingEventService.updateCurler(id, name, position, affiliation, curlingTeamId);
     res.status(200).send(success);
   }
   catch (error) {
@@ -110,15 +109,11 @@ router.post('/curler/', async (req, res) => {
   }
 });
 
-router.put('/curler/', async (req, res) => {
+router.post('/curler/', async (req, res) => {
   try {
-    let { id, name, position, affiliation, curlingTeamId } = req.body;
-    Exceptions.throwIfNull({ id, name, position, curlingTeamId });
-    if (name === undefined || position === undefined || affiliation === undefined || position == undefined || curlingTeamId === undefined) {
-      throw Exceptions.updateException("Missing fields. Mark as null if field is null.")
-    }
+    let { name, position, affiliation, curlingTeamId } = req.body;
     Exceptions.throwIfNull({ name, position, curlingTeamId });
-    let success = await curlingEventService.updateCurler(id, name, position, affiliation, curlingTeamId);
+    let success = await curlingEventService.createCurler(name, position, affiliation, curlingTeamId);
     res.status(200).send(success);
   }
   catch (error) {
@@ -141,6 +136,23 @@ router.delete('/org/:orgId', async (req, res) => {
   }
 });
 
+router.put('/org/:orgId', async (req, res) => {
+  try {
+    const id = req.params.orgId;
+    const { shortName, fullName } = req.body;
+    Exceptions.throwIfNull({ id, shortName, fullName });
+    if (shortName === undefined || fullName === undefined) {
+      throw Exceptions.updateException("Missing fields. Mark as null if field is null.")
+    }
+    let success = await curlingEventService.updateOrganization(id, shortName, fullName);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
 router.post('/org/', async (req, res) => {
   try {
     const { shortName, fullName } = req.body;
@@ -154,21 +166,7 @@ router.post('/org/', async (req, res) => {
   }
 });
 
-router.put('/org/', async (req, res) => {
-  try {
-    const { id, shortName, fullName } = req.body;
-    Exceptions.throwIfNull({ id, shortName, fullName });
-    if (shortName === undefined || fullName === undefined) {
-      throw Exceptions.updateException("Missing fields. Mark as null if field is null.")
-    }
-    let success = await curlingEventService.updateOrganization(id, shortName, fullName);
-    res.status(200).send(success);
-  }
-  catch (error) {
-    console.error(error.message);
-    res.status(400).send({ error, message: error.message });
-  }
-});
+
 
 router.delete('/pool/:poolId', async (req, res) => {
 

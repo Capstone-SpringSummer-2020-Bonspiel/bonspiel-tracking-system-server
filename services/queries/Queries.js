@@ -85,6 +85,15 @@ WHERE draw.event_id=$1
 AND (game.curlingteam2_id=$2 OR game.curlingteam1_id=$2)
 `;
 
+const GET_FRIENDLY_EVENTS_BY_TEAM = `
+SELECT *
+FROM curlingteam
+JOIN eventteams ON eventteams.team_id=curlingteam.id
+JOIN curlingevent ON eventteams.event_id=curlingevent.id
+WHERE event_type='friendly'
+AND curlingteam.id=$1;
+`;
+
 const DELETE_DRAW = `
 DELETE FROM draw WHERE id=$1
 `;
@@ -190,6 +199,7 @@ module.exports = {
   GET_GAMES_PLAYED_BY_TEAM_IN_EVENT,
   GET_GAME_FROM_END_ID,
   GET_ORGANIZATION,
+  GET_FRIENDLY_EVENTS_BY_TEAM,
   DELETE_DRAW,
   DELETE_TEAM,
   DELETE_CURLER,

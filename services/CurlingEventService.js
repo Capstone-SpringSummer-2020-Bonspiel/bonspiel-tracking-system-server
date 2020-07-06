@@ -384,6 +384,12 @@ class CurlingEventService {
   }
 
   async updateTeam(id, name, affiliation, note) {
+    if (affiliation === null || affiliation === undefined) {
+      const events = await this.#pool.query(Queries.GET_FRIENDLY_EVENTS_BY_TEAM, [id]);
+      if (events.rowCount > 0) {
+        throw Exceptions.updateException('Team is a part of a "friendly" curling event');
+      }
+    }
     const values = [id, name, affiliation, note];
     try {
       const data = await this.#pool
