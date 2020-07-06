@@ -134,6 +134,45 @@ FROM admins
 WHERE username=$1;
 `;
 
+const GET_ORGANIZATION = `
+SELECT *
+FROM organization
+WHERE id=$1;
+`
+
+const CREATE_TEAM = `
+INSERT INTO curlingteam(name, affiliation, note)
+VALUES ($1, $2, $3);
+`;
+
+const UPDATE_TEAM = `
+  UPDATE curlingteam
+	SET affiliation=$3, name=$2, note=$4
+	WHERE id=$1;
+`;
+
+const CREATE_CURLER = `
+INSERT INTO curler(name, position, affiliation, curlingteam_id)
+VALUES ($1, $2, $3, $4);
+`;
+
+const UPDATE_CURLER = `
+  UPDATE curler 
+	SET name=$2, position=$3, affiliation=$4, curlingteam_id=$5
+	WHERE id=$1;
+`;
+
+const CREATE_ORGANIZATION = `
+INSERT INTO organization(short_name, full_name)
+VALUES ($1, $2);
+`;
+
+const UPDATE_ORGANIZATION = `
+  UPDATE organization 
+	SET short_name=$1, full_name=$2
+	WHERE id=$1;
+`;
+
 const CREATE_ADMIN = `
 INSERT INTO admins(username, hash, salt, "hashLength")
 VALUES ($1, $2, $3, $4);
@@ -150,6 +189,7 @@ module.exports = {
   GET_CURLING_TEAM,
   GET_GAMES_PLAYED_BY_TEAM_IN_EVENT,
   GET_GAME_FROM_END_ID,
+  GET_ORGANIZATION,
   DELETE_DRAW,
   DELETE_TEAM,
   DELETE_CURLER,
@@ -160,5 +200,11 @@ module.exports = {
   DELETE_GAME,
   DELETE_END,
   GET_ADMIN_DATA,
+  CREATE_TEAM,
+  CREATE_CURLER,
+  CREATE_ORGANIZATION,
+  UPDATE_TEAM,
+  UPDATE_CURLER,
+  UPDATE_ORGANIZATION,
   CREATE_ADMIN
 };

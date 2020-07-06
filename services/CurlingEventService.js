@@ -368,6 +368,94 @@ class CurlingEventService {
       throw error;
     }
   }
+
+  async createTeam(name, affiliation, note) {
+    const values = [name, affiliation, note];
+    try {
+      const data = await this.#pool
+        .query(Queries.CREATE_TEAM, values);
+      return data.rows;
+    }
+    catch (err) {
+      if (err.message.includes('affiliation')) {
+        throw Exceptions.insertionException('Invalid affiliation/organization id.');
+      }
+    }
+  }
+
+  async updateTeam(id, name, affiliation, note) {
+    const values = [id, name, affiliation, note];
+    try {
+      const data = await this.#pool
+        .query(Queries.UPDATE_TEAM, values);
+      return data.rows;
+    }
+    catch (err) {
+      if (err.message.includes('affiliation')) {
+        throw Exceptions.insertionException('Invalid affiliation/organization id.');
+      }
+    }
+  }
+
+  async createCurler(name, position, affiliation, curlingTeamId) {
+    const values = [name, position, affiliation, curlingTeamId];
+    try {
+      const data = await this.#pool
+        .query(Queries.CREATE_CURLER, values);
+      return data.rows;
+    }
+    catch (err) {
+      if (err.message.includes("valid_position_types")) {
+        throw Exceptions.insertionException("Invalid position type.");
+      }
+      if (err.message.includes("curlingteam_id")) {
+        throw Exceptions.insertionException("Invalid curlingteam id.");
+      }
+      throw Exceptions.insertionException(err.message);
+    }
+  }
+
+  async updateCurler(id, name, position, affiliation, curlingTeamId) {
+    const values = [id, name, position, affiliation, curlingTeamId];
+    try {
+      const data = await this.#pool
+        .query(Queries.UPDATE_CURLER, values);
+      return data.rows;
+    }
+    catch (err) {
+      if (err.message.includes("valid_position_types")) {
+        throw Exceptions.insertionException("Invalid position type.");
+      }
+      if (err.message.includes("curlingteam_id")) {
+        throw Exceptions.insertionException("Invalid curlingteam id.");
+      }
+      throw Exceptions.insertionException(err.message);
+    }
+  }
+
+  async createOrganization(shortName, fullName) {
+    const values = [shortName, fullName];
+    try {
+      const data = await this.#pool
+        .query(Queries.CREATE_ORGANIZATION, values);
+      return data.rows;
+    }
+    catch (err) {
+      throw Exceptions.insertionException(err.message);
+    }
+  }
+
+  async updateOrganization(id, shortName, fullName) {
+    const values = [id, shortName, fullName];
+    try {
+      const data = await this.#pool
+        .query(Queries.UPDATE_ORGANIZATION, values);
+      return data.rows;
+    }
+    catch (err) {
+      throw Exceptions.insertionException(err.message);
+    }
+  }
 }
 
 module.exports = CurlingEventService;
