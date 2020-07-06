@@ -175,7 +175,7 @@ router.post('/createAdmin', (req, res) => {
   });
 });
 
-router.post('/:eventId/game', (req, res) => {
+router.post('/:eventId/game', async (req, res) => {
   try {
     let game = req.body;
     let { eventType, notes, bracketId, poolId,
@@ -191,7 +191,7 @@ router.post('/:eventId/game', (req, res) => {
   }
 });
 
-router.post('/:eventId/draw', (req, res) => {
+router.post('/:eventId/draw', async (req, res) => {
   try {
     let eventId = req.params.eventId;
     let draw = req.body;
@@ -206,7 +206,7 @@ router.post('/:eventId/draw', (req, res) => {
   }
 });
 
-router.post('/event', (req, res) => {
+router.post('/event', async (req, res) => {
   try {
     let eventId = req.params.eventId;
     let event = req.body;
