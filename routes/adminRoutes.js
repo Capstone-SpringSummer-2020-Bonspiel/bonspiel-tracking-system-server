@@ -168,4 +168,10 @@ router.post('/createAdmin', (req, res) => {
   res.status(result !== null ? 200 : 400).send(result);
 });
 
+/*
+router.post('/:eventId/game', (req, res) => {
+
+});
+*/
+
 module.exports = router;
