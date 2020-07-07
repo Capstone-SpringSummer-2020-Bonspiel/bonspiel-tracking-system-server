@@ -4,6 +4,7 @@ const { curlingEventService } = require('../routes/routes');
 const AuthService = require('../services/AuthService');
 const authService = new AuthService(curlingEventService.getPool());
 const Exception = require('../services/Exceptions');
+const { config } = require('chai');
 const Exceptions = new Exception();
 
 router.post('/signIn', async (req, res) => {
@@ -19,7 +20,9 @@ router.post('/signIn', async (req, res) => {
   }
 });
 
-// router.use(authService.authorize);
+if (config.useAuth) {
+  router.use(authService.authorize);
+}
 // Put all routes that need admin auth below 
 
 router.post('/refresh', async (req, res) => authService.refresh(req, res));
