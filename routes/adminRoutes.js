@@ -144,9 +144,6 @@ router.put('/org/:orgId', async (req, res) => {
     const id = req.params.orgId;
     const { shortName, fullName } = req.body;
     Exceptions.throwIfNull({ id, shortName, fullName });
-    if (shortName === undefined || fullName === undefined) {
-      throw Exceptions.updateException("Missing fields. Mark as null if field is null.")
-    }
     let success = await curlingEventService.updateOrganization(id, shortName, fullName);
     res.status(200).send(success);
   }
