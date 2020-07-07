@@ -380,13 +380,14 @@ class CurlingEventService {
       if (err.message.includes('affiliation')) {
         throw Exceptions.insertionException('Invalid affiliation/organization id.');
       }
+      throw Exceptions.insertionException(err.message);
     }
   }
 
   async updateTeam(id, name, affiliation, note) {
     if (affiliation === null || affiliation === undefined) {
       const events = await this.#pool.query(Queries.GET_FRIENDLY_EVENTS_BY_TEAM, [id]);
-      if (events.rowCount > 0) {
+      if (events.rows.length > 0) {
         throw Exceptions.updateException('Team is a part of a "friendly" curling event');
       }
     }
@@ -400,6 +401,7 @@ class CurlingEventService {
       if (err.message.includes('affiliation')) {
         throw Exceptions.insertionException('Invalid affiliation/organization id.');
       }
+      throw Exceptions.insertionException(err.message);
     }
   }
 
