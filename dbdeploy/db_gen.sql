@@ -1,4 +1,4 @@
-drop table if exists CurlingEvent, Organization, Pool, Bracket, CurlingTeam, Curler, Draw, Game, EndScore, Email, EventTeams, Hash CASCADE;
+drop table if exists CurlingEvent, Organization, Pool, Bracket, CurlingTeam, Curler, Draw, Game, EndScore, Email, EventTeams, Admin CASCADE;
 drop type if exists valid_event_types, valid_position_types, valid_stone_colors, valid_ice_sheets CASCADE;
 
 
@@ -152,8 +152,9 @@ create table Email (
 	PRIMARY KEY(name, email)
 );
 
-create table Hash (
-	usern text,
+create table Admin (
+	usern text PRIMARY KEY,
 	hash text,
-	PRIMARY KEY(usern, hash)
+	salt text,
+	hashLength integer
 );
