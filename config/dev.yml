@@ -6,3 +6,5 @@ env: dev
 
 backend:
   url: https://bonspiel-server-devl.herokuapp.com/
+
+useAuth: false

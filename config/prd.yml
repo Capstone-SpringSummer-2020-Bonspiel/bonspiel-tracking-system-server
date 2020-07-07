@@ -6,3 +6,5 @@ env: prd
 
 backend:
   url: https://bonspiel-server.herokuapp.com/
+
+useAuth: true
