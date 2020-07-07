@@ -4,7 +4,7 @@ const { curlingEventService } = require('../routes/routes');
 const AuthService = require('../services/AuthService');
 const authService = new AuthService(curlingEventService.getPool());
 const Exception = require('../services/Exceptions');
-const { config } = require('chai');
+const config = require('config');
 const Exceptions = new Exception();
 
 router.post('/signIn', async (req, res) => {
