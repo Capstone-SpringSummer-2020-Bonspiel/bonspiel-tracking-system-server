@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const CurlingEventService = require('../services/CurlingEventService')
+const CurlingEventService = require('../services/CurlingEventService');
+const Exceptions = new (require('../services/Exceptions'));
 const curlingEventService = new CurlingEventService();
 
 router.get('/events/:curlingEventId/teams/:teamId/games', async (req, res) => {
@@ -95,6 +96,27 @@ router.get('/teams/:teamId', async (req, res) => {
   try {
     let team = await curlingEventService.getCurlingTeam(req.params.teamId);
     res.status(200).send(team);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
+router.get('/orgs/:orgId', async (req, res) => {
+  try {
+    Exceptions.throwIfNull({ orgId: req.params.orgId });
+    let org = await curlingEventService.getOrg(req.params.orgId);
+    res.status(200).send(org);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
+router.get('/orgs/', async (req, res) => {
+  try {
+    let orgs = await curlingEventService.getOrgs();
+    res.status(200).send(orgs);
   }
   catch (error) {
     res.status(404).send(error);
