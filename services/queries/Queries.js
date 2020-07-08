@@ -192,6 +192,21 @@ INSERT INTO admins(username, hash, salt, "hashLength")
 VALUES ($1, $2, $3, $4);
 `;
 
+const INSERT_GAME = `
+INSERT INTO game(event_type, notes, bracket_id, pool_id, draw_id, curlingteam1_id, curlingteam2_id, stone_color1, stone_color2, winner_dest, loser_dest, ice_sheet, finished, winner)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14);
+`;
+
+const INSERT_DRAW = `
+INSERT INTO draw(event_id, name, start, video_url)
+VALUES ($1, $2, $3, $4);
+`;
+
+const INSERT_EVENT = `
+INSERT INTO curlingevent(name, begin_date, end_date, completed, info, event_type)
+VALUES ($1, $2, $3, $4, $5, $6);
+`;
+
 module.exports = {
   GET_ALL_CURLERS,
   GET_ALL_DRAWS_IN_CURLING_EVENT,
@@ -216,11 +231,14 @@ module.exports = {
   DELETE_GAME,
   DELETE_END,
   GET_ADMIN_DATA,
+  CREATE_ADMIN,
+  INSERT_GAME,
+  INSERT_DRAW,
+  INSERT_EVENT,
   CREATE_TEAM,
   CREATE_CURLER,
   CREATE_ORGANIZATION,
   UPDATE_TEAM,
   UPDATE_CURLER,
-  UPDATE_ORGANIZATION,
-  CREATE_ADMIN
+  UPDATE_ORGANIZATION
 };

@@ -62,7 +62,7 @@ router.put('/team/:teamId', async (req, res) => {
   try {
     const id = req.params.teamId;
     const { name, orgId, note } = req.body;
-    Exceptions.throwIfNull({ id, name });
+    Exceptions.throwIfNull({ id, name, note });
     let success = await curlingEventService.updateTeam(id, name, orgId, note);
     res.status(200).send(success);
   }
@@ -257,6 +257,52 @@ router.post('/createAdmin', (req, res) => {
       res.status(400).send(err.message);
     }
   });
+});
+
+router.post('/:eventId/game', async (req, res) => {
+  try {
+    let game = req.body;
+    let { eventType, notes, bracketId, poolId,
+      drawId, curlingTeam1Id, curlingTeam2Id, stoneColor1,
+      stoneColor2, destWinner, destLoser, iceSheet, finished, winnerId } = game;
+
+    let success = await curlingEventService.addGame(game);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.post('/:eventId/draw', async (req, res) => {
+  try {
+    let eventId = req.params.eventId;
+    let draw = req.body;
+    let { name, start, videoUrl } = draw;
+
+    let success = await curlingEventService.addDraw(draw, eventId);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.post('/event', async (req, res) => {
+  try {
+    let eventId = req.params.eventId;
+    let event = req.body;
+    let { name, beginDate, endDate, completed, info, eventType } = event;
+
+    let success = await curlingEventService.addEvent(event);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
 });
 
 module.exports = router;

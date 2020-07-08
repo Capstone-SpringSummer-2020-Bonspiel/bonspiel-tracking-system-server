@@ -369,6 +369,45 @@ class CurlingEventService {
     }
   }
 
+  async addGame(game) {
+    try {
+      const data = await this.#pool
+        .query(Queries.INSERT_GAME, Object.values(game));
+      return data;
+    }
+    catch (error) {
+      error.message = Exceptions.invalidIdException().message;
+      throw error;
+    }
+  }
+
+  async addDraw(draw, eventId) {
+    try {
+      let drawData = Object.values(draw);
+      drawData.unshift(eventId);
+
+      const data = await this.#pool
+        .query(Queries.INSERT_DRAW, drawData);
+      return data;
+    }
+    catch (error) {
+      error.message = Exceptions.invalidIdException().message;
+      throw error;
+    }
+  }
+
+  async addEvent(event) {
+    try {
+      const data = await this.#pool
+        .query(Queries.INSERT_EVENT, Object.values(event));
+      return data;
+    }
+    catch (error) {
+      error.message = Exceptions.invalidIdException().message;
+      throw error;
+    }
+  }
+
   async createTeam(name, affiliation, note) {
     const values = [name, affiliation, note];
     try {
