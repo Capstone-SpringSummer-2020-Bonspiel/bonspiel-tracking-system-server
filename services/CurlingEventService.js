@@ -373,7 +373,7 @@ class CurlingEventService {
     try {
       const data = await this.#pool
         .query(Queries.INSERT_GAME, Object.values(game));
-      return data.rows;
+      return data;
     }
     catch (error) {
       error.message = Exceptions.invalidIdException().message;
@@ -388,7 +388,7 @@ class CurlingEventService {
 
       const data = await this.#pool
         .query(Queries.INSERT_DRAW, drawData);
-      return data.rows;
+      return data;
     }
     catch (error) {
       error.message = Exceptions.invalidIdException().message;
@@ -400,7 +400,7 @@ class CurlingEventService {
     try {
       const data = await this.#pool
         .query(Queries.INSERT_EVENT, Object.values(event));
-      return data.rows;
+      return data;
     }
     catch (error) {
       error.message = Exceptions.invalidIdException().message;
