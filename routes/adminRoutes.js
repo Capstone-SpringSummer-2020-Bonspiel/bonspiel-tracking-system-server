@@ -62,7 +62,7 @@ router.put('/team/:teamId', async (req, res) => {
   try {
     const id = req.params.teamId;
     const { name, orgId, note } = req.body;
-    Exceptions.throwIfNull({ id, name });
+    Exceptions.throwIfNull({ id, name, note });
     let success = await curlingEventService.updateTeam(id, name, orgId, note);
     res.status(200).send(success);
   }
