@@ -178,7 +178,7 @@ VALUES ($1, $2);
 
 const UPDATE_ORGANIZATION = `
   UPDATE organization 
-	SET short_name=$1, full_name=$2
+	SET short_name=$2, full_name=$3
 	WHERE id=$1;
 `;
 

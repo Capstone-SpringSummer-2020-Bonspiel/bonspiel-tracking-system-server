@@ -61,7 +61,7 @@ router.delete('/team/:teamId', async (req, res) => {
 router.put('/team/:teamId', async (req, res) => {
   try {
     const id = req.params.teamId;
-    const { name, affiliation, note } = req.body;
+    const { name, orgId, note } = req.body;
     Exceptions.throwIfNull({ id, name });
     let success = await curlingEventService.updateTeam(id, name, affiliation, note);
     res.status(200).send(success);
@@ -74,7 +74,7 @@ router.put('/team/:teamId', async (req, res) => {
 
 router.post('/team/', async (req, res) => {
   try {
-    let { name, affiliation, note } = req.body;
+    let { name, orgId, note } = req.body;
     Exceptions.throwIfNull({ name });
     let success = await curlingEventService.createTeam(name, affiliation, note);
     res.status(200).send(success);
@@ -102,7 +102,7 @@ router.put('/curler/:curlerId', async (req, res) => {
   try {
     const id = req.params.curlerId;
     let { name, position, affiliation, curlingTeamId } = req.body;
-    Exceptions.throwIfNull({ id, name, position, curlingTeamId });
+    Exceptions.throwIfNull({ id, name, position, affiliation, curlingTeamId });
     let success = await curlingEventService.updateCurler(id, name, position, affiliation, curlingTeamId);
     res.status(200).send(success);
   }
@@ -115,7 +115,7 @@ router.put('/curler/:curlerId', async (req, res) => {
 router.post('/curler/', async (req, res) => {
   try {
     let { name, position, affiliation, curlingTeamId } = req.body;
-    Exceptions.throwIfNull({ name, position, curlingTeamId });
+    Exceptions.throwIfNull({ name, position, affiliation, curlingTeamId });
     let success = await curlingEventService.createCurler(name, position, affiliation, curlingTeamId);
     res.status(200).send(success);
   }
