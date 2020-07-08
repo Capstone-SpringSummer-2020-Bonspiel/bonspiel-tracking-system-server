@@ -147,7 +147,12 @@ const GET_ORGANIZATION = `
 SELECT *
 FROM organization
 WHERE id=$1;
-`
+`;
+
+const GET_ALL_ORGANIZATIONS = `
+SELECT *
+FROM organization;
+`;
 
 const CREATE_TEAM = `
 INSERT INTO curlingteam(name, affiliation, note)
@@ -215,6 +220,7 @@ module.exports = {
   GET_GAME_FROM_END_ID,
   GET_ORGANIZATION,
   GET_FRIENDLY_EVENTS_BY_TEAM,
+  GET_ALL_ORGANIZATIONS,
   DELETE_DRAW,
   DELETE_TEAM,
   DELETE_CURLER,

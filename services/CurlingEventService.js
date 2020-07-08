@@ -503,6 +503,31 @@ class CurlingEventService {
       throw Exceptions.insertionException(err.message);
     }
   }
+
+  async getOrgs() {
+    try {
+      const data = await this.#pool
+        .query(Queries.GET_ALL_ORGANIZATIONS);
+      return data.rows;
+    }
+    catch (err) {
+      console.error(err.message);
+      throw err;
+    }
+  }
+
+  async getOrg(orgId) {
+    const values = [orgId];
+    try {
+      const data = await this.#pool
+        .query(Queries.GET_ORGANIZATION, values);
+      return data.rows;
+    }
+    catch (err) {
+      console.error(err.message);
+      throw err;
+    }
+  }
 }
 
 module.exports = CurlingEventService;
