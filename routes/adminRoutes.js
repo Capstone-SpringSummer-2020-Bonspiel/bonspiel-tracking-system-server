@@ -63,7 +63,7 @@ router.put('/team/:teamId', async (req, res) => {
     const id = req.params.teamId;
     const { name, orgId, note } = req.body;
     Exceptions.throwIfNull({ id, name });
-    let success = await curlingEventService.updateTeam(id, name, affiliation, note);
+    let success = await curlingEventService.updateTeam(id, name, orgId, note);
     res.status(200).send(success);
   }
   catch (error) {
@@ -76,7 +76,7 @@ router.post('/team/', async (req, res) => {
   try {
     let { name, orgId, note } = req.body;
     Exceptions.throwIfNull({ name });
-    let success = await curlingEventService.createTeam(name, affiliation, note);
+    let success = await curlingEventService.createTeam(name, orgId, note);
     res.status(200).send(success);
   }
   catch (error) {
