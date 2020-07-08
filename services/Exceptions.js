@@ -60,6 +60,14 @@ class Exceptions {
     );
   }
 
+  insertionException = (message) => {
+    return new Error(`Unable to insert: ${message}`);
+  }
+
+  updateException = (message) => {
+    return new Error(`Unable to update: ${message}`);
+  }
+
   gameFinishedException = () => {
     return this.removeLineBreaks(
       `Failed to delete end. 

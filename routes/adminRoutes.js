@@ -4,6 +4,7 @@ const { curlingEventService } = require('../routes/routes');
 const AuthService = require('../services/AuthService');
 const authService = new AuthService(curlingEventService.getPool());
 const Exception = require('../services/Exceptions');
+const config = require('config');
 const Exceptions = new Exception();
 
 router.post('/signIn', async (req, res) => {
@@ -19,7 +20,9 @@ router.post('/signIn', async (req, res) => {
   }
 });
 
-router.use(authService.authorize);
+if (config.useAuth) {
+  router.use(authService.authorize);
+}
 // Put all routes that need admin auth below 
 
 router.post('/refresh', async (req, res) => authService.refresh(req, res));
@@ -43,7 +46,6 @@ router.delete('/draw/:drawId', async (req, res) => {
 });
 
 router.delete('/team/:teamId', async (req, res) => {
-
   try {
     const teamId = req.params.teamId;
     Exceptions.throwIfNull({ teamId });
@@ -56,12 +58,65 @@ router.delete('/team/:teamId', async (req, res) => {
   }
 });
 
-router.delete('/curler/:curlerId', async (req, res) => {
+router.put('/team/:teamId', async (req, res) => {
+  try {
+    const id = req.params.teamId;
+    const { name, affiliation, note } = req.body;
+    Exceptions.throwIfNull({ id, name });
+    let success = await curlingEventService.updateTeam(id, name, affiliation, note);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
 
+router.post('/team/', async (req, res) => {
+  try {
+    let { name, affiliation, note } = req.body;
+    Exceptions.throwIfNull({ name });
+    let success = await curlingEventService.createTeam(name, affiliation, note);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.delete('/curler/:curlerId', async (req, res) => {
   try {
     const curlerId = req.params.curlerId;
     Exceptions.throwIfNull({ curlerId });
     let success = await curlingEventService.deleteCurler(curlerId);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.put('/curler/:curlerId', async (req, res) => {
+  try {
+    const id = req.params.curlerId;
+    let { name, position, affiliation, curlingTeamId } = req.body;
+    Exceptions.throwIfNull({ id, name, position, curlingTeamId });
+    let success = await curlingEventService.updateCurler(id, name, position, affiliation, curlingTeamId);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.post('/curler/', async (req, res) => {
+  try {
+    let { name, position, affiliation, curlingTeamId } = req.body;
+    Exceptions.throwIfNull({ name, position, curlingTeamId });
+    let success = await curlingEventService.createCurler(name, position, affiliation, curlingTeamId);
     res.status(200).send(success);
   }
   catch (error) {
@@ -83,6 +138,35 @@ router.delete('/org/:orgId', async (req, res) => {
     res.status(400).send({ error, message: error.message });
   }
 });
+
+router.put('/org/:orgId', async (req, res) => {
+  try {
+    const id = req.params.orgId;
+    const { shortName, fullName } = req.body;
+    Exceptions.throwIfNull({ id, shortName, fullName });
+    let success = await curlingEventService.updateOrganization(id, shortName, fullName);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.post('/org/', async (req, res) => {
+  try {
+    const { shortName, fullName } = req.body;
+    Exceptions.throwIfNull({ shortName, fullName });
+    let success = await curlingEventService.createOrganization(shortName, fullName);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+
 
 router.delete('/pool/:poolId', async (req, res) => {
 
