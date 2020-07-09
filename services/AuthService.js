@@ -109,7 +109,7 @@ class AuthService {
       let hashLength = config.hashLength;
       let hashData = saltHashPassword(password, hashLength);
       values = [username, hashData.password, hashData.salt, hashLength, isSuperAdmin];
-      query = QUERIES.UPDATE_ADMIN;
+      query = Queries.UPDATE_ADMIN;
     }
 
     const result = await this.#pool
