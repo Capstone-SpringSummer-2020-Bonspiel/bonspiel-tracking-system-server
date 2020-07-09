@@ -282,7 +282,7 @@ router.delete('/deleteAdmin/:username', async (req, res) => {
     res.status(200).send(result);
   } catch (error) {
     console.log('/deleteAdmin', error.message);
-    res.status(400).send(err.message);
+    res.status(400).send(error.message);
   }
 })
 
