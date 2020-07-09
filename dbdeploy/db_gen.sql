@@ -152,7 +152,7 @@ create table Email (
 	PRIMARY KEY(name, email)
 );
 
-create table Admin (
+create table Admins (
 	usern text PRIMARY KEY,
 	hash text,
 	salt text,
