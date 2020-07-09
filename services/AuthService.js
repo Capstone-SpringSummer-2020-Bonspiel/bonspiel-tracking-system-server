@@ -72,7 +72,7 @@ class AuthService {
         password: dbUser.rows[0].hash,
         hashLength: dbUser.rows[0].hashLength,
         salt: dbUser.rows[0].salt,
-        isSuperAdmin: dbUser.rows[0].issuperuser
+        isSuperAdmin: dbUser.rows[0].issuperadmin
       }
     }
     catch (err) {
