@@ -275,9 +275,9 @@ router.put('/editAdmin', async (req, res) => {
   }
 });
 
-router.delete('/deleteAdmin/', async (req, res) => {
+router.delete('/deleteAdmin/:username', async (req, res) => {
   try {
-    let { username } = req.body;
+    let username = req.params.username;
     const result = await authService.deleteAdmin(username);
     res.status(200).send(result);
   } catch (err) {
