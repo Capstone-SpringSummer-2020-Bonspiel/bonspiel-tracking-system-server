@@ -99,8 +99,8 @@ class AuthService {
 
   async editAdmin(username, password, isSuperAdmin) {
     Exceptions.throwIfNull({ username, isSuperAdmin });
-    const values;
-    const query;
+    let values;
+    let query;
 
     if (!password) {
       values = [username, isSuperAdmin];
