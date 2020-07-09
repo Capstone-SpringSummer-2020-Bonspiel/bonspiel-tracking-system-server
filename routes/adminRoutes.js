@@ -280,7 +280,7 @@ router.delete('/deleteAdmin/:username', async (req, res) => {
     let username = req.params.username;
     const result = await authService.deleteAdmin(username);
     res.status(200).send(result);
-  } catch (err) {
+  } catch (error) {
     console.log('/deleteAdmin', error.message);
     res.status(400).send(err.message);
   }
