@@ -156,5 +156,6 @@ create table Admin (
 	usern text PRIMARY KEY,
 	hash text,
 	salt text,
-	hashLength integer
+	hashLength integer,
+  isSuperAdmin boolean default 0
 );
