@@ -269,9 +269,9 @@ router.put('/editAdmin', async (req, res) => {
     let { username, password, isSuperAdmin } = req.body;
     const result = await authService.editAdmin(username, password, isSuperAdmin);
     res.status(200).send(result);
-  } catch (err) {
+  } catch (error) {
     console.log('/editAdmin', error.message);
-    res.status(400).send(err.message);
+    res.status(400).send(error.message);
   }
 });
 
