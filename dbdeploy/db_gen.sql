@@ -153,9 +153,9 @@ create table Email (
 );
 
 create table Admins (
-	usern text PRIMARY KEY,
+	username text PRIMARY KEY,
 	hash text,
 	salt text,
 	hashLength integer,
-  isSuperAdmin boolean default 0
+  isSuperAdmin boolean default false
 );
