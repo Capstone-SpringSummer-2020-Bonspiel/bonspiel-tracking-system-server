@@ -104,7 +104,7 @@ class AuthService {
 
     if (!password) {
       values = [username, isSuperAdmin];
-      query = QUERIES.UPDATE_ADMIN_NO_PASSWORD;
+      query = Queries.UPDATE_ADMIN_NO_PASSWORD;
     } else {
       let hashLength = config.hashLength;
       let hashData = saltHashPassword(password, hashLength);
@@ -126,7 +126,7 @@ class AuthService {
     Exceptions.throwIfNull({ username });
     const values = [username];
     const result = await this.#pool
-      .query(QUERIES.DELETE_ADMIN, values);
+      .query(Queries.DELETE_ADMIN, values);
     if (result.rowCount == 0) {
       throw Exceptions.invalidIdException();
     }
