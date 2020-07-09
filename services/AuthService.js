@@ -52,7 +52,8 @@ class AuthService {
 
     return {
       token,
-      jwtExpirySeconds
+      jwtExpirySeconds,
+      isSuperAdmin: dbUser.isSuperAdmin
     }
   }
 
@@ -70,7 +71,8 @@ class AuthService {
         username: dbUser.rows[0].username,
         password: dbUser.rows[0].hash,
         hashLength: dbUser.rows[0].hashLength,
-        salt: dbUser.rows[0].salt
+        salt: dbUser.rows[0].salt,
+        isSuperAdmin: dbUser.rows[0].issuperuser
       }
     }
     catch (err) {
@@ -79,19 +81,56 @@ class AuthService {
     }
   }
 
-  async createNewAdmin(username, password) {
-    Exceptions.throwIfNull({ username, password });
+  async createNewAdmin(username, password, isSuperAdmin) {
+    Exceptions.throwIfNull({ username, password, isSuperAdmin });
     let hashLength = config.hashLength;
     let hashData = saltHashPassword(password, hashLength);
-    const values = [username, hashData.password, hashData.salt, hashLength];
+    const values = [username, hashData.password, hashData.salt, hashLength, isSuperAdmin];
     await this.#pool
       .query(Queries.CREATE_ADMIN, values);
     return {
       username,
       password: hashData.password,
       salt: hashData.salt,
-      hashLength
+      hashLength,
+      isSuperAdmin
     }
+  }
+
+  async editAdmin(username, password, isSuperAdmin) {
+    Exceptions.throwIfNull({ username, isSuperAdmin });
+    const values;
+    const query;
+
+    if (!password) {
+      values = [username, isSuperAdmin];
+      query = QUERIES.UPDATE_ADMIN_NO_PASSWORD;
+    } else {
+      let hashLength = config.hashLength;
+      let hashData = saltHashPassword(password, hashLength);
+      values = [username, hashData.password, hashData.salt, hashLength, isSuperAdmin];
+      query = QUERIES.UPDATE_ADMIN;
+    }
+
+    const result = await this.#pool
+      .query(query, values);
+
+    if (result.rowCount == 0) {
+      throw Exceptions.invalidIdException();
+    }
+
+    return result;
+  }
+
+  async deleteAdmin(username) {
+    Exceptions.throwIfNull({ username });
+    const values = [username];
+    const result = await this.#pool
+      .query(QUERIES.DELETE_ADMIN, values);
+    if (result.rowCount == 0) {
+      throw Exceptions.invalidIdException();
+    }
+    return result;
   }
 
   authorize(req, res, next) {
@@ -143,7 +182,10 @@ class AuthService {
       expiresIn: jwtExpirySeconds
     })
     res.cookie("token", newToken, { maxAge: jwtExpirySeconds * 1000 });
-    res.end();
+    res.send({
+      token: newToken,
+      maxAge: jwtExpirySeconds * 1000
+    });
   }
 }
 

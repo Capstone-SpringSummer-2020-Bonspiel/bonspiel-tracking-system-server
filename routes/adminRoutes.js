@@ -14,7 +14,12 @@ router.post('/signIn', async (req, res) => {
 
     // Max age is in milliseconds.
     res.cookie("token", authData.token, { maxAge: authData.jwtExpirySeconds * 1000 })
-    res.end();
+    res.send({
+      username,
+      token: authData.token,
+      maxAge: authData.jwtExpirySeconds * 1000,
+      isSuperAdmin: authData.isSuperAdmin
+    });
   } catch (err) {
     return res.status(401).end();
   }
@@ -245,8 +250,8 @@ router.delete('/end/:endId', async (req, res) => {
 });
 
 router.post('/createAdmin', (req, res) => {
-  let { username, password } = req.body;
-  const result = authService.createNewAdmin(username, password);
+  let { username, password, isSuperAdmin } = req.body;
+  const result = authService.createNewAdmin(username, password, isSuperAdmin);
   result.then((account) => {
     res.status(200).send(account);
   }).catch(err => {
@@ -258,6 +263,28 @@ router.post('/createAdmin', (req, res) => {
     }
   });
 });
+
+router.put('/editAdmin', async (req, res) => {
+  try {
+    let { username, password, isSuperAdmin } = req.body;
+    const result = await authService.editAdmin(username, password, isSuperAdmin);
+    res.status(200).send(result);
+  } catch (err) {
+    console.log('/editAdmin', error.message);
+    res.status(400).send(err.message);
+  }
+});
+
+router.delete('deleteAdmin/:username', async (req, res) => {
+  try {
+    let username = req.params.username;
+    const result = await authService.deleteAdmin(username);
+    res.status(200).send(result);
+  } catch (err) {
+    console.log('/deleteAdmin', error.message);
+    res.status(400).send(err.message);
+  }
+})
 
 router.post('/:eventId/game', async (req, res) => {
   try {

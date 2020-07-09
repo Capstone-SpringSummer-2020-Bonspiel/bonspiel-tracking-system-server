@@ -188,8 +188,26 @@ const UPDATE_ORGANIZATION = `
 `;
 
 const CREATE_ADMIN = `
-INSERT INTO admins(username, hash, salt, "hashLength")
-VALUES ($1, $2, $3, $4);
+INSERT INTO admins(username, hash, salt, "hashLength", issuperadmin)
+VALUES ($1, $2, $3, $4, $5);
+`;
+
+const UPDATE_ADMIN = `
+UPDATE admins
+SET hash=$2, salt=$3, hashLength=$4, issuperadmin=$5
+WHERE username=$1;
+`;
+
+const UPDATE_ADMIN_NO_PASSWORD = `
+UPDATE admins
+SET issuperadmin=$2
+WHERE username=$1;
+`;
+
+const DELETE_ADMIN = `
+DELETE
+FROM admins
+WHERE username=$1;
 `;
 
 const INSERT_GAME = `
@@ -230,8 +248,11 @@ module.exports = {
   DELETE_TEAM_IN_EVENT,
   DELETE_GAME,
   DELETE_END,
+  DELETE_ADMIN,
   GET_ADMIN_DATA,
   CREATE_ADMIN,
+  UPDATE_ADMIN_NO_PASSWORD,
+  UPDATE_ADMIN,
   INSERT_GAME,
   INSERT_DRAW,
   INSERT_EVENT,
