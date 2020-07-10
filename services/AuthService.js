@@ -136,7 +136,7 @@ class AuthService {
   authorize(req, res, next) {
     const token = req.cookies.token;
     if (!token) {
-      console.log('No token');
+      console.log('No token authorize');
       return res.status(401).end();
     }
 
@@ -158,7 +158,7 @@ class AuthService {
   refresh(req, res) {
     const token = req.cookies.token;
     if (!token) {
-      console.log('No token');
+      console.log('No token refresh');
       return res.status(401).end();
     }
     var payload;
