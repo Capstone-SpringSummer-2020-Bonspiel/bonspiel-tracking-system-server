@@ -154,6 +154,13 @@ SELECT *
 FROM organization;
 `;
 
+const GET_CURLERS_IN_ORG = `
+SELECT curler.*, curlingteam.name AS curlingteamname 
+FROM curler 
+JOIN curlingteam ON curlingteam.id=curler.curlingteam_id
+where curler.affiliation=$1
+`;
+
 const CREATE_TEAM = `
 INSERT INTO curlingteam(name, affiliation, note)
 VALUES ($1, $2, $3);
@@ -221,6 +228,7 @@ module.exports = {
   GET_ORGANIZATION,
   GET_FRIENDLY_EVENTS_BY_TEAM,
   GET_ALL_ORGANIZATIONS,
+  GET_CURLERS_IN_ORG,
   DELETE_DRAW,
   DELETE_TEAM,
   DELETE_CURLER,

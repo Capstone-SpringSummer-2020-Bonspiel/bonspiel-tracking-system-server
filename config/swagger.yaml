@@ -193,6 +193,14 @@ paths:
   '/orgs/{orgId}':
     get:
       summary: Returns requested organization
+      parameters:
+        - in: path
+          name: orgId
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+          description: The org id
       responses:
         '200':
           description: the requested org
@@ -200,6 +208,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Organization'
+  '/orgs/{orgId}/curlers':
+    get:
+      summary: Returns all curlers in org
+      parameters:
+        - in: path
+          name: orgId
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+          description: The org id
+      responses:
+        '200':
+          description: >-
+            the requested curlers with `curlingteamname` attached to each curler
+            object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Curler'
   /query:
     post:
       summary: 'Queries the database without UPDATE, INSERT, CREATE, or DELETE'
@@ -308,3 +336,16 @@ components:
           type: string
         full_name:
           type: string
+    Curler:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        position:
+          type: string
+        affiliation:
+          type: integer
+        curlingteam_id:
+          type: integer

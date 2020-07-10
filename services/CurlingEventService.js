@@ -528,6 +528,18 @@ class CurlingEventService {
       throw err;
     }
   }
+
+  async getAllCurlersInOrg(orgId) {
+    const values = [orgId];
+    try {
+      const teamData = await this.#pool.query(Queries.GET_CURLERS_IN_ORG, values);
+      return teamData.rows;
+    }
+    catch (err) {
+      console.error(err.message);
+      throw err;
+    }
+  }
 }
 
 module.exports = CurlingEventService;
