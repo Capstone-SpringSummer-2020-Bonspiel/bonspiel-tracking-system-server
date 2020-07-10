@@ -102,6 +102,17 @@ router.get('/teams/:teamId', async (req, res) => {
   }
 });
 
+router.get('/orgs/:orgId/curlers', async (req, res) => {
+  try {
+    Exceptions.throwIfNull({ orgId: req.params.orgId });
+    let org = await curlingEventService.getAllCurlersInOrg(req.params.orgId);
+    res.status(200).send(org);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
 router.get('/orgs/:orgId', async (req, res) => {
   try {
     Exceptions.throwIfNull({ orgId: req.params.orgId });
