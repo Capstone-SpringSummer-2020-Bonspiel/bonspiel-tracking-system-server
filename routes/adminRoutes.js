@@ -18,7 +18,8 @@ router.post('/signIn', async (req, res) => {
       username,
       token: authData.token,
       maxAge: authData.jwtExpirySeconds * 1000,
-      isSuperAdmin: authData.isSuperAdmin
+      isSuperAdmin: authData.isSuperAdmin,
+      expiryAt: new Date(new Date().getTime() + maxAge)
     });
   } catch (err) {
     return res.status(401).end();
