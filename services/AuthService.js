@@ -180,11 +180,12 @@ class AuthService {
     const newToken = jwt.sign({ username: payload.username }, jwtKey, {
       algorithm: "HS256",
       expiresIn: jwtExpirySeconds
-    })
-    res.cookie("token", newToken, { maxAge: jwtExpirySeconds * 1000 });
+    });
+    let maxAge = jwtExpirySeconds * 1000;
+    res.cookie("token", newToken, { maxAge });
     res.send({
       token: newToken,
-      maxAge: jwtExpirySeconds * 1000,
+      maxAge,
       expiryAt: new Date(new Date().getTime() + maxAge)
     });
   }

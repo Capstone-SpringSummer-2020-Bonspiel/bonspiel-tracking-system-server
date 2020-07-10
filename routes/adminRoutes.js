@@ -11,17 +11,19 @@ router.post('/signIn', async (req, res) => {
   const { username, password } = req.body;
   try {
     let authData = await authService.signIn(username, password);
+    let maxAge = authData.jwtExpirySeconds * 1000;
 
     // Max age is in milliseconds.
-    res.cookie("token", authData.token, { maxAge: authData.jwtExpirySeconds * 1000 })
+    res.cookie("token", authData.token, { maxAge })
     res.send({
       username,
       token: authData.token,
-      maxAge: authData.jwtExpirySeconds * 1000,
+      maxAge,
       isSuperAdmin: authData.isSuperAdmin,
       expiryAt: new Date(new Date().getTime() + maxAge)
     });
   } catch (err) {
+    console.log(err);
     return res.status(401).end();
   }
 });
