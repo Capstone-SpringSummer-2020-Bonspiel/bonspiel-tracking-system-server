@@ -184,7 +184,8 @@ class AuthService {
     res.cookie("token", newToken, { maxAge: jwtExpirySeconds * 1000 });
     res.send({
       token: newToken,
-      maxAge: jwtExpirySeconds * 1000
+      maxAge: jwtExpirySeconds * 1000,
+      expiryAt: new Date(new Date().getTime() + maxAge)
     });
   }
 }
