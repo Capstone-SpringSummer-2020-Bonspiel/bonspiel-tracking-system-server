@@ -76,7 +76,7 @@ class AuthService {
       }
     }
     catch (err) {
-      console.error(error.message);
+      console.error(err.message);
       return null;
     }
   }
