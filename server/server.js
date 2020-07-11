@@ -18,7 +18,7 @@ const config = require('config');
 
 const app = express();
 app.use(cors({
-  origin: ['https://bonspiel-tracking-system-devl.herokuapp.com', 'https://bonspiel-tracking-system-devl.herokuapp.com/admin'],
+  origin: true,
   credentials: true,
   allowedHeaders: ['content-type', 'authorization'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
