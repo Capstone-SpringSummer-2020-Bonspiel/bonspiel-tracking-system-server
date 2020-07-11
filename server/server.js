@@ -18,7 +18,7 @@ const config = require('config');
 
 const app = express();
 app.use(cors({
-  origin: ["http://localhost", "http://herokuapp.com"],
+  origin: '/localhost|heroku',
   credentials: true
 }));
 
