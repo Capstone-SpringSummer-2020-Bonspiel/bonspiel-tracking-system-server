@@ -18,7 +18,7 @@ const config = require('config');
 
 const app = express();
 app.use(cors({
-  origin: ["http://localhost", "https://bonspiel-tracking-system-devl.herokuapp.com"],
+  origin: "*",
   credentials: true
 }));
 
