@@ -134,12 +134,12 @@ class AuthService {
   }
 
   authorize(req, res, next) {
-    const token = req.cookies.token;
+    let token = req.headers.authorization;
     if (!token) {
       console.log('No token authorize');
       return res.status(401).end();
     }
-
+    token = token.split(' ')[1];
     var payload;
     try {
       payload = jwt.verify(token, jwtKey);
@@ -156,11 +156,12 @@ class AuthService {
   }
 
   refresh(req, res) {
-    const token = req.cookies.token;
+    let token = req.headers.authorization;
     if (!token) {
       console.log('No token refresh');
       return res.status(401).end();
     }
+    token = token.split(' ')[1];
     var payload;
     try {
       payload = jwt.verify(token, jwtKey);
@@ -184,7 +185,7 @@ class AuthService {
       expiresIn: jwtExpirySeconds
     });
     let maxAge = jwtExpirySeconds * 1000;
-    res.cookie("token", newToken, { maxAge, domain: 'herokuapp.com', httpOnly: true });
+    res.cookie("token", newToken, { maxAge, domain: 'herokuapp.com' });
     res.send({
       token: newToken,
       maxAge,
