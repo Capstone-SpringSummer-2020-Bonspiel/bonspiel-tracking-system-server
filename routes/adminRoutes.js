@@ -14,7 +14,6 @@ router.post('/signIn', async (req, res) => {
     let maxAge = authData.jwtExpirySeconds * 1000;
 
     // Max age is in milliseconds.
-    res.cookie("token", authData.token, { maxAge, domain: 'herokuapp.com' })
     res.send({
       username,
       token: authData.token,
