@@ -20,7 +20,7 @@ const app = express();
 app.use(cors({
   origin: ['https://bonspiel-tracking-system-devl.herokuapp.com', 'https://bonspiel-tracking-system-devl.herokuapp.com/admin'],
   credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['content-type', 'authorization'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
 }));
 
