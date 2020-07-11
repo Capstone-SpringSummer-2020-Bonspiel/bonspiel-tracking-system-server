@@ -184,7 +184,7 @@ class AuthService {
       expiresIn: jwtExpirySeconds
     });
     let maxAge = jwtExpirySeconds * 1000;
-    res.cookie("token", newToken, { maxAge, domain: 'herokuapp.com' });
+    res.cookie("token", newToken, { maxAge, domain: 'herokuapp.com', httpOnly: true });
     res.send({
       token: newToken,
       maxAge,
