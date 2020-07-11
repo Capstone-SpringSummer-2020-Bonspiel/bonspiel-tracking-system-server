@@ -1,4 +1,4 @@
-drop table if exists CurlingEvent, Organization, Pool, Bracket, CurlingTeam, Curler, Draw, Game, EndScore, Email, EventTeams, Admin CASCADE;
+drop table if exists CurlingEvent, Organization, Pool, Bracket, CurlingTeam, Curler, Draw, Game, EndScore, Email, EventTeams, Admins CASCADE;
 drop type if exists valid_event_types, valid_position_types, valid_stone_colors, valid_ice_sheets CASCADE;
 
 
@@ -82,6 +82,7 @@ create table Curler (
 	ID serial PRIMARY KEY,
 	name text,
 	position valid_position_types,
+	photo_url text,
 	affiliation integer REFERENCES Organization(ID),
 	CurlingTeam_id integer REFERENCES CurlingTeam(ID)
 	/* might also want to model a photo for the curler */
@@ -110,6 +111,7 @@ create type valid_ice_sheets as enum ('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', '1
 create table Game (
 	ID Serial PRIMARY KEY,
 	event_type valid_event_types,
+	game_name text,
 	notes text,
 	bracket_id integer REFERENCES Bracket(ID) DEFAULT NULL,
 	pool_id integer REFERENCES Pool(ID) DEFAULT NULL,
@@ -121,7 +123,7 @@ create table Game (
 	winner_dest integer REFERENCES Game(ID),
 	loser_dest integer REFERENCES Game(ID),
 	ice_sheet valid_ice_sheets,
-	finished boolean,
+	finished boolean DEFAULT FALSE,
 	/*currentEnd integer,*/
 	winner integer DEFAULT NULL,
 	CHECK (CurlingTeam1_id <> CurlingTeam2_id)
@@ -152,9 +154,17 @@ create table Email (
 	PRIMARY KEY(name, email)
 );
 
-create table Admin (
-	usern text PRIMARY KEY,
+create table Admins (
+	username text PRIMARY KEY,
 	hash text,
 	salt text,
-	hashLength integer
+	hashLength integer,
+	isSuperAdmin boolean DEFAULT FALSE
 );
+
+CREATE VIEW vw_game_draw AS (SELECT g.id AS game_id, d.event_id, g.draw_id, d.name, g.event_type, g.notes, g.bracket_id, g.pool_id,
+       g.curlingteam1_id, g.curlingteam2_id, g.stone_color1, g.stone_color2,
+	   g.winner_dest, g.loser_dest, g.ice_sheet, g.finished, g.winner, d.id, d.start, d.video_url
+FROM game g
+JOIN draw d
+ON d.id = g.draw_id)
