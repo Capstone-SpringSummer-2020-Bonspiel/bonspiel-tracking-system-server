@@ -19,9 +19,7 @@ const config = require('config');
 const app = express();
 app.use(cors({
   origin: true,
-  credentials: true,
-  allowedHeaders: ['content-type', 'authorization'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
+  credentials: true
 }));
 
 app.use(bodyParser.urlencoded({
