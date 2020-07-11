@@ -184,7 +184,7 @@ class AuthService {
       expiresIn: jwtExpirySeconds
     });
     let maxAge = jwtExpirySeconds * 1000;
-    res.cookie("token", newToken, { maxAge, sameSite: 'none' });
+    res.cookie("token", newToken, { maxAge, sameSite: 'strict' });
     res.send({
       token: newToken,
       maxAge,
