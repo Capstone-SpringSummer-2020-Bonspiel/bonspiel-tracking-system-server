@@ -195,13 +195,13 @@ const UPDATE_ORGANIZATION = `
 `;
 
 const CREATE_ADMIN = `
-INSERT INTO admins(username, hash, salt, "hashLength", issuperadmin)
+INSERT INTO admins(username, hash, salt, hashLength, issuperadmin)
 VALUES ($1, $2, $3, $4, $5);
 `;
 
 const UPDATE_ADMIN = `
 UPDATE admins
-SET hash=$2, salt=$3, "hashLength"=$4, issuperadmin=$5
+SET hash=$2, salt=$3, hashLength=$4, issuperadmin=$5
 WHERE username=$1;
 `;
 
