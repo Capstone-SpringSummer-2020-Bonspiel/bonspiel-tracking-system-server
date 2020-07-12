@@ -7,6 +7,22 @@ const Exception = require('../services/Exceptions');
 const config = require('config');
 const Exceptions = new Exception();
 
+
+router.post('/createAdmin', (req, res) => {
+  let { username, password, isSuperAdmin } = req.body;
+  const result = authService.createNewAdmin(username, password, isSuperAdmin);
+  result.then((account) => {
+    res.status(200).send(account);
+  }).catch(err => {
+    if (err.message.includes("admin_pkey")) {
+      res.status(400).send("Username is taken");
+    }
+    else {
+      res.status(400).send(err.message);
+    }
+  });
+});
+
 router.post('/signIn', async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -14,7 +30,6 @@ router.post('/signIn', async (req, res) => {
     let maxAge = authData.jwtExpirySeconds * 1000;
 
     // Max age is in milliseconds.
-    res.cookie("token", authData.token, { maxAge, domain: 'herokuapp.com' })
     res.send({
       username,
       token: authData.token,
@@ -250,21 +265,6 @@ router.delete('/end/:endId', async (req, res) => {
     console.error(error.message);
     res.status(400).send({ error, message: error.message });
   }
-});
-
-router.post('/createAdmin', (req, res) => {
-  let { username, password, isSuperAdmin } = req.body;
-  const result = authService.createNewAdmin(username, password, isSuperAdmin);
-  result.then((account) => {
-    res.status(200).send(account);
-  }).catch(err => {
-    if (err.message.includes("admin_pkey")) {
-      res.status(400).send("Username is taken");
-    }
-    else {
-      res.status(400).send(err.message);
-    }
-  });
 });
 
 router.put('/editAdmin', async (req, res) => {
