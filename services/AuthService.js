@@ -133,6 +133,17 @@ class AuthService {
     return result;
   }
 
+  async getAdmins() {
+    try {
+      const result = await this.#pool
+        .query(Queries.GET_ALL_ADMINS)
+      return result.rows;
+    } catch (err) {
+      console.error(err.message);
+      throw err;
+    }
+  }
+
   authorize(req, res, next) {
     let token = req.headers.authorization;
     if (!token) {

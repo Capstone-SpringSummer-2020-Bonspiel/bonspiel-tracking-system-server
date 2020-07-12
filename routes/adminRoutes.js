@@ -53,6 +53,16 @@ router.post('/createAdmin', (req, res) => {
   });
 });
 
+router.get('/admins', async (req, res) => {
+  try {
+    let admins = await authService.getAdmins();
+    res.status(200).send(admins);
+
+  } catch (error) {
+    res.status(404).send(error);
+  }
+});
+
 router.delete('/draw/:drawId', async (req, res) => {
 
   try {

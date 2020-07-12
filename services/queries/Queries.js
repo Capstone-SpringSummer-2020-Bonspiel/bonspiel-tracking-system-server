@@ -77,6 +77,11 @@ WHERE draw.event_id=$1
 AND (curlingteam1_id=$2 OR curlingteam2_id=$2);
 `;
 
+const GET_ALL_ADMINS = `
+SELECT username, issuperadmin
+FROM admins
+`;
+
 const GET_GAMES_PLAYED_BY_TEAM_IN_EVENT = `
 SELECT *
 FROM public.game
@@ -240,6 +245,7 @@ module.exports = {
   GET_ALL_GAMES_AND_SCORES,
   GET_ALL_GAMES_AND_SCORES_BY_TEAM,
   GET_ALL_TEAMS_IN_CURLING_EVENT,
+  GET_ALL_ADMINS,
   GET_CURLING_TEAM,
   GET_GAMES_PLAYED_BY_TEAM_IN_EVENT,
   GET_GAME_FROM_END_ID,
