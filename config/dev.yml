@@ -7,4 +7,7 @@ env: dev
 backend:
   url: https://bonspiel-server-devl.herokuapp.com/
 
-useAuth: false
+useAuth: true
+
+frontend:
+  url: https://bonspiel-tracking-system-devl.herokuapp.com

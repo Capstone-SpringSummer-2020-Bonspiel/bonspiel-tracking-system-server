@@ -10,4 +10,3 @@ db:
 maxConnections: 20
 jwtExpirySeconds: 600
 hashLength: 16
-useAuth: true

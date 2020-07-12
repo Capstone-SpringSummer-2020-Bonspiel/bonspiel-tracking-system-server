@@ -17,7 +17,12 @@ process.env.NODE_CONFIG_DIR = './config';
 const config = require('config');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: [config.frontend.url],
+  credentials: true,
+  allowedHeaders: ['content-type', 'authorization']
+}));
+
 app.use(bodyParser.urlencoded({
   extended: true
 }));

@@ -52,7 +52,8 @@ class AuthService {
 
     return {
       token,
-      jwtExpirySeconds
+      jwtExpirySeconds,
+      isSuperAdmin: dbUser.isSuperAdmin
     }
   }
 
@@ -70,36 +71,86 @@ class AuthService {
         username: dbUser.rows[0].username,
         password: dbUser.rows[0].hash,
         hashLength: dbUser.rows[0].hashLength,
-        salt: dbUser.rows[0].salt
+        salt: dbUser.rows[0].salt,
+        isSuperAdmin: dbUser.rows[0].issuperadmin
       }
     }
     catch (err) {
-      console.error(error.message);
+      console.error(err.message);
       return null;
     }
   }
 
-  async createNewAdmin(username, password) {
-    Exceptions.throwIfNull({ username, password });
+  async createNewAdmin(username, password, isSuperAdmin) {
+    Exceptions.throwIfNull({ username, password, isSuperAdmin });
     let hashLength = config.hashLength;
     let hashData = saltHashPassword(password, hashLength);
-    const values = [username, hashData.password, hashData.salt, hashLength];
+    const values = [username, hashData.password, hashData.salt, hashLength, isSuperAdmin];
     await this.#pool
       .query(Queries.CREATE_ADMIN, values);
     return {
       username,
       password: hashData.password,
       salt: hashData.salt,
-      hashLength
+      hashLength,
+      isSuperAdmin
+    }
+  }
+
+  async editAdmin(username, password, isSuperAdmin) {
+    Exceptions.throwIfNull({ username, isSuperAdmin });
+    let values;
+    let query;
+
+    if (!password) {
+      values = [username, isSuperAdmin];
+      query = Queries.UPDATE_ADMIN_NO_PASSWORD;
+    } else {
+      let hashLength = config.hashLength;
+      let hashData = saltHashPassword(password, hashLength);
+      values = [username, hashData.password, hashData.salt, hashLength, isSuperAdmin];
+      query = Queries.UPDATE_ADMIN;
+    }
+
+    const result = await this.#pool
+      .query(query, values);
+
+    if (result.rowCount == 0) {
+      throw Exceptions.invalidIdException();
+    }
+
+    return result;
+  }
+
+  async deleteAdmin(username) {
+    Exceptions.throwIfNull({ username });
+    const values = [username];
+    const result = await this.#pool
+      .query(Queries.DELETE_ADMIN, values);
+    if (result.rowCount == 0) {
+      throw Exceptions.invalidIdException();
+    }
+    return result;
+  }
+
+  async getAdmins() {
+    try {
+      const result = await this.#pool
+        .query(Queries.GET_ALL_ADMINS)
+      return result.rows;
+    } catch (err) {
+      console.error(err.message);
+      throw err;
     }
   }
 
   authorize(req, res, next) {
-    const token = req.cookies.token;
+    let token = req.headers.authorization;
     if (!token) {
+      console.log('No token authorize');
       return res.status(401).end();
     }
-
+    token = token.split(' ')[1];
     var payload;
     try {
       payload = jwt.verify(token, jwtKey);
@@ -116,10 +167,12 @@ class AuthService {
   }
 
   refresh(req, res) {
-    const token = req.cookies.token;
+    let token = req.headers.authorization;
     if (!token) {
+      console.log('No token refresh');
       return res.status(401).end();
     }
+    token = token.split(' ')[1];
     var payload;
     try {
       payload = jwt.verify(token, jwtKey);
@@ -141,9 +194,13 @@ class AuthService {
     const newToken = jwt.sign({ username: payload.username }, jwtKey, {
       algorithm: "HS256",
       expiresIn: jwtExpirySeconds
-    })
-    res.cookie("token", newToken, { maxAge: jwtExpirySeconds * 1000 });
-    res.end();
+    });
+    let maxAge = jwtExpirySeconds * 1000;
+    res.send({
+      token: newToken,
+      maxAge,
+      expiryAt: new Date(new Date().getTime() + maxAge)
+    });
   }
 }
 

@@ -11,11 +11,18 @@ router.post('/signIn', async (req, res) => {
   const { username, password } = req.body;
   try {
     let authData = await authService.signIn(username, password);
+    let maxAge = authData.jwtExpirySeconds * 1000;
 
     // Max age is in milliseconds.
-    res.cookie("token", authData.token, { maxAge: authData.jwtExpirySeconds * 1000 })
-    res.end();
+    res.send({
+      username,
+      token: authData.token,
+      maxAge,
+      isSuperAdmin: authData.isSuperAdmin,
+      expiryAt: new Date(new Date().getTime() + maxAge)
+    });
   } catch (err) {
+    console.log(err);
     return res.status(401).end();
   }
 });
@@ -29,6 +36,31 @@ router.post('/refresh', async (req, res) => authService.refresh(req, res));
 
 router.get('/testAuth', (req, res) => {
   return res.send("Nice");
+});
+
+router.post('/createAdmin', (req, res) => {
+  let { username, password, isSuperAdmin } = req.body;
+  const result = authService.createNewAdmin(username, password, isSuperAdmin);
+  result.then((account) => {
+    res.status(200).send(account);
+  }).catch(err => {
+    if (err.message.includes("admin_pkey")) {
+      res.status(400).send("Username is taken");
+    }
+    else {
+      res.status(400).send(err.message);
+    }
+  });
+});
+
+router.get('/admins', async (req, res) => {
+  try {
+    let admins = await authService.getAdmins();
+    res.status(200).send(admins);
+
+  } catch (error) {
+    res.status(404).send(error);
+  }
 });
 
 router.delete('/draw/:drawId', async (req, res) => {
@@ -244,25 +276,32 @@ router.delete('/end/:endId', async (req, res) => {
   }
 });
 
-router.post('/createAdmin', (req, res) => {
-  let { username, password } = req.body;
-  const result = authService.createNewAdmin(username, password);
-  result.then((account) => {
-    res.status(200).send(account);
-  }).catch(err => {
-    if (err.message.includes("admin_pkey")) {
-      res.status(400).send("Username is taken");
-    }
-    else {
-      res.status(400).send(err.message);
-    }
-  });
+router.put('/editAdmin', async (req, res) => {
+  try {
+    let { username, password, isSuperAdmin } = req.body;
+    const result = await authService.editAdmin(username, password, isSuperAdmin);
+    res.status(200).send(result);
+  } catch (error) {
+    console.log('/editAdmin', error.message);
+    res.status(400).send(error.message);
+  }
 });
+
+router.delete('/deleteAdmin/:username', async (req, res) => {
+  try {
+    let username = req.params.username;
+    const result = await authService.deleteAdmin(username);
+    res.status(200).send(result);
+  } catch (error) {
+    console.log('/deleteAdmin', error.message);
+    res.status(400).send(error.message);
+  }
+})
 
 router.post('/:eventId/game', async (req, res) => {
   try {
     let game = req.body;
-    let { eventType, notes, bracketId, poolId,
+    let { eventType, notes, gameName, bracketId, poolId,
       drawId, curlingTeam1Id, curlingTeam2Id, stoneColor1,
       stoneColor2, destWinner, destLoser, iceSheet, finished, winnerId } = game;
 

@@ -77,6 +77,11 @@ WHERE draw.event_id=$1
 AND (curlingteam1_id=$2 OR curlingteam2_id=$2);
 `;
 
+const GET_ALL_ADMINS = `
+SELECT username, issuperadmin
+FROM admins
+`;
+
 const GET_GAMES_PLAYED_BY_TEAM_IN_EVENT = `
 SELECT *
 FROM public.game
@@ -195,12 +200,30 @@ const UPDATE_ORGANIZATION = `
 `;
 
 const CREATE_ADMIN = `
-INSERT INTO admins(username, hash, salt, "hashLength")
-VALUES ($1, $2, $3, $4);
+INSERT INTO admins(username, hash, salt, hashLength, issuperadmin)
+VALUES ($1, $2, $3, $4, $5);
+`;
+
+const UPDATE_ADMIN = `
+UPDATE admins
+SET hash=$2, salt=$3, hashLength=$4, issuperadmin=$5
+WHERE username=$1;
+`;
+
+const UPDATE_ADMIN_NO_PASSWORD = `
+UPDATE admins
+SET issuperadmin=$2
+WHERE username=$1;
+`;
+
+const DELETE_ADMIN = `
+DELETE
+FROM admins
+WHERE username=$1;
 `;
 
 const INSERT_GAME = `
-INSERT INTO game(event_type, notes, bracket_id, pool_id, draw_id, curlingteam1_id, curlingteam2_id, stone_color1, stone_color2, winner_dest, loser_dest, ice_sheet, finished, winner)
+INSERT INTO game(event_type, notes, game_name, bracket_id, pool_id, draw_id, curlingteam1_id, curlingteam2_id, stone_color1, stone_color2, winner_dest, loser_dest, ice_sheet, finished, winner)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14);
 `;
 
@@ -222,6 +245,7 @@ module.exports = {
   GET_ALL_GAMES_AND_SCORES,
   GET_ALL_GAMES_AND_SCORES_BY_TEAM,
   GET_ALL_TEAMS_IN_CURLING_EVENT,
+  GET_ALL_ADMINS,
   GET_CURLING_TEAM,
   GET_GAMES_PLAYED_BY_TEAM_IN_EVENT,
   GET_GAME_FROM_END_ID,
@@ -238,8 +262,11 @@ module.exports = {
   DELETE_TEAM_IN_EVENT,
   DELETE_GAME,
   DELETE_END,
+  DELETE_ADMIN,
   GET_ADMIN_DATA,
   CREATE_ADMIN,
+  UPDATE_ADMIN_NO_PASSWORD,
+  UPDATE_ADMIN,
   INSERT_GAME,
   INSERT_DRAW,
   INSERT_EVENT,
