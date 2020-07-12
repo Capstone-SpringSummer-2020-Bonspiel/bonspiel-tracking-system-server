@@ -7,22 +7,6 @@ const Exception = require('../services/Exceptions');
 const config = require('config');
 const Exceptions = new Exception();
 
-
-router.post('/createAdmin', (req, res) => {
-  let { username, password, isSuperAdmin } = req.body;
-  const result = authService.createNewAdmin(username, password, isSuperAdmin);
-  result.then((account) => {
-    res.status(200).send(account);
-  }).catch(err => {
-    if (err.message.includes("admin_pkey")) {
-      res.status(400).send("Username is taken");
-    }
-    else {
-      res.status(400).send(err.message);
-    }
-  });
-});
-
 router.post('/signIn', async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -52,6 +36,21 @@ router.post('/refresh', async (req, res) => authService.refresh(req, res));
 
 router.get('/testAuth', (req, res) => {
   return res.send("Nice");
+});
+
+router.post('/createAdmin', (req, res) => {
+  let { username, password, isSuperAdmin } = req.body;
+  const result = authService.createNewAdmin(username, password, isSuperAdmin);
+  result.then((account) => {
+    res.status(200).send(account);
+  }).catch(err => {
+    if (err.message.includes("admin_pkey")) {
+      res.status(400).send("Username is taken");
+    }
+    else {
+      res.status(400).send(err.message);
+    }
+  });
 });
 
 router.delete('/draw/:drawId', async (req, res) => {
