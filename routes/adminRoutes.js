@@ -291,7 +291,7 @@ router.delete('/deleteAdmin/:username', async (req, res) => {
 router.post('/:eventId/game', async (req, res) => {
   try {
     let game = req.body;
-    let { eventType, notes, bracketId, poolId,
+    let { eventType, notes, gameName, bracketId, poolId,
       drawId, curlingTeam1Id, curlingTeam2Id, stoneColor1,
       stoneColor2, destWinner, destLoser, iceSheet, finished, winnerId } = game;
 
