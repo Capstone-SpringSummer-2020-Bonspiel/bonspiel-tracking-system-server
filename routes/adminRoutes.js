@@ -107,7 +107,7 @@ router.put('/team/:teamId', async (req, res) => {
 router.post('/team/', async (req, res) => {
   try {
     let { name, orgId, note } = req.body;
-    Exceptions.throwIfNull({ name });
+    Exceptions.throwIfNull({ name, note });
     let success = await curlingEventService.createTeam(name, orgId, note);
     res.status(200).send(success);
   }
