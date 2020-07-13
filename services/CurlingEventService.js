@@ -568,8 +568,7 @@ class CurlingEventService {
 
   async addDraw(draw, eventId) {
     try {
-      let drawData = Object.values(draw);
-      drawData.unshift(eventId);
+      let drawData = [eventId, draw.name, draw.start, draw.videoUrl]
 
       const data = await this.#pool
         .query(Queries.INSERT_DRAW, drawData);
@@ -583,8 +582,10 @@ class CurlingEventService {
 
   async addEvent(event) {
     try {
+      const eventData = [event.name, event.beginDate, event.endDate,
+      event.completed, event.info, event.eventType];
       const data = await this.#pool
-        .query(Queries.INSERT_EVENT, Object.values(event));
+        .query(Queries.INSERT_EVENT, eventData);
       return data;
     }
     catch (error) {
