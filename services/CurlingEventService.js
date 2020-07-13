@@ -206,6 +206,160 @@ class CurlingEventService {
     }
   }
 
+  async updateEvent(eventId, event) {
+    try {
+      const values = [eventId, event.name, event.beginDate, event.endDate,
+        event.completed, event.info, event.eventType];
+      let data = await this.#pool
+        .query(Queries.UPDATE_EVENT, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async updateDraw(drawId, draw) {
+    try {
+      const values = [drawId, name, start, videoUrl];
+      let data = await this.#pool
+        .query(Queries.UPDATE_DRAW, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async updateGame(gameId, game) {
+    try {
+      const values = [gameId, game.notes, game.gameName, game.bracketId, game.poolId,
+        game.drawId, game.curlingTeam1Id, game.curlingTeam2Id,
+        game.stoneColor1, game.stoneColor2, game.destLoser, game.destWinner, game.iceSheet,
+        game.finished, game.winner];
+      let data = await this.#pool
+        .query(Queries.UPDATE_GAME, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async addBracket(eventId, bracket) {
+    try {
+      const values = [eventId, bracket.name];
+      let data = await this.#pool
+        .query(Queries.ADD_BRACKET, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async updateBracket(bracketId, bracket) {
+    try {
+      const values = [bracketId, bracket.name, bracket.eventId];
+      let data = await this.#pool
+        .query(Queries.UPDATE_BRACKET, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async addPool(eventId, pool) {
+    try {
+      const values = [eventId, pool.name];
+      let data = await this.#pool
+        .query(Queries.ADD_POOL, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async updatePool(poolId, pool) {
+    try {
+      const values = [poolId, pool.name, pool.eventId];
+      let data = await this.#pool
+        .query(Queries.UPDATE_POOL, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async addEnd(gameId, end) {
+    try {
+      const values = [gameId, end.endNumber, end.blank, end.curlingTeam1Scored, end.score];
+      let data = await this.#pool
+        .query(Queries.ADD_END, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async updateEnd(endId, end) {
+    try {
+      const values = [endId, end.blank, end.curlingTeam1Scored, end.score];
+      let data = await this.#pool
+        .query(Queries.UPDATE_END, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async addTeamToEvent(eventId, teamId) {
+    try {
+      const values = [eventId, teamId];
+      let data = await this.#pool
+        .query(Queries.ADD_TEAM_TO_EVENT, values);
+      if (data.rowCount == 0) {
+        throw Exceptions.invalidIdException();
+      }
+      return data;
+
+    } catch (error) {
+      throw error
+    }
+  }
+
   /*
    * Gets all curlers and sorts them into teams.
   */
