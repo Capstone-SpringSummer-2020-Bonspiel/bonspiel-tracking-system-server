@@ -107,7 +107,7 @@ router.put('/team/:teamId', async (req, res) => {
 router.post('/team/', async (req, res) => {
   try {
     let { name, orgId, note } = req.body;
-    Exceptions.throwIfNull({ name });
+    Exceptions.throwIfNull({ name, note });
     let success = await curlingEventService.createTeam(name, orgId, note);
     res.status(200).send(success);
   }
@@ -152,6 +152,151 @@ router.post('/curler/', async (req, res) => {
     res.status(200).send(success);
   }
   catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.put('/event/:eventId', async (req, res) => {
+  try {
+    let { name, beginDate, endDate, completed, info, eventType } = req.body;
+    let eventId = req.params.eventId;
+    let event = req.body;
+
+    Exceptions.throwIfNull({ name, beginDate, endDate, completed, info, eventType, eventId });
+    let success = await curlingEventService.updateEvent(eventId, event);
+    res.status(200).send(success);
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.put('/draw/:drawId', async (req, res) => {
+  try {
+    let { name, start, videoUrl } = req.body;
+    let drawId = req.params.drawId;
+    let draw = req.body;
+
+    Exceptions.throwIfNull({ name, start, drawId });
+    let success = await curlingEventService.updateDraw(drawId, draw);
+    res.status(200).send(success);
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.put('/game/:gameId', async (req, res) => {
+  try {
+    let { notes, gameName, bracketId, poolId, drawId, curlingTeam1Id, curlingTeam2Id,
+      stoneColor1, stoneColor2, destLoser, destWinner, iceSheet,
+      finished, winner } = req.body;
+    let gameId = req.params.gameId;
+    let game = req.body;
+
+    let success = await curlingEventService.updateGame(gameId, game);
+    res.status(200).send(success);
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.post('/:eventId/bracket/', async (req, res) => {
+  try {
+    let { name } = req.body;
+    let eventId = req.params.eventId;
+    let bracket = req.body;
+
+    Exceptions.throwIfNull({ name, eventId });
+    let success = await curlingEventService.addBracket(eventId, bracket);
+    res.status(200).send(success);
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.put('/bracket/:bracketId', async (req, res) => {
+  try {
+    let { eventId, name } = req.body;
+    let bracketId = req.params.bracketId;
+    let bracket = req.body;
+
+    Exceptions.throwIfNull({ eventId, name, bracketId });
+    let success = await curlingEventService.updateBracket(bracketId, bracket);
+    res.status(200).send(success);
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.post('/:eventId/pool/', async (req, res) => {
+  try {
+    let { name } = req.body;
+    let eventId = req.params.eventId;
+    let pool = req.body;
+
+    Exceptions.throwIfNull({ name, eventId });
+    let success = await curlingEventService.addPool(eventId, pool);
+    res.status(200).send(success);
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.put('/pool/:poolId', async (req, res) => {
+  try {
+    let { eventId, name } = req.body;
+    let poolId = req.params.poolId;
+    let pool = req.body;
+
+    Exceptions.throwIfNull({ eventId, name, poolId });
+    let success = await curlingEventService.updatePool(poolId, pool);
+    res.status(200).send(success);
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.post('/:gameId/end/', async (req, res) => {
+  try {
+    let { endNumber, blank, curlingTeam1Scored, score } = req.body;
+    let gameId = req.params.gameId;
+    let end = req.body;
+
+    Exceptions.throwIfNull({ endNumber, blank, curlingTeam1Scored, score, gameId });
+    let success = await curlingEventService.addEnd(gameId, end);
+    res.status(200).send(success);
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.put('/end/:endId', async (req, res) => {
+  try {
+    let { blank, curlingTeam1Scored, score } = req.body;
+    let endId = req.params.endId;
+    let end = req.body;
+
+    Exceptions.throwIfNull({ blank, curlingTeam1Scored, score, endId });
+    let success = await curlingEventService.updateEnd(endId, end);
+    res.status(200).send(success);
+
+  } catch (error) {
     console.error(error.message);
     res.status(400).send({ error, message: error.message });
   }
@@ -223,6 +368,21 @@ router.delete('/bracket/:bracketId', async (req, res) => {
     res.status(200).send(success);
   }
   catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.post('event/:eventId/team/:teamId', async (req, res) => {
+  try {
+    let eventId = req.params.eventId;
+    let teamId = req.params.teamId;
+
+    Exceptions.throwIfNull({ teamId, eventId });
+    let success = await curlingEventService.addTeamToEvent(eventId, teamId);
+    res.status(200).send(success);
+
+  } catch (error) {
     console.error(error.message);
     res.status(400).send({ error, message: error.message });
   }
@@ -303,7 +463,7 @@ router.post('/:eventId/game', async (req, res) => {
     let game = req.body;
     let { eventType, notes, gameName, bracketId, poolId,
       drawId, curlingTeam1Id, curlingTeam2Id, stoneColor1,
-      stoneColor2, destWinner, destLoser, iceSheet, finished, winnerId } = game;
+      stoneColor2, destWinner, destLoser, iceSheet, finished, winner } = game;
 
     let success = await curlingEventService.addGame(game);
     res.status(200).send(success);

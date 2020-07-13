@@ -99,6 +99,18 @@ WHERE event_type='friendly'
 AND curlingteam.id=$1;
 `;
 
+const GET_ALL_BRACKETS_FOR_EVENT = `
+SELECT *
+FROM bracket
+WHERE event_id=$1
+`;
+
+const GET_ALL_POOLS_FOR_EVENT = `
+SELECT *
+FROM pool
+WHERE event_id=$1
+`;
+
 const DELETE_DRAW = `
 DELETE FROM draw WHERE id=$1
 `;
@@ -224,7 +236,7 @@ WHERE username=$1;
 
 const INSERT_GAME = `
 INSERT INTO game(event_type, notes, game_name, bracket_id, pool_id, draw_id, curlingteam1_id, curlingteam2_id, stone_color1, stone_color2, winner_dest, loser_dest, ice_sheet, finished, winner)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14);
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15);
 `;
 
 const INSERT_DRAW = `
@@ -235,6 +247,62 @@ VALUES ($1, $2, $3, $4);
 const INSERT_EVENT = `
 INSERT INTO curlingevent(name, begin_date, end_date, completed, info, event_type)
 VALUES ($1, $2, $3, $4, $5, $6);
+`;
+
+const UPDATE_EVENT = `
+UPDATE curlingevent
+SET name=$2, begin_date=$3, end_date=$4, completed=$5, info=$6, event_type=$7)
+WHERE id=$1;
+`;
+
+const UPDATE_DRAW = `
+UPDATE draw
+SET name=$2, start=$3, video_url=$4
+WHERE id=$1;
+`;
+
+const UPDATE_GAME = `
+UPDATE game
+SET notes=$2, game_name=$3, bracket_id=$4, pool_id=$5, draw_id=$6, curlingteam1_id=$7, curlingteam2_id=$8, stone_color1=$9, stone_color2=$10, loser_dest=$11, winner_dest=$12, ice_sheet=$13, finished=$14, winner=$15
+WHERE id=$1;
+`;
+
+const ADD_BRACKET = `
+INSERT INTO bracket(event_id, name)
+VALUES ($1, $2);
+`;
+
+const UPDATE_BRACKET = `
+UPDATE bracket
+SET name=$2, event_id=$3
+WHERE id=$1;
+`;
+
+const ADD_POOL = `
+INSERT INTO pool(event_id, name)
+VALUES ($1, $2);
+`;
+
+const UPDATE_POOL = `
+UPDATE pool
+SET name=$2, event_id=$3
+WHERE id=$1;
+`;
+
+const ADD_END = `
+INSERT INTO endscore(game_id, end_number, blank, curlingteam1_scored, score)
+VALUES ($1, $2, $3, $4, $5);
+`;
+
+const UPDATE_END = `
+UPDATE endscore
+SET blank, curlingteam1_scored, score
+WHERE id=$1;
+`;
+
+const ADD_TEAM_TO_EVENT = `
+INSERT INTO eventteams(event_id, team_id)
+VALUES ($1, $2);
 `;
 
 module.exports = {
@@ -275,5 +343,15 @@ module.exports = {
   CREATE_ORGANIZATION,
   UPDATE_TEAM,
   UPDATE_CURLER,
-  UPDATE_ORGANIZATION
+  UPDATE_ORGANIZATION,
+  UPDATE_EVENT,
+  UPDATE_DRAW,
+  UPDATE_GAME,
+  ADD_BRACKET,
+  UPDATE_BRACKET,
+  ADD_POOL,
+  UPDATE_POOL,
+  ADD_END,
+  UPDATE_END,
+  ADD_TEAM_TO_EVENT
 };
