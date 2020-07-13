@@ -303,7 +303,7 @@ router.post('/:eventId/game', async (req, res) => {
     let game = req.body;
     let { eventType, notes, gameName, bracketId, poolId,
       drawId, curlingTeam1Id, curlingTeam2Id, stoneColor1,
-      stoneColor2, destWinner, destLoser, iceSheet, finished, winnerId } = game;
+      stoneColor2, destWinner, destLoser, iceSheet, finished, winner } = game;
 
     let success = await curlingEventService.addGame(game);
     res.status(200).send(success);

@@ -372,8 +372,8 @@ class CurlingEventService {
   async addGame(game) {
     try {
       let values = [game.eventType, game.notes, game.gameName, game.bracketId, game.poolId, game.drawId,
-      game.curlingteam1Id, game.curlingteam2Id, game.stoneColor1, game.stoneColor2,
-      game.winnerDest, game.loserDest, game.iceSheet, game.finished, game.winner]
+      game.curlingTeam1Id, game.curlingTeam2Id, game.stoneColor1, game.stoneColor2,
+      game.winnerDest, game.loserDest, game.iceSheet, game.finished, game.winner];
       const data = await this.#pool
         .query(Queries.INSERT_GAME, values);
       return data;
