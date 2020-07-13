@@ -99,6 +99,18 @@ WHERE event_type='friendly'
 AND curlingteam.id=$1;
 `;
 
+const GET_ALL_BRACKETS_FOR_EVENT = `
+SELECT *
+FROM bracket
+WHERE event_id=$1
+`;
+
+const GET_ALL_POOLS_FOR_EVENT = `
+SELECT *
+FROM pool
+WHERE event_id=$1
+`;
+
 const DELETE_DRAW = `
 DELETE FROM draw WHERE id=$1
 `;

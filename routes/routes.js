@@ -92,6 +92,29 @@ router.get('/teams/', async (req, res) => {
   }
 });
 
+router.get('/:eventId/brackets', async (req, res) => {
+  try {
+    let eventId = req.params.eventId;
+    let brackets = await curlingEventService.getBracketsForEvent(eventId);
+    res.status(200).send(brackets);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
+router.get('/:eventId/pools', async (req, res) => {
+  try {
+    let eventId = req.params.eventId;
+    let pools = await curlingEventService.getPoolsForEvent(eventId);
+    res.status(200).send(brackets);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
+
 router.get('/teams/:teamId', async (req, res) => {
   try {
     let team = await curlingEventService.getCurlingTeam(req.params.teamId);

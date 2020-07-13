@@ -510,6 +510,34 @@ class CurlingEventService {
     }
   }
 
+  async getBracketsForEvent(eventId) {
+    try {
+      const values = [eventId];
+      const data = await this.#pool
+        .query(Queries.GET_ALL_BRACKETS_FOR_EVENT, values);
+
+      return data.rows;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
+
+  async getPoolsForEvent(eventId) {
+    try {
+      const values = [eventId];
+      const data = await this.#pool
+        .query(Queries.GET_ALL_POOLS_FOR_EVENT, values);
+
+      return data.rows;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
+
   async getAllDraws(curlingEventId) {
     try {
       const values = [curlingEventId];
