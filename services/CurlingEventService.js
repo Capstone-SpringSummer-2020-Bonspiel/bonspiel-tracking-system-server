@@ -224,7 +224,7 @@ class CurlingEventService {
 
   async updateDraw(drawId, draw) {
     try {
-      const values = [drawId, name, start, videoUrl];
+      const values = [drawId, draw.name, draw.start, draw.videoUrl];
       let data = await this.#pool
         .query(Queries.UPDATE_DRAW, values);
       if (data.rowCount == 0) {
