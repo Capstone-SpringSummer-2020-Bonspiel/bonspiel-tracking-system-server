@@ -244,6 +244,29 @@ paths:
             application/json:
               schema:
                 type: object
+  /team:
+    post:
+      summary: 'Add a curling team'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: team
+      responses:
+        '200':
+          description: 'Success; return added row'
+          content:
+            application/json:
+              schema:
+                type: team
+        '400':
+          description: 'Bad request; return error message'
+          content:
+            application/json:
+              schema:
+                type: object
+               
 components:
   schemas:
     CurlingEvent:
