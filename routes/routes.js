@@ -107,7 +107,7 @@ router.get('/:eventId/pools', async (req, res) => {
   try {
     let eventId = req.params.eventId;
     let pools = await curlingEventService.getPoolsForEvent(eventId);
-    res.status(200).send(brackets);
+    res.status(200).send(pools);
   }
   catch (error) {
     res.status(404).send(error);
