@@ -524,6 +524,24 @@ class CurlingEventService {
     }
   }
 
+  async deleteEvent(eventId) {
+    try {
+      const values = [eventId];
+      const data = await this.#pool
+        .query(Queries.DELETE_EVENT, values);
+
+      if (data.rowCount == 0) {
+        Exceptions.invalidIdException();
+      }
+
+      return data;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
+
   async getPoolsForEvent(eventId) {
     try {
       const values = [eventId];

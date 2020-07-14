@@ -436,6 +436,21 @@ router.delete('/end/:endId', async (req, res) => {
   }
 });
 
+router.delete('/event/:eventId', async (req, res) => {
+
+  try {
+    const eventId = req.params.eventId;
+    Exceptions.throwIfNull({ eventId });
+
+    let success = await curlingEventService.deleteEvent(eventId);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
 router.put('/editAdmin', async (req, res) => {
   try {
     let { username, password, isSuperAdmin } = req.body;

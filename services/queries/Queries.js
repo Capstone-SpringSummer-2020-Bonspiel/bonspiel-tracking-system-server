@@ -305,6 +305,11 @@ INSERT INTO eventteams(event_id, team_id)
 VALUES ($1, $2);
 `;
 
+const DELETE_EVENT = `
+DELETE FROM curlingevent
+WHERE id=$1
+`;
+
 module.exports = {
   GET_ALL_CURLERS,
   GET_ALL_DRAWS_IN_CURLING_EVENT,
@@ -331,6 +336,7 @@ module.exports = {
   DELETE_GAME,
   DELETE_END,
   DELETE_ADMIN,
+  DELETE_EVENT,
   GET_ADMIN_DATA,
   CREATE_ADMIN,
   UPDATE_ADMIN_NO_PASSWORD,
