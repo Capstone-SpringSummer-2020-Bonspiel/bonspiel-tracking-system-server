@@ -270,6 +270,7 @@ router.put('/pool/:poolId', async (req, res) => {
   }
 });
 
+
 router.post('/:gameId/end/', async (req, res) => {
   try {
     let { endNumber, blank, curlingTeam1Scored, score } = req.body;
