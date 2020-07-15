@@ -296,7 +296,7 @@ VALUES ($1, $2, $3, $4, $5);
 
 const UPDATE_END = `
 UPDATE endscore
-SET blank, curlingteam1_scored, score
+SET blank=$2, curlingteam1_scored=$3, score=$4
 WHERE id=$1;
 `;
 
