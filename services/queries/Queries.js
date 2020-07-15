@@ -78,7 +78,7 @@ AND (curlingteam1_id=$2 OR curlingteam2_id=$2);
 `;
 
 const GET_ALL_ADMINS = `
-SELECT username, issuperadmin
+SELECT username, issuperadmin, active
 FROM admins
 `;
 
@@ -216,15 +216,20 @@ INSERT INTO admins(username, hash, salt, hashLength, issuperadmin)
 VALUES ($1, $2, $3, $4, $5);
 `;
 
+const REGISTER_USER = `
+INSERT INTO admins(username, hash, salt, hashLength, issuperadmin, active)
+VALUES ($1, $2, $3, $4, $5, $6);
+`;
+
 const UPDATE_ADMIN = `
 UPDATE admins
-SET hash=$2, salt=$3, hashLength=$4, issuperadmin=$5
+SET hash=$2, salt=$3, hashLength=$4, issuperadmin=$5, active=$6
 WHERE username=$1;
 `;
 
 const UPDATE_ADMIN_NO_PASSWORD = `
 UPDATE admins
-SET issuperadmin=$2
+SET issuperadmin=$2, active=$3
 WHERE username=$1;
 `;
 
@@ -341,6 +346,7 @@ module.exports = {
   DELETE_EVENT,
   GET_ADMIN_DATA,
   CREATE_ADMIN,
+  REGISTER_USER,
   UPDATE_ADMIN_NO_PASSWORD,
   UPDATE_ADMIN,
   INSERT_GAME,

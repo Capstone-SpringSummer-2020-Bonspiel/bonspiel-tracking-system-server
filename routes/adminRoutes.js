@@ -27,6 +27,21 @@ router.post('/signIn', async (req, res) => {
   }
 });
 
+router.post('/register', (req, res) => {
+  let { username, password } = req.body;
+  const result = authService.registerUser(username, password);
+  result.then((account) => {
+    res.status(200).send(account);
+  }).catch(err => {
+    if (err.message.includes("admin_pkey")) {
+      res.status(400).send("Username is taken");
+    }
+    else {
+      res.status(400).send(err.message);
+    }
+  });
+});
+
 if (config.useAuth) {
   router.use(authService.authorize);
 }
@@ -454,8 +469,8 @@ router.delete('/event/:eventId', async (req, res) => {
 
 router.put('/editAdmin', async (req, res) => {
   try {
-    let { username, password, isSuperAdmin } = req.body;
-    const result = await authService.editAdmin(username, password, isSuperAdmin);
+    let { username, password, isSuperAdmin, active } = req.body;
+    const result = await authService.editAdmin(username, password, isSuperAdmin, active);
     res.status(200).send(result);
   } catch (error) {
     console.log('/editAdmin', error.message);
