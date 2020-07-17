@@ -10,7 +10,7 @@ class BatchLoad {
   async createTeam(req, res) {
     try {
       let { name, orgId, note } = req.body;
-      let pgClient = req.client;
+      let pgClient = req.pgClient;
       Exceptions.throwIfNull({ name, note });
       let success = await curlingEventService.createTeam(name, orgId, note, pgClient);
 
@@ -34,8 +34,8 @@ class BatchLoad {
   async createCurler(req, res) {
     try {
       let { name, position, affiliation, curlingTeamId } = req.body;
-      let pgClient = req.client;
-      console.log("Client:", pgClient)
+      let pgClient = req.pgClient;
+      console.log("Client:", pgClient);
       Exceptions.throwIfNull({ name, position, affiliation, curlingTeamId });
       let success = await curlingEventService.createCurler(name, position, affiliation, curlingTeamId, pgClient);
       if (res) {
@@ -60,7 +60,7 @@ class BatchLoad {
       let { name } = req.body;
       let eventId = req.params.eventId;
       let bracket = req.body;
-      let pgClient = req.client;
+      let pgClient = req.pgClient;
 
       Exceptions.throwIfNull({ name, eventId });
       let success = await curlingEventService.addBracket(eventId, bracket, pgClient);
@@ -86,7 +86,7 @@ class BatchLoad {
       let { name } = req.body;
       let eventId = req.params.eventId;
       let pool = req.body;
-      let pgClient = req.client;
+      let pgClient = req.pgClient;
 
       Exceptions.throwIfNull({ name, eventId });
       let success = await curlingEventService.addPool(eventId, pool, pgClient);
@@ -112,7 +112,7 @@ class BatchLoad {
       let { endNumber, blank, curlingTeam1Scored, score } = req.body;
       let gameId = req.params.gameId;
       let end = req.body;
-      let pgClient = req.client;
+      let pgClient = req.pgClient;
 
       Exceptions.throwIfNull({ endNumber, blank, curlingTeam1Scored, score, gameId });
       let success = await curlingEventService.addEnd(gameId, end, pgClient);
@@ -136,7 +136,7 @@ class BatchLoad {
   async createOrg(req, res) {
     try {
       const { shortName, fullName } = req.body;
-      let pgClient = req.client;
+      let pgClient = req.pgClient;
       Exceptions.throwIfNull({ shortName, fullName });
       let success = await curlingEventService.createOrganization(shortName, fullName, pgClient);
       if (res) {
@@ -160,7 +160,7 @@ class BatchLoad {
     try {
       let eventId = req.params.eventId;
       let teamId = req.params.teamId;
-      let pgClient = req.client;
+      let pgClient = req.pgClient;
 
       Exceptions.throwIfNull({ teamId, eventId });
       let success = await curlingEventService.addTeamToEvent(eventId, teamId, pgClient);
@@ -184,7 +184,7 @@ class BatchLoad {
   async createGame(req, res) {
     try {
       let game = req.body;
-      let pgClient = req.client;
+      let pgClient = req.pgClient;
       let { eventType, notes, gameName, bracketId, poolId,
         drawId, curlingTeam1Id, curlingTeam2Id, stoneColor1,
         stoneColor2, destWinner, destLoser, iceSheet, finished, winner } = game;
@@ -210,7 +210,7 @@ class BatchLoad {
   async createDraw(req, res) {
     try {
       let eventId = req.params.eventId;
-      let draw = req.body;
+      let draw = req.pgClient;
       let { name, start, videoUrl } = draw;
       let pgClient = req.client;
 
@@ -237,7 +237,7 @@ class BatchLoad {
       let eventId = req.params.eventId;
       let event = req.body;
       let { name, beginDate, endDate, completed, info, eventType } = event;
-      let pgClient = req.client;
+      let pgClient = req.pgClient;
 
       let success = await curlingEventService.addEvent(event, pgClient);
       if (res) {
