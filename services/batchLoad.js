@@ -35,7 +35,6 @@ class BatchLoad {
     try {
       let { name, position, affiliation, curlingTeamId } = req.body;
       let pgClient = req.pgClient;
-      console.log("Client:", pgClient);
       Exceptions.throwIfNull({ name, position, affiliation, curlingTeamId });
       let success = await curlingEventService.createCurler(name, position, affiliation, curlingTeamId, pgClient);
       if (res) {
