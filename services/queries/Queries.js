@@ -274,7 +274,7 @@ WHERE id=$1;
 
 const ADD_BRACKET = `
 INSERT INTO bracket(event_id, name)
-VALUES ($1, $2);
+VALUES ($1, $2) RETURNING id;
 `;
 
 const UPDATE_BRACKET = `
