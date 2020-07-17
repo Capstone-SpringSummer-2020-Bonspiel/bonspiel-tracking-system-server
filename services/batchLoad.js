@@ -106,7 +106,7 @@ class BatchLoad {
     }
   }
 
-  async createBracket(req, res) {
+  async createEnd(req, res) {
     try {
       let { endNumber, blank, curlingTeam1Scored, score } = req.body;
       let gameId = req.params.gameId;

@@ -617,7 +617,7 @@ class CurlingEventService {
     try {
       const data = await pgClient
         .query(Queries.CREATE_TEAM, values);
-      return data.rows;
+      return data;
     }
     catch (err) {
       if (err.message.includes('affiliation')) {
@@ -653,7 +653,7 @@ class CurlingEventService {
     try {
       const data = await pgClient
         .query(Queries.CREATE_CURLER, values);
-      return data.rows;
+      return data;
     }
     catch (err) {
       if (err.message.includes("valid_position_types")) {
@@ -689,7 +689,7 @@ class CurlingEventService {
     try {
       const data = await pgClient
         .query(Queries.CREATE_ORGANIZATION, values);
-      return data.rows;
+      return data;
     }
     catch (err) {
       throw Exceptions.insertionException(err.message);
