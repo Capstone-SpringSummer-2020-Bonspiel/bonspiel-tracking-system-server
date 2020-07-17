@@ -6,6 +6,8 @@ const authService = new AuthService(curlingEventService.getPool());
 const Exception = require('../services/Exceptions');
 const config = require('config');
 const Exceptions = new Exception();
+const BatchLoad = require('../services/batchLoad');
+const batchLoad = new BatchLoad();
 
 router.post('/signIn', async (req, res) => {
   const { username, password } = req.body;
@@ -119,18 +121,7 @@ router.put('/team/:teamId', async (req, res) => {
   }
 });
 
-router.post('/team/', async (req, res) => {
-  try {
-    let { name, orgId, note } = req.body;
-    Exceptions.throwIfNull({ name, note });
-    let success = await curlingEventService.createTeam(name, orgId, note);
-    res.status(200).send(success);
-  }
-  catch (error) {
-    console.error(error.message);
-    res.status(400).send({ error, message: error.message });
-  }
-});
+router.post('/team/', batchLoad.createTeam(req, res));
 
 router.delete('/curler/:curlerId', async (req, res) => {
   try {
