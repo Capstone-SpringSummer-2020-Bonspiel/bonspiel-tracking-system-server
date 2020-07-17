@@ -401,50 +401,10 @@ router.delete('/deleteAdmin/:username', async (req, res) => {
   }
 })
 
-router.post('/:eventId/game', async (req, res) => {
-  try {
-    let game = req.body;
-    let { eventType, notes, gameName, bracketId, poolId,
-      drawId, curlingTeam1Id, curlingTeam2Id, stoneColor1,
-      stoneColor2, destWinner, destLoser, iceSheet, finished, winner } = game;
+router.post('/:eventId/game', async (req, res) => batchLoad.createGame(req, res));
 
-    let success = await curlingEventService.addGame(game);
-    res.status(200).send(success);
-  }
-  catch (error) {
-    console.error(error.message);
-    res.status(400).send({ error, message: error.message });
-  }
-});
+router.post('/:eventId/draw', async (req, res) => batchLoad.createDraw(req, res));
 
-router.post('/:eventId/draw', async (req, res) => {
-  try {
-    let eventId = req.params.eventId;
-    let draw = req.body;
-    let { name, start, videoUrl } = draw;
-
-    let success = await curlingEventService.addDraw(draw, eventId);
-    res.status(200).send(success);
-  }
-  catch (error) {
-    console.error(error.message);
-    res.status(400).send({ error, message: error.message });
-  }
-});
-
-router.post('/event', async (req, res) => {
-  try {
-    let eventId = req.params.eventId;
-    let event = req.body;
-    let { name, beginDate, endDate, completed, info, eventType } = event;
-
-    let success = await curlingEventService.addEvent(event);
-    res.status(200).send(success);
-  }
-  catch (error) {
-    console.error(error.message);
-    res.status(400).send({ error, message: error.message });
-  }
-});
+router.post('/event', async (req, res) => batchLoad.createEvent(req, res));
 
 module.exports = router;

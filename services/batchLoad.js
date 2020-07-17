@@ -10,26 +10,47 @@ class BatchLoad {
   async createTeam(req, res) {
     try {
       let { name, orgId, note } = req.body;
+      let pgClient = req.client;
       Exceptions.throwIfNull({ name, note });
-      let success = await curlingEventService.createTeam(name, orgId, note);
-      res.status(200).send(success);
+      let success = await curlingEventService.createTeam(name, orgId, note, pgClient);
+
+      if (res) {
+        res.status(200).send(success);
+      } else {
+        return success;
+      }
     }
     catch (error) {
       console.error(error.message);
-      res.status(400).send({ error, message: error.message });
+      let fullError = { error, message: error.message }
+      if (res) {
+        res.status(400).send(fullError);
+      } else {
+        throw fullError;
+      }
     }
   }
 
   async createCurler(req, res) {
     try {
       let { name, position, affiliation, curlingTeamId } = req.body;
+      let pgClient = req.client;
       Exceptions.throwIfNull({ name, position, affiliation, curlingTeamId });
-      let success = await curlingEventService.createCurler(name, position, affiliation, curlingTeamId);
-      res.status(200).send(success);
+      let success = await curlingEventService.createCurler(name, position, affiliation, curlingTeamId, pgClient);
+      if (res) {
+        res.status(200).send(success);
+      } else {
+        return success;
+      }
     }
     catch (error) {
       console.error(error.message);
-      res.status(400).send({ error, message: error.message });
+      let fullError = { error, message: error.message }
+      if (res) {
+        res.status(400).send(fullError);
+      } else {
+        throw fullError;
+      }
     }
   }
 
@@ -38,14 +59,24 @@ class BatchLoad {
       let { name } = req.body;
       let eventId = req.params.eventId;
       let bracket = req.body;
+      let pgClient = req.client;
 
       Exceptions.throwIfNull({ name, eventId });
-      let success = await curlingEventService.addBracket(eventId, bracket);
-      res.status(200).send(success);
+      let success = await curlingEventService.addBracket(eventId, bracket, pgClient);
+      if (res) {
+        res.status(200).send(success);
+      } else {
+        return success;
+      }
 
     } catch (error) {
       console.error(error.message);
-      res.status(400).send({ error, message: error.message });
+      let fullError = { error, message: error.message }
+      if (res) {
+        res.status(400).send(fullError);
+      } else {
+        throw fullError;
+      }
     }
   }
 
@@ -54,14 +85,24 @@ class BatchLoad {
       let { name } = req.body;
       let eventId = req.params.eventId;
       let pool = req.body;
+      let pgClient = req.client;
 
       Exceptions.throwIfNull({ name, eventId });
-      let success = await curlingEventService.addPool(eventId, pool);
-      res.status(200).send(success);
+      let success = await curlingEventService.addPool(eventId, pool, pgClient);
+      if (res) {
+        res.status(200).send(success);
+      } else {
+        return success;
+      }
 
     } catch (error) {
       console.error(error.message);
-      res.status(400).send({ error, message: error.message });
+      let fullError = { error, message: error.message }
+      if (res) {
+        res.status(400).send(fullError);
+      } else {
+        throw fullError;
+      }
     }
   }
 
@@ -70,27 +111,47 @@ class BatchLoad {
       let { endNumber, blank, curlingTeam1Scored, score } = req.body;
       let gameId = req.params.gameId;
       let end = req.body;
+      let pgClient = req.client;
 
       Exceptions.throwIfNull({ endNumber, blank, curlingTeam1Scored, score, gameId });
-      let success = await curlingEventService.addEnd(gameId, end);
-      res.status(200).send(success);
+      let success = await curlingEventService.addEnd(gameId, end, pgClient);
+      if (res) {
+        res.status(200).send(success);
+      } else {
+        return success;
+      }
 
     } catch (error) {
       console.error(error.message);
-      res.status(400).send({ error, message: error.message });
+      let fullError = { error, message: error.message }
+      if (res) {
+        res.status(400).send(fullError);
+      } else {
+        throw fullError;
+      }
     }
   }
 
   async createOrg(req, res) {
     try {
       const { shortName, fullName } = req.body;
+      let pgClient = req.client;
       Exceptions.throwIfNull({ shortName, fullName });
-      let success = await curlingEventService.createOrganization(shortName, fullName);
-      res.status(200).send(success);
+      let success = await curlingEventService.createOrganization(shortName, fullName, pgClient);
+      if (res) {
+        res.status(200).send(success);
+      } else {
+        return success;
+      }
     }
     catch (error) {
       console.error(error.message);
-      res.status(400).send({ error, message: error.message });
+      let fullError = { error, message: error.message }
+      if (res) {
+        res.status(400).send(fullError);
+      } else {
+        throw fullError;
+      }
     }
   }
 
@@ -98,14 +159,100 @@ class BatchLoad {
     try {
       let eventId = req.params.eventId;
       let teamId = req.params.teamId;
+      let pgClient = req.client;
 
       Exceptions.throwIfNull({ teamId, eventId });
-      let success = await curlingEventService.addTeamToEvent(eventId, teamId);
-      res.status(200).send(success);
+      let success = await curlingEventService.addTeamToEvent(eventId, teamId, pgClient);
+      if (res) {
+        res.status(200).send(success);
+      } else {
+        return success;
+      }
 
     } catch (error) {
       console.error(error.message);
-      res.status(400).send({ error, message: error.message });
+      let fullError = { error, message: error.message }
+      if (res) {
+        res.status(400).send(fullError);
+      } else {
+        throw fullError;
+      }
+    }
+  }
+
+  async createGame(req, res) {
+    try {
+      let game = req.body;
+      let pgClient = req.client;
+      let { eventType, notes, gameName, bracketId, poolId,
+        drawId, curlingTeam1Id, curlingTeam2Id, stoneColor1,
+        stoneColor2, destWinner, destLoser, iceSheet, finished, winner } = game;
+
+      let success = await curlingEventService.addGame(game, pgClient);
+      if (res) {
+        res.status(200).send(success);
+      } else {
+        return success;
+      }
+    }
+    catch (error) {
+      console.error(error.message);
+      let fullError = { error, message: error.message }
+      if (res) {
+        res.status(400).send(fullError);
+      } else {
+        throw fullError;
+      }
+    }
+  }
+
+  async createDraw(req, res) {
+    try {
+      let eventId = req.params.eventId;
+      let draw = req.body;
+      let { name, start, videoUrl } = draw;
+      let pgClient = req.client;
+
+      let success = await curlingEventService.addDraw(draw, eventId, pgClient);
+      if (res) {
+        res.status(200).send(success);
+      } else {
+        return success;
+      }
+    }
+    catch (error) {
+      console.error(error.message);
+      let fullError = { error, message: error.message }
+      if (res) {
+        res.status(400).send(fullError);
+      } else {
+        throw fullError;
+      }
+    }
+  }
+
+  async createEvent(req, res) {
+    try {
+      let eventId = req.params.eventId;
+      let event = req.body;
+      let { name, beginDate, endDate, completed, info, eventType } = event;
+      let pgClient = req.client;
+
+      let success = await curlingEventService.addEvent(event, pgClient);
+      if (res) {
+        res.status(200).send(success);
+      } else {
+        return success;
+      }
+    }
+    catch (error) {
+      console.error(error.message);
+      let fullError = { error, message: error.message }
+      if (res) {
+        res.status(400).send(fullError);
+      } else {
+        throw fullError;
+      }
     }
   }
 
