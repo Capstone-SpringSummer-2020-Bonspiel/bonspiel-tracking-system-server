@@ -123,6 +123,8 @@ router.put('/team/:teamId', async (req, res) => {
 
 router.post('/team/', async (req, res) => batchLoad.createTeam(req, res));
 
+router.post('/batchUpload', async (req, res) => batchLoad.uploadSpreadsheet(req, res))
+
 router.delete('/curler/:curlerId', async (req, res) => {
   try {
     const curlerId = req.params.curlerId;

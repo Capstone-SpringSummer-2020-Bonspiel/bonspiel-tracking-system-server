@@ -4,6 +4,9 @@ const authService = new AuthService(curlingEventService.getPool());
 const Exception = require('../services/Exceptions');
 const config = require('config');
 const Exceptions = new Exception();
+const multer = require('multer');
+var xlstojson = require("xls-to-json-lc");
+var xlsxtojson = require("xlsx-to-json-lc");
 
 class BatchLoad {
 
@@ -256,6 +259,72 @@ class BatchLoad {
     }
   }
 
+  async uploadSpreadsheet(req, res) {
+    try {
+      let result = await this.parseToJson(req, res);
+      console.log('Spreadsheet result', result);
+      res.status(200).send(result);
+    } catch (error) {
+      console.error(error.message);
+      let fullError = { error, message: error.message }
+      if (res) {
+        res.status(400).send(fullError);
+      } else {
+        throw fullError;
+      }
+    }
+
+  }
+
+  async parseToJson(req, res) {
+    let storage = multer.diskStorage({
+      destination: function (req, file, cb) {
+        cb(null, './uploads/')
+      },
+      filename: function (req, file, cb) {
+        cb(null, file.fieldname + file.originalname.split('.')[file.originalname.split('.').length - 1])
+      }
+    });
+    let upload = multer({
+      storage: storage,
+      fileFilter: function (req, file, callback) {
+        if (['xls', 'xlsx'].indexOf(file.originalname.split('.')[file.originalname.split('.').length - 1]) === -1) {
+          return callback(new Error('Wrong extension type'));
+        }
+        callback(null, true);
+      }
+    }).single('file');
+
+    let exceltojson;
+
+    return upload(req, res, function (error) {
+      if (error) {
+        throw error
+      }
+
+      if (!req.file) {
+        throw new Error('no file passed')
+      }
+
+      if (req.file.originalname.split('.')[req.file.originalname.split('.').length - 1] === 'xlsx') {
+        exceltojson = xlsxtojson;
+      } else {
+        exceltojson = xlstojson;
+      }
+
+      return exceltojson({
+        input: req.file.path,
+        output: null,
+        lowerCaseHeaders: true
+      }, function (error, result) {
+        if (error) {
+          error.message = "Corrupted Excel File" + error.message;
+          throw error;
+        }
+        return result;
+      });
+    })
+  }
 }
 
 module.exports = BatchLoad;
