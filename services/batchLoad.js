@@ -283,7 +283,7 @@ class BatchLoad {
         cb(null, './uploads/')
       },
       filename: function (req, file, cb) {
-        cb(null, file.fieldname + file.originalname.split('.')[file.originalname.split('.').length - 1])
+        cb(null, file.fieldname + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1])
       }
     });
     let upload = multer({
