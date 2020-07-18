@@ -299,7 +299,7 @@ class BatchLoad {
 
     console.log('reached parseToJson')
 
-    return upload(req, res, async function (error) {
+    upload(req, res, async function (error) {
       if (error) {
         throw error
       }
@@ -316,7 +316,7 @@ class BatchLoad {
         exceltojson = xlstojson;
       }
 
-      return exceltojson({
+      exceltojson({
         input: req.file.path,
         output: null,
         lowerCaseHeaders: true
