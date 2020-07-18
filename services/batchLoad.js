@@ -321,14 +321,20 @@ class BatchLoad {
       throw error;
     }
 
-    let json;
+    let sheets = ["organization", "team", "draw",
+      "game", "teaminevent", "bracket", "pool", "curler", "event", "end"];
+
+    let json = {};
     try {
-      exceltojson = util.promisify(exceltojson);
-      json = await exceltojson({
-        input: req.file.path,
-        output: null,
-        lowerCaseHeaders: true
-      });
+      sheets.map(sheet => {
+        exceltojson = util.promisify(exceltojson);
+        json[sheet] = await exceltojson({
+          input: req.file.path,
+          output: null,
+          lowerCaseHeaders: true,
+          sheet
+        });
+      })
     } catch (error) {
       error.message = "Corrupted Excel File " + error.message;
       throw error;
