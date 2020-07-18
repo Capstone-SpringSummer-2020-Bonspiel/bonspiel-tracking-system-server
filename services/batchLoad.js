@@ -328,7 +328,7 @@ class BatchLoad {
         json[sheet] = await exceltojson({
           input: req.file.path,
           output: null,
-          lowerCaseHeaders: true,
+          lowerCaseHeaders: false,
           sheet
         });
       })
