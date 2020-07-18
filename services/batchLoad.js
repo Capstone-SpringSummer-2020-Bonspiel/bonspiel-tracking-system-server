@@ -321,6 +321,7 @@ class BatchLoad {
       throw error;
     }
 
+    let json;
     try {
       exceltojson = util.promisify(exceltojson);
       json = await exceltojson({
@@ -329,7 +330,7 @@ class BatchLoad {
         lowerCaseHeaders: true
       });
     } catch (error) {
-      error.message = "Corrupted Excel File" + error.message;
+      error.message = "Corrupted Excel File " + error.message;
       throw error;
     }
 
@@ -337,7 +338,7 @@ class BatchLoad {
       const unlinkAsync = util.promisify(fs.unlink);
       await unlinkAsync(req.file.path)
     } catch {
-      error.message = "Error deleting file" + error.message;
+      error.message = "Error deleting file " + error.message;
       throw error;
     }
 
