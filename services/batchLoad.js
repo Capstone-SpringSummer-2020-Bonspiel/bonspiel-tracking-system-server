@@ -194,6 +194,16 @@ class BatchLoad {
         drawId, curlingTeam1Id, curlingTeam2Id, stoneColor1,
         stoneColor2, destWinner, destLoser, iceSheet, finished, winner } = game;
 
+      let nullCheck;
+      if (!bracketId && !poolId) {
+        throw new Error('One of bracketId or poolId must be provided')
+      }
+
+      Exceptions.throwIfNull({
+        eventType, gameName, drawId, stoneColor1,
+        stoneColor2, iceSheet, finished, winner
+      })
+
       let success = await curlingEventService.addGame(game, pgClient);
       if (res) {
         res.status(200).send(success);
