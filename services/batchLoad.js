@@ -343,6 +343,9 @@ class BatchLoad {
           lowerCaseHeaders: false,
           sheet
         });
+        json[sheet].map(row => {
+          Object.keys(row).forEach(k => row[k] = row[k] === '' ? null : row[k])
+        })
       })
     } catch (error) {
       error.message = "Corrupted Excel File " + error.message;
