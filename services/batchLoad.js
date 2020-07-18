@@ -7,6 +7,7 @@ const Exceptions = new Exception();
 const multer = require('multer');
 var xlstojson = require("xls-to-json-lc");
 var xlsxtojson = require("xlsx-to-json-lc");
+const util = require('util')
 
 class BatchLoad {
 
@@ -295,17 +296,15 @@ class BatchLoad {
       }
     }).single('file');
 
-    let exceltojson;
-
     console.log('reached parseToJson')
 
-    upload(req, res, async function (error) {
-      if (error) {
-        throw error
-      }
+    try {
+      let exceltojson;
+      upload = util.promisify(upload.any());
+      await upload(req, res);
 
       if (!req.file) {
-        throw new Error('no file passed')
+        throw new Error('no file passed');
       }
 
       if (req.file.originalname.split('.')[req.file.originalname.split('.').length - 1] === 'xlsx') {
@@ -315,20 +314,24 @@ class BatchLoad {
         console.log('reached parsing xls')
         exceltojson = xlstojson;
       }
+    } catch (error) {
+      console.log('Error uploading', error);
+      throw error;
+    }
 
-      exceltojson({
+    try {
+      exceltojson = util.promisify(exceltojson.any());
+      const result = await exceltojson({
         input: req.file.path,
         output: null,
         lowerCaseHeaders: true
-      }, async function (error, result) {
-        if (error) {
-          error.message = "Corrupted Excel File" + error.message;
-          throw error;
-        }
-        console.log('reached result', result)
-        return result;
       });
-    })
+      return result;
+    } catch (error) {
+      error.message = "Corrupted Excel File" + error.message;
+      throw error;
+    }
+
   }
 }
 
