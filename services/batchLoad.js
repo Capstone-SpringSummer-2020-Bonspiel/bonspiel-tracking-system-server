@@ -8,6 +8,8 @@ const multer = require('multer');
 var xlstojson = require("xls-to-json-lc");
 var xlsxtojson = require("xlsx-to-json-lc");
 const util = require('util')
+const fs = require('fs');
+const { json } = require('express');
 
 class BatchLoad {
 
@@ -321,16 +323,25 @@ class BatchLoad {
 
     try {
       exceltojson = util.promisify(exceltojson);
-      const result = await exceltojson({
+      json = await exceltojson({
         input: req.file.path,
         output: null,
         lowerCaseHeaders: true
       });
-      return result;
     } catch (error) {
       error.message = "Corrupted Excel File" + error.message;
       throw error;
     }
+
+    try {
+      const unlinkAsync = util.promisify(fs.unlink);
+      await unlinkAsync(req.file.path)
+    } catch {
+      error.message = "Error deleting file" + error.message;
+      throw error;
+    }
+
+    return json;
 
   }
 }
