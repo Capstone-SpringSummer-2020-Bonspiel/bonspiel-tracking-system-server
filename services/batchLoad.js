@@ -324,7 +324,7 @@ class BatchLoad {
     let json = {};
     try {
       exceltojson = util.promisify(exceltojson);
-      sheets.map(sheet => {
+      sheets.map(async sheet => {
         json[sheet] = await exceltojson({
           input: req.file.path,
           output: null,
