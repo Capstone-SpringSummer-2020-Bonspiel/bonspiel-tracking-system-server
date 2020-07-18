@@ -297,9 +297,9 @@ class BatchLoad {
     }).single('file');
 
     console.log('reached parseToJson')
+    let exceltojson;
 
     try {
-      let exceltojson;
       upload = util.promisify(upload);
       await upload(req, res);
 
