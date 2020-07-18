@@ -219,6 +219,8 @@ class BatchLoad {
       let { name, start, videoUrl } = draw;
       let pgClient = req.client;
 
+      Exceptions.throwIfNull({ name, start, eventId });
+
       let success = await curlingEventService.addDraw(draw, eventId, pgClient);
       if (res) {
         res.status(200).send(success);
@@ -239,11 +241,11 @@ class BatchLoad {
 
   async createEvent(req, res) {
     try {
-      let eventId = req.params.eventId;
       let event = req.body;
       let { name, beginDate, endDate, completed, info, eventType } = event;
       let pgClient = req.pgClient;
 
+      Exceptions.throwIfNull({ name, beginDate, endDate, completed, info, eventType });
       let success = await curlingEventService.addEvent(event, pgClient);
       if (res) {
         res.status(200).send(success);
