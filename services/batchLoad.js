@@ -298,7 +298,6 @@ class BatchLoad {
       }
     }).single('file');
 
-    console.log('reached parseToJson')
     let exceltojson;
 
     try {
@@ -310,10 +309,8 @@ class BatchLoad {
       }
 
       if (req.file.originalname.split('.')[req.file.originalname.split('.').length - 1] === 'xlsx') {
-        console.log('reached parsing xlsx')
         exceltojson = xlsxtojson;
       } else {
-        console.log('reached parsing xls')
         exceltojson = xlstojson;
       }
     } catch (error) {
