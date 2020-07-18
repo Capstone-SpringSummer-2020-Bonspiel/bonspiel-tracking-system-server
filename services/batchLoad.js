@@ -297,7 +297,9 @@ class BatchLoad {
 
     let exceltojson;
 
-    return upload(req, res, function (error) {
+    console.log('reached parseToJson')
+
+    return upload(req, res, async function (error) {
       if (error) {
         throw error
       }
@@ -307,8 +309,10 @@ class BatchLoad {
       }
 
       if (req.file.originalname.split('.')[req.file.originalname.split('.').length - 1] === 'xlsx') {
+        console.log('reached parsing xlsx')
         exceltojson = xlsxtojson;
       } else {
+        console.log('reached parsing xls')
         exceltojson = xlstojson;
       }
 
@@ -316,11 +320,12 @@ class BatchLoad {
         input: req.file.path,
         output: null,
         lowerCaseHeaders: true
-      }, function (error, result) {
+      }, async function (error, result) {
         if (error) {
           error.message = "Corrupted Excel File" + error.message;
           throw error;
         }
+        console.log('reached result', result)
         return result;
       });
     })
