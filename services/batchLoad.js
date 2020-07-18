@@ -300,7 +300,7 @@ class BatchLoad {
 
     try {
       let exceltojson;
-      upload = util.promisify(upload.any());
+      upload = util.promisify(upload);
       await upload(req, res);
 
       if (!req.file) {
@@ -320,7 +320,7 @@ class BatchLoad {
     }
 
     try {
-      exceltojson = util.promisify(exceltojson.any());
+      exceltojson = util.promisify(exceltojson);
       const result = await exceltojson({
         input: req.file.path,
         output: null,
