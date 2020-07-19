@@ -45,7 +45,7 @@ class BatchLoad {
           let sheetRows = json[sheetName];
           sheetRows.forEach(async row => {
             let req = {};
-            await updateDbRow(sheetName, row, idToDb);
+            await this.updateDbRow(sheetName, row, idToDb);
             req.body = row;
             req.pgClient = pgClient;
             let dbId = await this.#sheetsToFunc[sheetName](req)
