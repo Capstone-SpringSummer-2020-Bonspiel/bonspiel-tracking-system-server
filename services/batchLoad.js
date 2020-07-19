@@ -33,25 +33,27 @@ class BatchLoad {
 
   async uploadSpreadsheet(req, res) {
     try {
-      let result = await this.parseToJson(req, res);
+      let json = await this.parseToJson(req, res);
       console.log('Spreadsheet result', result);
       /*
-      const pgClient = await this.#pool.connect();
+const pgClient = await this.#pool.connect();
 
-      try {
-        await client.query('BEGIN')
-        this.#sheetsInOrder.forEach(sheetName => {
-          let
-        })
-      } catch (error) {
-        await pgClient.query('ROLLBACK')
-        throw error
-      } finally {
-        pgClient.release()
-      }
-      */
+try {
+  await client.query('BEGIN')
+  this.#sheetsInOrder.forEach(sheetName => {
+    let sheetRows = json[sheetName];
+    sheetRows.forEach(row => {
 
-      res.status(200).send(result);
+    })
+  })
+} catch (error) {
+  await pgClient.query('ROLLBACK')
+  throw error
+} finally {
+  pgClient.release()
+}
+*/
+      res.status(200).send(json);
     } catch (error) {
       console.error(error.message);
       let fullError = { error, message: error.message }
@@ -315,7 +317,6 @@ class BatchLoad {
         drawId, curlingTeam1Id, curlingTeam2Id, stoneColor1,
         stoneColor2, destWinner, destLoser, iceSheet, finished, winner } = game;
 
-      let nullCheck;
       if (!bracketId && !poolId) {
         throw new Error('One of bracketId or poolId must be provided')
       }
@@ -346,9 +347,9 @@ class BatchLoad {
   async createDraw(req, res) {
     try {
       let eventId = req.params.eventId;
-      let draw = req.pgClient;
+      let draw = req.body;
       let { name, start, videoUrl } = draw;
-      let pgClient = req.client;
+      let pgClient = req.pgClient;
 
       Exceptions.throwIfNull({ name, start, eventId });
 
