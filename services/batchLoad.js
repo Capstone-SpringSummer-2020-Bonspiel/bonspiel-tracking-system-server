@@ -52,13 +52,12 @@ class BatchLoad {
             let dbRes = await this.#sheetsToFunc[sheetName](req)
             if (row.id) {
               idToDb[sheetName][row.id] = dbRes.rows[0].id
-              console.log('found row.id, updating map: ', idToDb)
             }
           }
         }
         await pgClient.query('COMMIT')
       } catch (error) {
-        await pgClient.query('ROLLBACK')
+        //await pgClient.query('ROLLBACK')
         throw error
       } finally {
         pgClient.release()
@@ -74,7 +73,6 @@ class BatchLoad {
         throw fullError;
       }
     }
-
   }
 
   async parseToJson(req, res) {
@@ -151,7 +149,6 @@ class BatchLoad {
     if (sheetName == 'team') {
       if (row.orgId) {
         row.orgId = idToDb['organization'][row.orgId]
-        console.log('reached updateDbRow, row.orgId: ', idToDb['organization'][row.orgId])
       }
     } else if (sheetName == 'curler') {
       if (row.affiliation) {
