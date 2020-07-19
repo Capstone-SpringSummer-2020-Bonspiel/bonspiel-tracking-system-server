@@ -40,10 +40,10 @@ class BatchLoad {
 
       try {
         await pgClient.query('BEGIN')
-        for (sheetName of this.#sheetsInOrder) {
+        for (let sheetName of this.#sheetsInOrder) {
           idToDb[sheetName] = {};
           let sheetRows = json[sheetName];
-          for (row of sheetRows) {
+          for (let row of sheetRows) {
             let req = {};
             req.params = {};
             await this.updateDbRow(sheetName, row, req, idToDb);
