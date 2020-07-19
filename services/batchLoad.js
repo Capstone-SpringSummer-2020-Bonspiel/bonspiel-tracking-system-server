@@ -39,7 +39,7 @@ class BatchLoad {
       let idToDb = {}
 
       try {
-        await pgClient.query('BEGIN')
+        //await pgClient.query('BEGIN')
         for (let sheetName of this.#sheetsInOrder) {
           idToDb[sheetName] = {};
           let sheetRows = json[sheetName];
@@ -55,7 +55,7 @@ class BatchLoad {
             }
           }
         }
-        await pgClient.query('COMMIT')
+        //await pgClient.query('COMMIT')
       } catch (error) {
         //await pgClient.query('ROLLBACK')
         throw error
