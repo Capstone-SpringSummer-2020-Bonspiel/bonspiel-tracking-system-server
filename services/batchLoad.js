@@ -1,6 +1,4 @@
 const { curlingEventService } = require('../routes/routes');
-const AuthService = require('../services/AuthService');
-const authService = new AuthService(curlingEventService.getPool());
 const Exception = require('../services/Exceptions');
 const config = require('config');
 const Exceptions = new Exception();
@@ -12,6 +10,129 @@ const fs = require('fs');
 const { json } = require('express');
 
 class BatchLoad {
+  #pool;
+  #sheetsInOrder = ["organization", "team", "event", "curler", "draw", "teaminevent",
+    "bracket", "pool", "game", "end"];
+
+  #sheetsToFunc = {
+    organization: this.createOrg,
+    team: this.createTeam,
+    event: this.addEvent,
+    curler: this.createCurler,
+    draw: this.createDraw,
+    teaminevent: this.addTeamToEvent,
+    bracket: this.addBracket,
+    pool: this.addPool,
+    game: this.addGame,
+    end: this.addEnd
+  }
+
+  constructor(pool) {
+    this.#pool = pool;
+  }
+
+  async uploadSpreadsheet(req, res) {
+    try {
+      let result = await this.parseToJson(req, res);
+      console.log('Spreadsheet result', result);
+      /*
+      const pgClient = await this.#pool.connect();
+
+      try {
+        await client.query('BEGIN')
+        this.#sheetsInOrder.forEach(sheetName => {
+          let
+        })
+      } catch (error) {
+        await pgClient.query('ROLLBACK')
+        throw error
+      } finally {
+        pgClient.release()
+      }
+      */
+
+      res.status(200).send(result);
+    } catch (error) {
+      console.error(error.message);
+      let fullError = { error, message: error.message }
+      if (res) {
+        res.status(400).send(fullError);
+      } else {
+        throw fullError;
+      }
+    }
+
+  }
+
+  async parseToJson(req, res) {
+    let storage = multer.diskStorage({
+      destination: function (req, file, cb) {
+        cb(null, '.')
+      },
+      filename: function (req, file, cb) {
+        cb(null, file.fieldname + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1])
+      }
+    });
+    let upload = multer({
+      storage: storage,
+      fileFilter: function (req, file, callback) {
+        if (['xls', 'xlsx'].indexOf(file.originalname.split('.')[file.originalname.split('.').length - 1]) === -1) {
+          return callback(new Error('Wrong extension type'));
+        }
+        callback(null, true);
+      }
+    }).single('file');
+
+    let exceltojson;
+
+    try {
+      upload = util.promisify(upload);
+      await upload(req, res);
+
+      if (!req.file) {
+        throw new Error('no file passed');
+      }
+
+      if (req.file.originalname.split('.')[req.file.originalname.split('.').length - 1] === 'xlsx') {
+        exceltojson = xlsxtojson;
+      } else {
+        exceltojson = xlstojson;
+      }
+    } catch (error) {
+      console.log('Error uploading ', error);
+      throw error;
+    }
+
+    let json = {};
+    try {
+      exceltojson = util.promisify(exceltojson);
+      this.#sheetsInOrder.forEach(async sheet => {
+        json[sheet] = await exceltojson({
+          input: req.file.path,
+          output: null,
+          lowerCaseHeaders: false,
+          sheet
+        });
+        json[sheet].forEach(row => {
+          Object.keys(row).forEach(k => row[k] = row[k] === '' ? null : row[k])
+        })
+      })
+    } catch (error) {
+      error.message = "Corrupted Excel File " + error.message;
+      throw error;
+    }
+
+    try {
+      const unlinkAsync = util.promisify(fs.unlink);
+      await unlinkAsync(req.file.path)
+    } catch {
+      error.message = "Error deleting file " + error.message;
+      throw error;
+    }
+
+    return json;
+
+  }
 
   async createTeam(req, res) {
     try {
@@ -272,96 +393,6 @@ class BatchLoad {
         throw fullError;
       }
     }
-  }
-
-  async uploadSpreadsheet(req, res) {
-    try {
-      let result = await this.parseToJson(req, res);
-      console.log('Spreadsheet result', result);
-      res.status(200).send(result);
-    } catch (error) {
-      console.error(error.message);
-      let fullError = { error, message: error.message }
-      if (res) {
-        res.status(400).send(fullError);
-      } else {
-        throw fullError;
-      }
-    }
-
-  }
-
-  async parseToJson(req, res) {
-    let storage = multer.diskStorage({
-      destination: function (req, file, cb) {
-        cb(null, '.')
-      },
-      filename: function (req, file, cb) {
-        cb(null, file.fieldname + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1])
-      }
-    });
-    let upload = multer({
-      storage: storage,
-      fileFilter: function (req, file, callback) {
-        if (['xls', 'xlsx'].indexOf(file.originalname.split('.')[file.originalname.split('.').length - 1]) === -1) {
-          return callback(new Error('Wrong extension type'));
-        }
-        callback(null, true);
-      }
-    }).single('file');
-
-    let exceltojson;
-
-    try {
-      upload = util.promisify(upload);
-      await upload(req, res);
-
-      if (!req.file) {
-        throw new Error('no file passed');
-      }
-
-      if (req.file.originalname.split('.')[req.file.originalname.split('.').length - 1] === 'xlsx') {
-        exceltojson = xlsxtojson;
-      } else {
-        exceltojson = xlstojson;
-      }
-    } catch (error) {
-      console.log('Error uploading', error);
-      throw error;
-    }
-
-    let sheets = ["organization", "team", "draw",
-      "game", "teaminevent", "bracket", "pool", "curler", "event", "end"];
-
-    let json = {};
-    try {
-      exceltojson = util.promisify(exceltojson);
-      sheets.map(async sheet => {
-        json[sheet] = await exceltojson({
-          input: req.file.path,
-          output: null,
-          lowerCaseHeaders: false,
-          sheet
-        });
-        json[sheet].map(row => {
-          Object.keys(row).forEach(k => row[k] = row[k] === '' ? null : row[k])
-        })
-      })
-    } catch (error) {
-      error.message = "Corrupted Excel File " + error.message;
-      throw error;
-    }
-
-    try {
-      const unlinkAsync = util.promisify(fs.unlink);
-      await unlinkAsync(req.file.path)
-    } catch {
-      error.message = "Error deleting file " + error.message;
-      throw error;
-    }
-
-    return json;
-
   }
 }
 

@@ -7,7 +7,7 @@ const Exception = require('../services/Exceptions');
 const config = require('config');
 const Exceptions = new Exception();
 const BatchLoad = require('../services/batchLoad');
-const batchLoad = new BatchLoad();
+const batchLoad = new BatchLoad(curlingEventService.getPool());
 
 
 router.post('/batchUpload', async (req, res) => batchLoad.uploadSpreadsheet(req, res))
