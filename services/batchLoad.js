@@ -54,7 +54,7 @@ class BatchLoad {
             }
           })
         })
-        await client.query('COMMIT')
+        await pgClient.query('COMMIT')
       } catch (error) {
         await pgClient.query('ROLLBACK')
         throw error
