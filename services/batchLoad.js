@@ -45,12 +45,13 @@ class BatchLoad {
           let sheetRows = json[sheetName];
           sheetRows.forEach(async row => {
             let req = {};
-            await this.updateDbRow(sheetName, row, idToDb);
+            req.params = {};
+            await this.updateDbRow(sheetName, row, req, idToDb);
             req.body = row;
             req.pgClient = pgClient;
-            let dbId = await this.#sheetsToFunc[sheetName](req)
+            let dbRes = await this.#sheetsToFunc[sheetName](req)
             if (row.id) {
-              idToDb[sheetName][row.id] = dbId
+              idToDb[sheetName][row.id] = dbRes.rows[0].id
             }
           })
         })
@@ -145,7 +146,7 @@ class BatchLoad {
 
   }
 
-  async updateDbRow(sheetName, row, idToDb) {
+  async updateDbRow(sheetName, row, req, idToDb) {
     if (sheetName == 'team') {
       if (row.orgId) {
         row.orgId = idToDb['organization'][row.orgId]
@@ -159,26 +160,26 @@ class BatchLoad {
       }
     } else if (sheetName == 'draw') {
       if (row.eventId) {
-        row.eventId = idToDb['event'][row.eventId]
+        req.params.eventId = idToDb['event'][row.eventId]
       }
     } else if (sheetName == 'teaminevent') {
       if (row.eventId) {
-        row.eventId = idToDb['event'][row.eventId]
+        req.params.eventId = idToDb['event'][row.eventId]
       }
       if (row.teamId) {
-        row.teamId = idToDb['team'][row.teamId]
+        req.params.teamId = idToDb['team'][row.teamId]
       }
     } else if (sheetName == 'bracket') {
       if (row.eventId) {
-        row.eventId = idToTeam['event'][row.eventId]
+        req.params.eventId = idToTeam['event'][row.eventId]
       }
     } else if (sheetName == 'pool') {
       if (row.eventId) {
-        row.eventId = idToTeam['event'][row.eventId]
+        req.params.eventId = idToTeam['event'][row.eventId]
       }
     } else if (sheetName == 'game') {
       if (row.eventId) {
-        row.eventId = idToTeam['event'][row.eventId]
+        req.params.eventId = idToTeam['event'][row.eventId]
       }
       if (row.bracketId) {
         row.bracketId = idToTeam['bracket'][row.bracketId]
@@ -203,6 +204,10 @@ class BatchLoad {
       }
       if (row.winner) {
         row.winner = idToDb['team'][row.winner]
+      }
+    } else if (sheetName == 'end') {
+      if (row.gameId) {
+        req.params.gameId = idToDb['game'][row.gameId]
       }
     }
   }
