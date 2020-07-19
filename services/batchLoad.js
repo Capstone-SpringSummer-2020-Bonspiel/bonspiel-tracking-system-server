@@ -34,25 +34,33 @@ class BatchLoad {
   async uploadSpreadsheet(req, res) {
     try {
       let json = await this.parseToJson(req, res);
-      console.log('Spreadsheet result', result);
-      /*
-const pgClient = await this.#pool.connect();
+      console.log('Spreadsheet result', json);
+      const pgClient = await this.#pool.connect();
+      let idToDb = {}
 
-try {
-  await client.query('BEGIN')
-  this.#sheetsInOrder.forEach(sheetName => {
-    let sheetRows = json[sheetName];
-    sheetRows.forEach(row => {
+      try {
+        await pgClient.query('BEGIN')
+        this.#sheetsInOrder.forEach(sheetName => {
+          idToDb[sheetName] = {};
+          let sheetRows = json[sheetName];
+          sheetRows.forEach(row => {
+            let req = {};
+            await updateDbRow(sheetName, row, idToDb);
+            req.body = row;
+            req.pgClient = pgClient;
+            let dbId = await this.#sheetsToFunc[sheetName](req)
+            if (row.id) {
+              idToDb[sheetName][row.id] = dbId
+            }
+          })
+        })
+      } catch (error) {
+        await pgClient.query('ROLLBACK')
+        throw error
+      } finally {
+        pgClient.release()
+      }
 
-    })
-  })
-} catch (error) {
-  await pgClient.query('ROLLBACK')
-  throw error
-} finally {
-  pgClient.release()
-}
-*/
       res.status(200).send(json);
     } catch (error) {
       console.error(error.message);
@@ -134,6 +142,68 @@ try {
 
     return json;
 
+  }
+
+  async updateDbRow(sheetName, row, idToDb) {
+    if (sheetName == 'team') {
+      if (row.orgId) {
+        row.orgId = idToDb['organization'][row.orgId]
+      }
+    } else if (sheetName == 'curler') {
+      if (row.affiliation) {
+        row.affiliation = idToDb['organization'][row.affiliation]
+      }
+      if (row.curlingTeamId) {
+        row.curlingTeamId = idToDb['team'][row.curlingTeamId]
+      }
+    } else if (sheetName == 'draw') {
+      if (row.eventId) {
+        row.eventId = idToDb['event'][row.eventId]
+      }
+    } else if (sheetName == 'teaminevent') {
+      if (row.eventId) {
+        row.eventId = idToDb['event'][row.eventId]
+      }
+      if (row.teamId) {
+        row.teamId = idToDb['team'][row.teamId]
+      }
+    } else if (sheetName == 'bracket') {
+      if (row.eventId) {
+        row.eventId = idToTeam['event'][row.eventId]
+      }
+    } else if (sheetName == 'pool') {
+      if (row.eventId) {
+        row.eventId = idToTeam['event'][row.eventId]
+      }
+    } else if (sheetName == 'game') {
+      if (row.eventId) {
+        row.eventId = idToTeam['event'][row.eventId]
+      }
+      if (row.bracketId) {
+        row.bracketId = idToTeam['bracket'][row.bracketId]
+      }
+      if (row.poolId) {
+        row.poolId = idToTeam['pool'][row.poolId]
+      }
+      if (row.drawId) {
+        row.drawId = idToTeam['draw'][row.drawId]
+      }
+      if (row.curlingTeam1Id) {
+        row.curlingTeam1Id = idToTeam['team'][row.curlingTeam1Id]
+      }
+      if (row.curlingTeam2Id) {
+        row.curlingTeam2Id = idToDb['team'][row.curlingTeam2Id]
+      }
+      if (row.destWinner) {
+        row.destWinner = idToDb['game'][row.destWinner]
+      }
+      if (row.destLoser) {
+        row.destLoser = idToDb['game'][row.destLoser]
+      }
+      if (row.winner) {
+        row.winner = idToDb['team'][row.winner]
+      }
+    }
   }
 
   async createTeam(req, res) {
