@@ -150,6 +150,7 @@ class BatchLoad {
     if (sheetName == 'team') {
       if (row.orgId) {
         row.orgId = idToDb['organization'][row.orgId]
+        console.log('reached updateDbRow, row.orgId: ', row.orgId)
       }
     } else if (sheetName == 'curler') {
       if (row.affiliation) {
