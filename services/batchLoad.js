@@ -52,6 +52,7 @@ class BatchLoad {
             let dbRes = await this.#sheetsToFunc[sheetName](req)
             if (row.id) {
               idToDb[sheetName][row.id] = dbRes.rows[0].id
+              console.log('found row.id, updating map: ', idToDb)
             }
           })
         })
