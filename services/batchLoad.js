@@ -173,27 +173,27 @@ class BatchLoad {
       }
     } else if (sheetName == 'bracket') {
       if (row.eventId) {
-        req.params.eventId = idToTeam['event'][row.eventId]
+        req.params.eventId = idToDb['event'][row.eventId]
       }
     } else if (sheetName == 'pool') {
       if (row.eventId) {
-        req.params.eventId = idToTeam['event'][row.eventId]
+        req.params.eventId = idToDb['event'][row.eventId]
       }
     } else if (sheetName == 'game') {
       if (row.eventId) {
-        req.params.eventId = idToTeam['event'][row.eventId]
+        req.params.eventId = idToDb['event'][row.eventId]
       }
       if (row.bracketId) {
-        row.bracketId = idToTeam['bracket'][row.bracketId]
+        row.bracketId = idToDb['bracket'][row.bracketId]
       }
       if (row.poolId) {
-        row.poolId = idToTeam['pool'][row.poolId]
+        row.poolId = idToDb['pool'][row.poolId]
       }
       if (row.drawId) {
-        row.drawId = idToTeam['draw'][row.drawId]
+        row.drawId = idToDb['draw'][row.drawId]
       }
       if (row.curlingTeam1Id) {
-        row.curlingTeam1Id = idToTeam['team'][row.curlingTeam1Id]
+        row.curlingTeam1Id = idToDb['team'][row.curlingTeam1Id]
       }
       if (row.curlingTeam2Id) {
         row.curlingTeam2Id = idToDb['team'][row.curlingTeam2Id]
