@@ -156,6 +156,33 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Game'
+  '/events/{curling_event_id}/generate-brackets':
+    get:
+      summary: Returns nodes and edges for bracket generation
+      parameters:
+        - in: path
+          name: curling_event_id
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+          description: The curling event id
+      responses:
+        '200':
+          description: A JSON with nodes and edges
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nodes:
+                    type: array
+                    items:
+                      type: string
+                edges:
+                    type: array
+                    items:
+                      type: string
   /teams:
     get:
       summary: Returns all teams

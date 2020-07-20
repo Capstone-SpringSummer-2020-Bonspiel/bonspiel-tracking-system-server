@@ -744,6 +744,57 @@ class CurlingEventService {
       throw err;
     }
   }
+
+  async generateBrackets(curlingEventId) {
+    try {
+      const games = await this.getAllGamesAndScores(curlingEventId);
+      let nodes = this.createBracketNodes(games);
+      let edges = this.createBracketEdges(games);
+
+      return {
+        nodes,
+        edges
+      };
+    }
+    catch (err) {
+      console.error(err.message);
+      throw err;
+    }
+  }
+
+  createBracketNodes(games) {
+    const nodes = [];
+    for (let i = 0; i < games.length; i++) {
+      nodes.push({
+        id: games[i].game_id.toString(),
+        label: `${games[i].team_name1} vs ${games[i].team_name2}`
+      });
+    }
+
+    return nodes;
+  }
+
+  generateId(num) {
+    return
+  }
+
+  createBracketEdges(games) {
+    const edges = [];
+    for (let i = 0; i < games.length; i++) {
+      if (games[i].winner_dest && games[i].loser_dest) {
+        edges.push({
+          source: games[i].game_id.toString(),
+          target: games[i].winner_dest.toString()
+        });
+
+        edges.push({
+          source: games[i].game_id.toString(),
+          target: games[i].loser_dest.toString()
+        });
+      }
+    }
+    return edges;
+  }
 }
 
 module.exports = CurlingEventService;
