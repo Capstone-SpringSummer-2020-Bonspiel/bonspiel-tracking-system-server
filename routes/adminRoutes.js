@@ -270,6 +270,7 @@ router.put('/pool/:poolId', async (req, res) => {
   }
 });
 
+
 router.post('/:gameId/end/', async (req, res) => {
   try {
     let { endNumber, blank, curlingTeam1Scored, score } = req.body;
@@ -428,6 +429,21 @@ router.delete('/end/:endId', async (req, res) => {
 
     await curlingEventService.checkGameIfFinished(endId);
     let success = await curlingEventService.deleteEnd(endId);
+    res.status(200).send(success);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.delete('/event/:eventId', async (req, res) => {
+
+  try {
+    const eventId = req.params.eventId;
+    Exceptions.throwIfNull({ eventId });
+
+    let success = await curlingEventService.deleteEvent(eventId);
     res.status(200).send(success);
   }
   catch (error) {
