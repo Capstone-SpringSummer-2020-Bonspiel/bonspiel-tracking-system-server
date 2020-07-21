@@ -87,7 +87,7 @@ class Exceptions {
 
   throwIfNull = (obj) => {
     for (let key in obj) {
-      if (!obj[key]) {
+      if (obj[key] == undefined) {
         throw this.nullException(key);
       }
     }

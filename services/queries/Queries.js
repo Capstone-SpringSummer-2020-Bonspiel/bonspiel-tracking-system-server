@@ -78,7 +78,7 @@ AND (curlingteam1_id=$2 OR curlingteam2_id=$2);
 `;
 
 const GET_ALL_ADMINS = `
-SELECT username, issuperadmin
+SELECT username, issuperadmin, active
 FROM admins
 `;
 
@@ -180,7 +180,7 @@ where curler.affiliation=$1
 
 const CREATE_TEAM = `
 INSERT INTO curlingteam(name, affiliation, note)
-VALUES ($1, $2, $3);
+VALUES ($1, $2, $3) RETURNING id;
 `;
 
 const UPDATE_TEAM = `
@@ -191,7 +191,7 @@ const UPDATE_TEAM = `
 
 const CREATE_CURLER = `
 INSERT INTO curler(name, position, affiliation, curlingteam_id)
-VALUES ($1, $2, $3, $4);
+VALUES ($1, $2, $3, $4) RETURNING id;
 `;
 
 const UPDATE_CURLER = `
@@ -202,7 +202,7 @@ const UPDATE_CURLER = `
 
 const CREATE_ORGANIZATION = `
 INSERT INTO organization(short_name, full_name)
-VALUES ($1, $2);
+VALUES ($1, $2) RETURNING id;
 `;
 
 const UPDATE_ORGANIZATION = `
@@ -216,15 +216,20 @@ INSERT INTO admins(username, hash, salt, hashLength, issuperadmin)
 VALUES ($1, $2, $3, $4, $5);
 `;
 
+const REGISTER_USER = `
+INSERT INTO admins(username, hash, salt, hashLength, issuperadmin, active)
+VALUES ($1, $2, $3, $4, $5, $6);
+`;
+
 const UPDATE_ADMIN = `
 UPDATE admins
-SET hash=$2, salt=$3, hashLength=$4, issuperadmin=$5
+SET hash=$2, salt=$3, hashLength=$4, issuperadmin=$5, active=$6
 WHERE username=$1;
 `;
 
 const UPDATE_ADMIN_NO_PASSWORD = `
 UPDATE admins
-SET issuperadmin=$2
+SET issuperadmin=$2, active=$3
 WHERE username=$1;
 `;
 
@@ -236,17 +241,17 @@ WHERE username=$1;
 
 const INSERT_GAME = `
 INSERT INTO game(event_type, notes, game_name, bracket_id, pool_id, draw_id, curlingteam1_id, curlingteam2_id, stone_color1, stone_color2, winner_dest, loser_dest, ice_sheet, finished, winner)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15);
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id;
 `;
 
 const INSERT_DRAW = `
 INSERT INTO draw(event_id, name, start, video_url)
-VALUES ($1, $2, $3, $4);
+VALUES ($1, $2, $3, $4) RETURNING id;
 `;
 
 const INSERT_EVENT = `
 INSERT INTO curlingevent(name, begin_date, end_date, completed, info, event_type)
-VALUES ($1, $2, $3, $4, $5, $6);
+VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;
 `;
 
 const UPDATE_EVENT = `
@@ -269,7 +274,7 @@ WHERE id=$1;
 
 const ADD_BRACKET = `
 INSERT INTO bracket(event_id, name)
-VALUES ($1, $2);
+VALUES ($1, $2) RETURNING id;
 `;
 
 const UPDATE_BRACKET = `
@@ -280,7 +285,7 @@ WHERE id=$1;
 
 const ADD_POOL = `
 INSERT INTO pool(event_id, name)
-VALUES ($1, $2);
+VALUES ($1, $2) RETURNING id;
 `;
 
 const UPDATE_POOL = `
@@ -291,7 +296,7 @@ WHERE id=$1;
 
 const ADD_END = `
 INSERT INTO endscore(game_id, end_number, blank, curlingteam1_scored, score)
-VALUES ($1, $2, $3, $4, $5);
+VALUES ($1, $2, $3, $4, $5) RETURNING id;
 `;
 
 const UPDATE_END = `
@@ -302,7 +307,7 @@ WHERE id=$1;
 
 const ADD_TEAM_TO_EVENT = `
 INSERT INTO eventteams(event_id, team_id)
-VALUES ($1, $2);
+VALUES ($1, $2) RETURNING id;
 `;
 
 const DELETE_EVENT = `
@@ -341,6 +346,7 @@ module.exports = {
   DELETE_EVENT,
   GET_ADMIN_DATA,
   CREATE_ADMIN,
+  REGISTER_USER,
   UPDATE_ADMIN_NO_PASSWORD,
   UPDATE_ADMIN,
   INSERT_GAME,
