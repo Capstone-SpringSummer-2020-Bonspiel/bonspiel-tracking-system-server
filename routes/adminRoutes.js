@@ -6,6 +6,8 @@ const authService = new AuthService(curlingEventService.getPool());
 const Exception = require('../services/Exceptions');
 const config = require('config');
 const Exceptions = new Exception();
+const BatchLoad = require('../services/batchLoad');
+const batchLoad = new BatchLoad(curlingEventService.getPool());
 
 router.post('/signIn', async (req, res) => {
   const { username, password } = req.body;
@@ -25,6 +27,21 @@ router.post('/signIn', async (req, res) => {
     console.log(err);
     return res.status(401).end();
   }
+});
+
+router.post('/register', (req, res) => {
+  let { username, password } = req.body;
+  const result = authService.registerUser(username, password);
+  result.then((account) => {
+    res.status(200).send(account);
+  }).catch(err => {
+    if (err.message.includes("admin_pkey")) {
+      res.status(400).send("Username is taken");
+    }
+    else {
+      res.status(400).send(err.message);
+    }
+  });
 });
 
 if (config.useAuth) {
@@ -104,18 +121,9 @@ router.put('/team/:teamId', async (req, res) => {
   }
 });
 
-router.post('/team/', async (req, res) => {
-  try {
-    let { name, orgId, note } = req.body;
-    Exceptions.throwIfNull({ name, note });
-    let success = await curlingEventService.createTeam(name, orgId, note);
-    res.status(200).send(success);
-  }
-  catch (error) {
-    console.error(error.message);
-    res.status(400).send({ error, message: error.message });
-  }
-});
+router.post('/team/', async (req, res) => batchLoad.createTeam(req, res));
+
+router.post('/batchUpload', async (req, res) => batchLoad.uploadSpreadsheet(req, res))
 
 router.delete('/curler/:curlerId', async (req, res) => {
   try {
@@ -144,18 +152,7 @@ router.put('/curler/:curlerId', async (req, res) => {
   }
 });
 
-router.post('/curler/', async (req, res) => {
-  try {
-    let { name, position, affiliation, curlingTeamId } = req.body;
-    Exceptions.throwIfNull({ name, position, affiliation, curlingTeamId });
-    let success = await curlingEventService.createCurler(name, position, affiliation, curlingTeamId);
-    res.status(200).send(success);
-  }
-  catch (error) {
-    console.error(error.message);
-    res.status(400).send({ error, message: error.message });
-  }
-});
+router.post('/curler/', async (req, res) => batchLoad.createCurler(req, res));
 
 router.put('/event/:eventId', async (req, res) => {
   try {
@@ -206,21 +203,7 @@ router.put('/game/:gameId', async (req, res) => {
   }
 });
 
-router.post('/:eventId/bracket/', async (req, res) => {
-  try {
-    let { name } = req.body;
-    let eventId = req.params.eventId;
-    let bracket = req.body;
-
-    Exceptions.throwIfNull({ name, eventId });
-    let success = await curlingEventService.addBracket(eventId, bracket);
-    res.status(200).send(success);
-
-  } catch (error) {
-    console.error(error.message);
-    res.status(400).send({ error, message: error.message });
-  }
-});
+router.post('/:eventId/bracket/', async (req, res) => batchLoad.createBracket(req, res));
 
 router.put('/bracket/:bracketId', async (req, res) => {
   try {
@@ -238,21 +221,7 @@ router.put('/bracket/:bracketId', async (req, res) => {
   }
 });
 
-router.post('/:eventId/pool/', async (req, res) => {
-  try {
-    let { name } = req.body;
-    let eventId = req.params.eventId;
-    let pool = req.body;
-
-    Exceptions.throwIfNull({ name, eventId });
-    let success = await curlingEventService.addPool(eventId, pool);
-    res.status(200).send(success);
-
-  } catch (error) {
-    console.error(error.message);
-    res.status(400).send({ error, message: error.message });
-  }
-});
+router.post('/:eventId/pool/', async (req, res) => batchLoad.createPool(req, res));
 
 router.put('/pool/:poolId', async (req, res) => {
   try {
@@ -271,21 +240,7 @@ router.put('/pool/:poolId', async (req, res) => {
 });
 
 
-router.post('/:gameId/end/', async (req, res) => {
-  try {
-    let { endNumber, blank, curlingTeam1Scored, score } = req.body;
-    let gameId = req.params.gameId;
-    let end = req.body;
-
-    Exceptions.throwIfNull({ endNumber, blank, curlingTeam1Scored, score, gameId });
-    let success = await curlingEventService.addEnd(gameId, end);
-    res.status(200).send(success);
-
-  } catch (error) {
-    console.error(error.message);
-    res.status(400).send({ error, message: error.message });
-  }
-});
+router.post('/:gameId/end/', async (req, res) => batchLoad.createEnd(req, res));
 
 router.put('/end/:endId', async (req, res) => {
   try {
@@ -331,20 +286,7 @@ router.put('/org/:orgId', async (req, res) => {
   }
 });
 
-router.post('/org/', async (req, res) => {
-  try {
-    const { shortName, fullName } = req.body;
-    Exceptions.throwIfNull({ shortName, fullName });
-    let success = await curlingEventService.createOrganization(shortName, fullName);
-    res.status(200).send(success);
-  }
-  catch (error) {
-    console.error(error.message);
-    res.status(400).send({ error, message: error.message });
-  }
-});
-
-
+router.post('/org/', async (req, res) => batchLoad.createOrg(req, res));
 
 router.delete('/pool/:poolId', async (req, res) => {
 
@@ -363,7 +305,7 @@ router.delete('/pool/:poolId', async (req, res) => {
 router.delete('/bracket/:bracketId', async (req, res) => {
 
   try {
-    const bracketId = req.params.poolId;
+    const bracketId = req.params.bracketId;
     Exceptions.throwIfNull({ bracketId });
     let success = await curlingEventService.deleteBracket(bracketId);
     res.status(200).send(success);
@@ -374,20 +316,7 @@ router.delete('/bracket/:bracketId', async (req, res) => {
   }
 });
 
-router.post('event/:eventId/team/:teamId', async (req, res) => {
-  try {
-    let eventId = req.params.eventId;
-    let teamId = req.params.teamId;
-
-    Exceptions.throwIfNull({ teamId, eventId });
-    let success = await curlingEventService.addTeamToEvent(eventId, teamId);
-    res.status(200).send(success);
-
-  } catch (error) {
-    console.error(error.message);
-    res.status(400).send({ error, message: error.message });
-  }
-});
+router.post('event/:eventId/team/:teamId', async (req, res) => batchLoad.addTeamToEvent(req, res));
 
 router.delete('/event/:eventId/team/:teamId', async (req, res) => {
 
@@ -454,8 +383,8 @@ router.delete('/event/:eventId', async (req, res) => {
 
 router.put('/editAdmin', async (req, res) => {
   try {
-    let { username, password, isSuperAdmin } = req.body;
-    const result = await authService.editAdmin(username, password, isSuperAdmin);
+    let { username, password, isSuperAdmin, active } = req.body;
+    const result = await authService.editAdmin(username, password, isSuperAdmin, active);
     res.status(200).send(result);
   } catch (error) {
     console.log('/editAdmin', error.message);
@@ -474,50 +403,10 @@ router.delete('/deleteAdmin/:username', async (req, res) => {
   }
 })
 
-router.post('/:eventId/game', async (req, res) => {
-  try {
-    let game = req.body;
-    let { eventType, notes, gameName, bracketId, poolId,
-      drawId, curlingTeam1Id, curlingTeam2Id, stoneColor1,
-      stoneColor2, destWinner, destLoser, iceSheet, finished, winner } = game;
+router.post('/:eventId/game', async (req, res) => batchLoad.createGame(req, res));
 
-    let success = await curlingEventService.addGame(game);
-    res.status(200).send(success);
-  }
-  catch (error) {
-    console.error(error.message);
-    res.status(400).send({ error, message: error.message });
-  }
-});
+router.post('/:eventId/draw', async (req, res) => batchLoad.createDraw(req, res));
 
-router.post('/:eventId/draw', async (req, res) => {
-  try {
-    let eventId = req.params.eventId;
-    let draw = req.body;
-    let { name, start, videoUrl } = draw;
-
-    let success = await curlingEventService.addDraw(draw, eventId);
-    res.status(200).send(success);
-  }
-  catch (error) {
-    console.error(error.message);
-    res.status(400).send({ error, message: error.message });
-  }
-});
-
-router.post('/event', async (req, res) => {
-  try {
-    let eventId = req.params.eventId;
-    let event = req.body;
-    let { name, beginDate, endDate, completed, info, eventType } = event;
-
-    let success = await curlingEventService.addEvent(event);
-    res.status(200).send(success);
-  }
-  catch (error) {
-    console.error(error.message);
-    res.status(400).send({ error, message: error.message });
-  }
-});
+router.post('/event', async (req, res) => batchLoad.createEvent(req, res));
 
 module.exports = router;
