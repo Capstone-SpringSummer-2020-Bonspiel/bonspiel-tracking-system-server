@@ -32,6 +32,13 @@ JOIN draw ON game.draw_id=draw.id
 WHERE draw.event_id=$1
 ORDER BY game.id;`;
 
+const GET_ALL_EVENT_TEAMS_IN_EVENT = `
+SELECT event_id, team_id, affiliation, curlingteam.name as team_name, note
+FROM eventteams
+JOIN curlingteam ON curlingteam.id=eventteams.team_id
+WHERE event_id=$1;
+`;
+
 const GET_ALL_GAMES_BY_TEAM = `
 SELECT curlingteam1.name as team_name1, curlingteam2.name as team_name2,
 game.id as game_id, game.event_type, game.game_name, game.notes, game.bracket_id, game.pool_id, game.draw_id, game.curlingteam1_id, game.curlingteam2_id, game.stone_color1, game.stone_color2, game.winner_dest, game.loser_dest, game.ice_sheet, game.finished, game.winner 
@@ -323,6 +330,7 @@ module.exports = {
   GET_ALL_GAMES_AND_SCORES,
   GET_ALL_GAMES_AND_SCORES_BY_TEAM,
   GET_ALL_TEAMS_IN_CURLING_EVENT,
+  GET_ALL_EVENT_TEAMS_IN_EVENT,
   GET_ALL_ADMINS,
   GET_ALL_BRACKETS_FOR_EVENT,
   GET_ALL_POOLS_FOR_EVENT,
