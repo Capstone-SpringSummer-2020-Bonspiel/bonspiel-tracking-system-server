@@ -72,6 +72,16 @@ router.get('/events/:curlingEventId/scores', async (req, res) => {
   }
 });
 
+router.get('/events/:curlingEventId/generate-brackets', async (req, res) => {
+  try {
+    const brackets = await curlingEventService.generateBrackets(req.params.curlingEventId);
+    res.status(200).send(brackets);
+  }
+  catch (error) {
+    res.status(404).send(error);
+  }
+});
+
 router.get('/events/', async (req, res) => {
   try {
     let events = await curlingEventService.getAllEvents();
