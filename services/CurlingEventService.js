@@ -787,10 +787,6 @@ class CurlingEventService {
     return nodes;
   }
 
-  generateId(num) {
-    return
-  }
-
   createBracketEdges(games) {
     const edges = [];
     for (let i = 0; i < games.length; i++) {
