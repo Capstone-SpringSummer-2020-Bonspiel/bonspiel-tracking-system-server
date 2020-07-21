@@ -1,7 +1,7 @@
 drop table if exists CurlingEvent, Organization, Pool, Bracket, CurlingTeam, Curler, Draw, Game, EndScore, Email, EventTeams, Admins
 CASCADE;
 drop type if exists valid_event_types
-, valid_position_types, valid_stone_colors, valid_ice_sheets CASCADE;
+, valid_position_types, valid_stone_colors, valid_ice_sheets, valid_throwing_order_types CASCADE;
 
 
 /* 
@@ -87,13 +87,17 @@ create table eventteams
 
 /* Curler - a competitor who plays on a CurlingTeam */
 create type valid_position_types as enum
-('skip', 'vice', 'second', 'lead', 'fourth', 'alternate');
+('third', 'second', 'lead', 'fourth', 'alternate');
+
+create type valid_throwing_order_types as enum
+('skip', 'vice');
 create table Curler
 (
   ID serial PRIMARY KEY,
   name text,
   position valid_position_types,
   photo_url text,
+  throwing_order valid_throwing_order_types,
   affiliation integer REFERENCES Organization(ID),
   CurlingTeam_id integer REFERENCES CurlingTeam(ID)
   /* might also want to model a photo for the curler */
