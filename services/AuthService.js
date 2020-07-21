@@ -39,7 +39,7 @@ class AuthService {
 
   async signIn(username, password) {
     let dbUser = await this.retrieveAdminData(username);
-    if (dbUser === null || !password || this.validatePassword(dbUser, password)) {
+    if (dbUser === null || !password || this.validatePassword(dbUser, password) || !dbUser.active) {
       throw Error("Invalid username or password");
     }
 
@@ -72,7 +72,8 @@ class AuthService {
         password: dbUser.rows[0].hash,
         hashLength: dbUser.rows[0].hashLength,
         salt: dbUser.rows[0].salt,
-        isSuperAdmin: dbUser.rows[0].issuperadmin
+        isSuperAdmin: dbUser.rows[0].issuperadmin,
+        active: dbUser.rows[0].active
       }
     }
     catch (err) {
@@ -97,18 +98,33 @@ class AuthService {
     }
   }
 
-  async editAdmin(username, password, isSuperAdmin) {
-    Exceptions.throwIfNull({ username, isSuperAdmin });
+  async registerUser(username, password) {
+    Exceptions.throwIfNull({ username, password });
+    let hashLength = config.hashLength;
+    let hashData = saltHashPassword(password, hashLength);
+    const values = [username, hashData.password, hashData.salt, hashLength, false, false];
+    const result = await this.#pool
+      .query(Queries.REGISTER_USER, values);
+
+    if (result.rowCount == 0) {
+      throw Exceptions.invalidIdException();
+    }
+
+    return result;
+  }
+
+  async editAdmin(username, password, isSuperAdmin, active) {
+    Exceptions.throwIfNull({ username, isSuperAdmin, active });
     let values;
     let query;
 
     if (!password) {
-      values = [username, isSuperAdmin];
+      values = [username, isSuperAdmin, active];
       query = Queries.UPDATE_ADMIN_NO_PASSWORD;
     } else {
       let hashLength = config.hashLength;
       let hashData = saltHashPassword(password, hashLength);
-      values = [username, hashData.password, hashData.salt, hashLength, isSuperAdmin];
+      values = [username, hashData.password, hashData.salt, hashLength, isSuperAdmin, active];
       query = Queries.UPDATE_ADMIN;
     }
 

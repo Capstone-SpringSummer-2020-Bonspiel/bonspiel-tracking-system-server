@@ -177,7 +177,8 @@ create table Admins
   hash text,
   salt text,
   hashLength integer,
-  isSuperAdmin boolean DEFAULT FALSE
+  isSuperAdmin boolean DEFAULT FALSE,
+  active boolean DEFAULT TRUE
 );
 
 CREATE VIEW vw_game_draw
