@@ -33,6 +33,10 @@ WHERE draw.event_id=$1
 ORDER BY game.id;`;
 
 const GET_ALL_EVENT_TEAMS_IN_EVENT = `
+SELECT event_id, team_id, affiliation, curlingteam.name as team_name, note
+FROM eventteams
+JOIN curlingteam ON curlingteam.id=eventteams.team_id
+WHERE event_id=$1;
 `;
 
 const GET_ALL_GAMES_BY_TEAM = `
