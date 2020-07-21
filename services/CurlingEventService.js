@@ -470,6 +470,19 @@ class CurlingEventService {
     }
   }
 
+  async getAllEventTeamsInEvent(curlingEventId) {
+    try {
+      const values = [curlingEventId];
+      const data = await this.#pool
+        .query(Queries.GET_ALL_EVENT_TEAMS_IN_EVENT, values);
+      return data.rows;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
+
   async getAllGamesAndScoresByTeam(curlingEventId, curlingTeamId) {
     try {
       const values = [curlingEventId, curlingTeamId];
