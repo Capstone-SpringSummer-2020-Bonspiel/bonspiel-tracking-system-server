@@ -648,8 +648,8 @@ class CurlingEventService {
     }
   }
 
-  async createCurler(name, position, affiliation, curlingTeamId, pgClient = this.#pool) {
-    const values = [name, position, affiliation, curlingTeamId];
+  async createCurler(name, position, affiliation, curlingTeamId, throwingOrder, pgClient = this.#pool) {
+    const values = [name, position, affiliation, curlingTeamId, throwingOrder];
     try {
       const data = await pgClient
         .query(Queries.CREATE_CURLER, values);
@@ -666,8 +666,8 @@ class CurlingEventService {
     }
   }
 
-  async updateCurler(id, name, position, affiliation, curlingTeamId) {
-    const values = [id, name, position, affiliation, curlingTeamId];
+  async updateCurler(id, name, position, affiliation, curlingTeamId, throwingOrder) {
+    const values = [id, name, position, affiliation, curlingTeamId, throwingOrder];
     try {
       const data = await this.#pool
         .query(Queries.UPDATE_CURLER, values);

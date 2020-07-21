@@ -190,13 +190,13 @@ const UPDATE_TEAM = `
 `;
 
 const CREATE_CURLER = `
-INSERT INTO curler(name, position, affiliation, curlingteam_id)
-VALUES ($1, $2, $3, $4) RETURNING id;
+INSERT INTO curler(name, position, affiliation, curlingteam_id, throwing_order)
+VALUES ($1, $2, $3, $4, $5) RETURNING id;
 `;
 
 const UPDATE_CURLER = `
   UPDATE curler 
-	SET name=$2, position=$3, affiliation=$4, curlingteam_id=$5
+	SET name=$2, position=$3, affiliation=$4, curlingteam_id=$5, throwing_order=$6
 	WHERE id=$1;
 `;
 
