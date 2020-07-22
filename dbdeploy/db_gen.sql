@@ -87,10 +87,10 @@ create table eventteams
 
 /* Curler - a competitor who plays on a CurlingTeam */
 create type valid_position_types as enum
-('third', 'second', 'lead', 'fourth', 'alternate');
+('skip', 'vice');
 
 create type valid_throwing_order_types as enum
-('skip', 'vice');
+('third', 'second', 'lead', 'fourth', 'alternate');
 create table Curler
 (
   ID serial PRIMARY KEY,
