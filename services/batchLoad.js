@@ -404,7 +404,7 @@ class BatchLoad {
         throw new Error('Winner must be one of curlingTeam1Id or curlingTeam2Id')
       }
 
-      if (winner && !finished) {
+      if (winner && finished == 'FALSE') {
         throw new Error('Game cannot have a winner without being finished')
       }
 
