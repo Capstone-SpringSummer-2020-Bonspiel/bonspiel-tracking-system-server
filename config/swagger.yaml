@@ -156,6 +156,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Game'
+  '/events/{curling_event_id}/event-teams':
+    get:
+      summary: Returns a list of teams in an event
+      parameters:
+        - in: path
+          name: curling_event_id
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+          description: The curling event id
+      responses:
+        '200':
+          description: An array of teams
+          content:
+            application/json:
+              schema:
+                type: array 
+                items:
+                  $ref: '#/components/schemas/Team'
   '/events/{curling_event_id}/generate-brackets':
     get:
       summary: Returns nodes and edges for bracket generation
@@ -180,9 +200,9 @@ paths:
                     items:
                       type: string
                 edges:
-                    type: array
-                    items:
-                      type: string
+                  type: array
+                  items:
+                    type: string
   /teams:
     get:
       summary: Returns all teams
