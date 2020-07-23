@@ -40,7 +40,7 @@ create table Organization
 create table Pool
 (
   ID Serial PRIMARY KEY,
-  event_id integer NOT NULL REFERENCES CurlingEvent ON DELETE CASCADE,
+  event_id integer NOT NULL REFERENCES CurlingEvent ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
   name text,
   color text
 );
@@ -53,7 +53,7 @@ create table Pool
 create table Bracket
 (
   ID Serial NOT NULL PRIMARY KEY,
-  event_id integer NOT NULL REFERENCES CurlingEvent(ID) ON DELETE CASCADE,
+  event_id integer NOT NULL REFERENCES CurlingEvent(ID) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
   name text
 );
 
@@ -68,7 +68,7 @@ create table Bracket
 create table CurlingTeam
 (
   ID Serial PRIMARY KEY,
-  affiliation integer REFERENCES Organization(ID),
+  affiliation integer REFERENCES Organization(ID) DEFERRABLE INITIALLY DEFERRED,
   name text,
   note text
   /* dsc DECIMAL(6,2)  usually only 'championship' type events use this field */
@@ -79,8 +79,8 @@ create table CurlingTeam
 
 create table eventteams
 (
-  event_id integer REFERENCES curlingevent(ID) ON DELETE CASCADE,
-  team_id integer REFERENCES curlingteam(ID),
+  event_id integer REFERENCES curlingevent(ID) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
+  team_id integer REFERENCES curlingteam(ID) DEFERRABLE INITIALLY DEFERRED,
   PRIMARY KEY(event_id, team_id)
 );
 
@@ -98,8 +98,8 @@ create table Curler
   position valid_position_types,
   photo_url text,
   throwing_order valid_throwing_order_types,
-  affiliation integer REFERENCES Organization(ID),
-  CurlingTeam_id integer REFERENCES CurlingTeam(ID)
+  affiliation integer REFERENCES Organization(ID) DEFERRABLE INITIALLY DEFERRED,
+  CurlingTeam_id integer REFERENCES CurlingTeam(ID) DEFERRABLE INITIALLY DEFERRED
   /* might also want to model a photo for the curler */
 );
 
@@ -107,7 +107,7 @@ create table Curler
 create table Draw
 (
   ID serial PRIMARY KEY,
-  event_id integer NOT NULL REFERENCES CurlingEvent(ID) ON DELETE CASCADE,
+  event_id integer NOT NULL REFERENCES CurlingEvent(ID) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
   name text,
   start timestamp,
   video_url text
@@ -132,15 +132,15 @@ create table Game
   event_type valid_event_types,
   game_name text,
   notes text,
-  bracket_id integer REFERENCES Bracket(ID) DEFAULT NULL,
-  pool_id integer REFERENCES Pool(ID) DEFAULT NULL,
-  draw_id integer NOT NULL REFERENCES Draw(ID) ON DELETE CASCADE,
-  CurlingTeam1_id integer REFERENCES CurlingTeam(ID),
-  CurlingTeam2_id integer REFERENCES CurlingTeam(ID),
+  bracket_id integer REFERENCES Bracket(ID) DEFAULT NULL DEFERRABLE INITIALLY DEFERRED,
+  pool_id integer REFERENCES Pool(ID) DEFAULT NULL DEFERRABLE INITIALLY DEFERRED,
+  draw_id integer NOT NULL REFERENCES Draw(ID) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
+  CurlingTeam1_id integer REFERENCES CurlingTeam(ID) DEFERRABLE INITIALLY DEFERRED,
+  CurlingTeam2_id integer REFERENCES CurlingTeam(ID) DEFERRABLE INITIALLY DEFERRED,
   stone_color1 valid_stone_colors DEFAULT 'red',
   stone_color2 valid_stone_colors DEFAULT 'yellow',
-  winner_dest integer REFERENCES Game(ID),
-  loser_dest integer REFERENCES Game(ID),
+  winner_dest integer REFERENCES Game(ID) DEFERRABLE INITIALLY DEFERRED,
+  loser_dest integer REFERENCES Game(ID) DEFERRABLE INITIALLY DEFERRED,
   ice_sheet valid_ice_sheets,
   finished boolean DEFAULT FALSE,
   /*currentEnd integer,*/
@@ -158,7 +158,7 @@ create table Game
 create table EndScore
 (
   ID Serial PRIMARY KEY,
-  game_id integer NOT NULL REFERENCES Game(ID) ON DELETE CASCADE,
+  game_id integer NOT NULL REFERENCES Game(ID) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
   end_number integer,
   blank boolean,
   CurlingTeam1_scored boolean,
