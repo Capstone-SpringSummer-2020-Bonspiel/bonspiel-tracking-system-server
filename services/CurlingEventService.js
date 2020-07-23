@@ -601,7 +601,7 @@ class CurlingEventService {
     try {
       let drawData = [eventId, draw.name, draw.start, draw.videoUrl]
 
-      const data = await this.#pool
+      const data = await pgClient
         .query(Queries.INSERT_DRAW, drawData);
       return data;
     }
