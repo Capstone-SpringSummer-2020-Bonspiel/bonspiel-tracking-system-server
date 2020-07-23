@@ -314,7 +314,7 @@ WHERE id=$1;
 
 const ADD_TEAM_TO_EVENT = `
 INSERT INTO eventteams(event_id, team_id)
-VALUES ($1, $2) RETURNING id;
+VALUES ($1, $2);
 `;
 
 const DELETE_EVENT = `
