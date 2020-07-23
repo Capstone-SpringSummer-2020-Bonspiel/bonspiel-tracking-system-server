@@ -17,14 +17,14 @@ class BatchLoad {
   #sheetsToFunc = {
     organization: this.createOrg,
     team: this.createTeam,
-    event: this.addEvent,
+    event: this.createEvent,
     curler: this.createCurler,
     draw: this.createDraw,
     teaminevent: this.addTeamToEvent,
-    bracket: this.addBracket,
-    pool: this.addPool,
-    game: this.addGame,
-    end: this.addEnd
+    bracket: this.createBracket,
+    pool: this.createPool,
+    game: this.createGame,
+    end: this.createEnd
   }
 
   constructor(pool) {
