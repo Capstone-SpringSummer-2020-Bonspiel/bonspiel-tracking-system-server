@@ -194,6 +194,23 @@ router.put('/game/:gameId', async (req, res) => {
     let gameId = req.params.gameId;
     let game = req.body;
 
+    if (!bracketId && !poolId) {
+      throw new Error('One of bracketId or poolId must be provided')
+    }
+
+    if (winner && ![curlingTeam1Id, curlingTeam2Id].includes(winner)) {
+      throw new Error('Winner must be one of curlingTeam1Id or curlingTeam2Id')
+    }
+
+    if (winner && !finished) {
+      throw new Error('Game cannot have a winner without being finished')
+    }
+
+    Exceptions.throwIfNull({
+      eventType, gameName, drawId, stoneColor1,
+      stoneColor2, iceSheet, finished
+    })
+
     let success = await curlingEventService.updateGame(gameId, game);
     res.status(200).send(success);
 

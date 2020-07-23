@@ -400,9 +400,17 @@ class BatchLoad {
         throw new Error('One of bracketId or poolId must be provided')
       }
 
+      if (winner && ![curlingTeam1Id, curlingTeam2Id].includes(winner)) {
+        throw new Error('Winner must be one of curlingTeam1Id or curlingTeam2Id')
+      }
+
+      if (winner && !finished) {
+        throw new Error('Game cannot have a winner without being finished')
+      }
+
       Exceptions.throwIfNull({
         eventType, gameName, drawId, stoneColor1,
-        stoneColor2, iceSheet, finished, winner
+        stoneColor2, iceSheet, finished
       })
 
       let success = await curlingEventService.addGame(game, pgClient);
