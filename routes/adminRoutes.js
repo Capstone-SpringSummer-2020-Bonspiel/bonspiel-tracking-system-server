@@ -141,9 +141,9 @@ router.delete('/curler/:curlerId', async (req, res) => {
 router.put('/curler/:curlerId', async (req, res) => {
   try {
     const id = req.params.curlerId;
-    let { name, position, affiliation, curlingTeamId } = req.body;
-    Exceptions.throwIfNull({ id, name, position, affiliation, curlingTeamId });
-    let success = await curlingEventService.updateCurler(id, name, position, affiliation, curlingTeamId);
+    let { name, position, affiliation, curlingTeamId, throwingOrder } = req.body;
+    Exceptions.throwIfNull({ id, name, affiliation, curlingTeamId });
+    let success = await curlingEventService.updateCurler(id, name, position, affiliation, curlingTeamId, throwingOrder);
     res.status(200).send(success);
   }
   catch (error) {

@@ -241,10 +241,10 @@ class BatchLoad {
 
   async createCurler(req, res) {
     try {
-      let { name, position, affiliation, curlingTeamId } = req.body;
+      let { name, position, affiliation, throwingOrder, curlingTeamId } = req.body;
       let pgClient = req.pgClient;
-      Exceptions.throwIfNull({ name, position, affiliation, curlingTeamId });
-      let success = await curlingEventService.createCurler(name, position, affiliation, curlingTeamId, pgClient);
+      Exceptions.throwIfNull({ name, affiliation, curlingTeamId });
+      let success = await curlingEventService.createCurler(name, position, affiliation, curlingTeamId, throwingOrder, pgClient);
       if (res) {
         res.status(200).send(success);
       } else {
