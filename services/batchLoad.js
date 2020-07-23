@@ -127,6 +127,10 @@ class BatchLoad {
         json[sheet].forEach(row => {
           Object.keys(row).forEach(k => row[k] = row[k] === '' ? null : row[k])
         })
+        json[sheet] = json[sheet].filter(row => {
+          const isEmpty = Object.values(row).every(k => !k);
+          return !isEmpty;
+        })
       })
     } catch (error) {
       error.message = "Corrupted Excel File " + error.message;
