@@ -17,14 +17,14 @@ class BatchLoad {
   #sheetsToFunc = {
     organization: this.createOrg,
     team: this.createTeam,
-    event: this.addEvent,
+    event: this.createEvent,
     curler: this.createCurler,
     draw: this.createDraw,
     teaminevent: this.addTeamToEvent,
-    bracket: this.addBracket,
-    pool: this.addPool,
-    game: this.addGame,
-    end: this.addEnd
+    bracket: this.createBracket,
+    pool: this.createPool,
+    game: this.createGame,
+    end: this.createEnd
   }
 
   constructor(pool) {
@@ -126,6 +126,10 @@ class BatchLoad {
         });
         json[sheet].forEach(row => {
           Object.keys(row).forEach(k => row[k] = row[k] === '' ? null : row[k])
+        })
+        json[sheet] = json[sheet].filter(row => {
+          const isEmpty = Object.values(row).every(k => !k);
+          return !isEmpty;
         })
       })
     } catch (error) {
@@ -237,10 +241,10 @@ class BatchLoad {
 
   async createCurler(req, res) {
     try {
-      let { name, position, affiliation, curlingTeamId } = req.body;
+      let { name, position, affiliation, throwingOrder, curlingTeamId } = req.body;
       let pgClient = req.pgClient;
-      Exceptions.throwIfNull({ name, position, affiliation, curlingTeamId });
-      let success = await curlingEventService.createCurler(name, position, affiliation, curlingTeamId, pgClient);
+      Exceptions.throwIfNull({ name, affiliation, curlingTeamId });
+      let success = await curlingEventService.createCurler(name, position, affiliation, curlingTeamId, throwingOrder, pgClient);
       if (res) {
         res.status(200).send(success);
       } else {
@@ -396,9 +400,17 @@ class BatchLoad {
         throw new Error('One of bracketId or poolId must be provided')
       }
 
+      if (winner && ![curlingTeam1Id, curlingTeam2Id].includes(winner)) {
+        throw new Error('Winner must be one of curlingTeam1Id or curlingTeam2Id')
+      }
+
+      if (winner && finished == 'FALSE') {
+        throw new Error('Game cannot have a winner without being finished')
+      }
+
       Exceptions.throwIfNull({
         eventType, gameName, drawId, stoneColor1,
-        stoneColor2, iceSheet, finished, winner
+        stoneColor2, iceSheet, finished
       })
 
       let success = await curlingEventService.addGame(game, pgClient);

@@ -141,9 +141,9 @@ router.delete('/curler/:curlerId', async (req, res) => {
 router.put('/curler/:curlerId', async (req, res) => {
   try {
     const id = req.params.curlerId;
-    let { name, position, affiliation, curlingTeamId } = req.body;
-    Exceptions.throwIfNull({ id, name, position, affiliation, curlingTeamId });
-    let success = await curlingEventService.updateCurler(id, name, position, affiliation, curlingTeamId);
+    let { name, position, affiliation, curlingTeamId, throwingOrder } = req.body;
+    Exceptions.throwIfNull({ id, name, affiliation, curlingTeamId });
+    let success = await curlingEventService.updateCurler(id, name, position, affiliation, curlingTeamId, throwingOrder);
     res.status(200).send(success);
   }
   catch (error) {
@@ -194,6 +194,23 @@ router.put('/game/:gameId', async (req, res) => {
     let gameId = req.params.gameId;
     let game = req.body;
 
+    if (!bracketId && !poolId) {
+      throw new Error('One of bracketId or poolId must be provided')
+    }
+
+    if (winner && ![curlingTeam1Id, curlingTeam2Id].includes(winner)) {
+      throw new Error('Winner must be one of curlingTeam1Id or curlingTeam2Id')
+    }
+
+    if (winner && finished == 'FALSE') {
+      throw new Error('Game cannot have a winner without being finished')
+    }
+
+    Exceptions.throwIfNull({
+      eventType, gameName, drawId, stoneColor1,
+      stoneColor2, iceSheet, finished
+    })
+
     let success = await curlingEventService.updateGame(gameId, game);
     res.status(200).send(success);
 
@@ -202,6 +219,7 @@ router.put('/game/:gameId', async (req, res) => {
     res.status(400).send({ error, message: error.message });
   }
 });
+//fakecommit
 
 router.post('/:eventId/bracket/', async (req, res) => batchLoad.createBracket(req, res));
 

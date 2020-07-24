@@ -586,7 +586,7 @@ class CurlingEventService {
     try {
       let values = [game.eventType, game.notes, game.gameName, game.bracketId, game.poolId, game.drawId,
       game.curlingTeam1Id, game.curlingTeam2Id, game.stoneColor1, game.stoneColor2,
-      game.winnerDest, game.loserDest, game.iceSheet, game.finished, game.winner];
+      game.destWinner, game.destLoser, game.iceSheet, game.finished, game.winner];
       const data = await pgClient
         .query(Queries.INSERT_GAME, values);
       return data;
@@ -601,7 +601,7 @@ class CurlingEventService {
     try {
       let drawData = [eventId, draw.name, draw.start, draw.videoUrl]
 
-      const data = await this.#pool
+      const data = await pgClient
         .query(Queries.INSERT_DRAW, drawData);
       return data;
     }
@@ -661,8 +661,8 @@ class CurlingEventService {
     }
   }
 
-  async createCurler(name, position, affiliation, curlingTeamId, pgClient = this.#pool) {
-    const values = [name, position, affiliation, curlingTeamId];
+  async createCurler(name, position, affiliation, curlingTeamId, throwingOrder, pgClient = this.#pool) {
+    const values = [name, position, affiliation, curlingTeamId, throwingOrder];
     try {
       const data = await pgClient
         .query(Queries.CREATE_CURLER, values);
@@ -679,8 +679,8 @@ class CurlingEventService {
     }
   }
 
-  async updateCurler(id, name, position, affiliation, curlingTeamId) {
-    const values = [id, name, position, affiliation, curlingTeamId];
+  async updateCurler(id, name, position, affiliation, curlingTeamId, throwingOrder) {
+    const values = [id, name, position, affiliation, curlingTeamId, throwingOrder];
     try {
       const data = await this.#pool
         .query(Queries.UPDATE_CURLER, values);
