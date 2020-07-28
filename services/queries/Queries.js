@@ -2,23 +2,26 @@
  * @param event_id
  */
 const GET_ALL_TEAMS_IN_CURLING_EVENT = `
-SELECT curler.id as curler_id, curler.name as curler_name, curler.position as curler_position, curler.throwing_order as throwing_order, curlingteam.id as curlingteam_id, curler.affiliation as curler_affiliation, curlingteam.affiliation as curlingteam_affiliation, curlingteam.name as curlingteam_name, curlingteam.note as curlingteam_note
+SELECT curler.id as curler_id, curler.name as curler_name, curler.position as curler_position, curler.throwing_order as throwing_order, curlingteam.id as curlingteam_id, curler.affiliation as curler_affiliation, curlingteam.affiliation as curlingteam_affiliation, curlingteam.name as curlingteam_name, curlingteam.note as curlingteam_note, organization.short_name as org_short_name, organization.full_name as org_full_name
 FROM eventteams as eventTeams 
 JOIN curlingteam on eventTeams.team_id=curlingteam.id
 FULL JOIN curler on curler.curlingteam_id=curlingteam.id
+JOIN organization on organization.id=curler.affiliation
 WHERE eventTeams.event_id=$1;
 `;
 
 const GET_ALL_CURLERS = `
-SELECT curler.id as curler_id, curler.name as curler_name, curler.position as curler_position, curler.throwing_order as throwing_order, curlingteam.id as curlingteam_id, curler.affiliation as curler_affiliation, curlingteam.affiliation as curlingteam_affiliation, curlingteam.name as curlingteam_name, curlingteam.note as curlingteam_note
+SELECT curler.id as curler_id, curler.name as curler_name, curler.position as curler_position, curler.throwing_order as throwing_order, curlingteam.id as curlingteam_id, curler.affiliation as curler_affiliation, curlingteam.affiliation as curlingteam_affiliation, curlingteam.name as curlingteam_name, curlingteam.note as curlingteam_note, organization.short_name as org_short_name, organization.full_name as org_full_name
 FROM curlingteam
-FULL JOIN curler on curler.curlingteam_id=curlingteam.id;
+FULL JOIN curler on curler.curlingteam_id=curlingteam.id
+JOIN organization on organization.id=curler.affiliation;
 `;
 
 const GET_CURLING_TEAM = `
-SELECT curler.id as curler_id, curler.name as curler_name, curler.position as curler_position, curler.throwing_order as throwing_order, curlingteam.id as curlingteam_id, curler.affiliation as curler_affiliation, curlingteam.affiliation as curlingteam_affiliation, curlingteam.name as curlingteam_name, curlingteam.note as curlingteam_note
+SELECT curler.id as curler_id, curler.name as curler_name, curler.position as curler_position, curler.throwing_order as throwing_order, curlingteam.id as curlingteam_id, curler.affiliation as curler_affiliation, curlingteam.affiliation as curlingteam_affiliation, curlingteam.name as curlingteam_name, curlingteam.note as curlingteam_note, organization.short_name as org_short_name, organization.full_name as org_full_name
 FROM curlingteam
 FULL JOIN curler on curler.curlingteam_id=curlingteam.id
+JOIN organization on organization.id=curler.affiliation
 WHERE curlingteam.id=$1;
 `;
 
