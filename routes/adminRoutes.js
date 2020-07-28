@@ -76,7 +76,7 @@ router.get('/admins', async (req, res) => {
     res.status(200).send(admins);
 
   } catch (error) {
-    res.status(404).send(error);
+    res.status(400).send({ error, message: error.message });
   }
 });
 
@@ -406,7 +406,7 @@ router.put('/editAdmin', async (req, res) => {
     res.status(200).send(result);
   } catch (error) {
     console.log('/editAdmin', error.message);
-    res.status(400).send(error.message);
+    res.status(400).send({ error, message: error.message });
   }
 });
 
@@ -417,7 +417,7 @@ router.delete('/deleteAdmin/:username', async (req, res) => {
     res.status(200).send(result);
   } catch (error) {
     console.log('/deleteAdmin', error.message);
-    res.status(400).send(error.message);
+    res.status(400).send({ error, message: error.message });
   }
 })
 
