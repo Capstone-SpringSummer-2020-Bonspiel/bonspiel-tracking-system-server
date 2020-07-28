@@ -156,6 +156,33 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Game'
+   '/events/{curling_event_id}/generate-brackets':
+    get:
+      summary: Returns nodes and edges for bracket generation
+      parameters:
+        - in: path
+          name: curling_event_id
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+          description: The curling event id
+      responses:
+        '200':
+          description: A JSON with nodes and edges
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nodes:
+                    type: array
+                    items:
+                      type: string
+                edges:
+                    type: array
+                    items:
+                      type: string
   /teams:
     get:
       summary: Returns all teams
@@ -252,21 +279,180 @@ paths:
         content:
           application/json:
             schema:
-              type: team
+              $ref: '#/components/schemas/Team'
       responses:
         '200':
           description: 'Success; return added row'
           content:
             application/json:
               schema:
-                type: team
+                $ref: '#/components/schemas/Team'
         '400':
           description: 'Bad request; return error message'
           content:
             application/json:
               schema:
                 type: object
-               
+  /bracket:
+    post:
+      summary: 'Add a bracket'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bracket'
+      responses:
+        '200':
+          description: 'Success; return added row'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bracket'
+        '400':
+          description: 'Bad request; return error message'
+          content:
+            application/json:
+              schema:
+                type: object     
+  /pool:
+    post:
+      summary: 'Add a pool'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pool'
+      responses:
+        '200':
+          description: 'Success; return added row'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pool'
+        '400':
+          description: 'Bad request; return error message'
+          content:
+            application/json:
+              schema:
+                type: object
+  /draw:
+    post:
+      summary: 'Add a draw'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Draw'
+      responses:
+        '200':
+          description: 'Success; return added row'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Draw'
+        '400':
+          description: 'Bad request; return error message'
+          content:
+            application/json:
+              schema:
+                type: object
+  /org:
+    post:
+      summary: 'Add an organization'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Organization'
+      responses:
+        '200':
+          description: 'Success; return added row'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '400':
+          description: 'Bad request; return error message'
+          content:
+            application/json:
+              schema:
+                type: object
+  /curler:
+    post:
+      summary: 'Add a curler'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Curler'
+      responses:
+        '200':
+          description: 'Success; return added row'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Curler'
+        '400':
+          description: 'Bad request; return error message'
+          content:
+            application/json:
+              schema:
+                type: object
+  /endscore:
+    post:
+      summary: 'Add an endscore'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndScore'
+      responses:
+        '200':
+          description: 'Success; return added row'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndScore'
+        '400':
+          description: 'Bad request; return error message'
+          content:
+            application/json:
+              schema:
+                type: object
+  '/event/{eventid}/team/{teamid}':
+    post:
+      summary: 'Add a team to an event'
+      parameters:
+      - name: "eventid"
+        in: "path"
+        description: ""
+        required: true
+        schema:
+          type: integer
+      - name: "teamid"
+        in: "path"
+        description: ""
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: 'Success; return added row'
+          content:
+            application/json:
+              schema:
+        '400':
+          description: 'Bad request; return error message'
+          content:
+            application/json:
+              schema:
+                type: object
 components:
   schemas:
     CurlingEvent:
