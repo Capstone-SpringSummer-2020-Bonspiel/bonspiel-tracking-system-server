@@ -334,7 +334,7 @@ router.delete('/bracket/:bracketId', async (req, res) => {
   }
 });
 
-router.post('event/:eventId/team/:teamId', async (req, res) => batchLoad.addTeamToEvent(req, res));
+router.post('/event/:eventId/team/:teamId', async (req, res) => batchLoad.addTeamToEvent(req, res));
 
 router.delete('/event/:eventId/team/:teamId', async (req, res) => {
 
