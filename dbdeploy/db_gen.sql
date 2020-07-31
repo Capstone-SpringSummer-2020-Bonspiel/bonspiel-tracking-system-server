@@ -1,4 +1,4 @@
-drop table if exists CurlingEvent, Organization, Pool, Bracket, CurlingTeam, Curler, Draw, Game, EndScore, Email, EventTeams, Admins
+drop table if exists CurlingEvent, Organization, Pool, Bracket, CurlingTeam, Curler, Draw, Game, EndScore, EventTeams, Admins
 CASCADE;
 drop type if exists valid_event_types
 , valid_position_types, valid_stone_colors, valid_ice_sheets, valid_throwing_order_types CASCADE;
@@ -14,23 +14,27 @@ create type valid_event_types as enum
 ('friendly', 'pools', 'brackets', 'championship');
 create table CurlingEvent
 (
-  ID Serial PRIMARY KEY,
+  ID Serial,
   name text,
   begin_date timestamp,
   end_date timestamp,
   completed boolean DEFAULT FALSE,
   info text,
   event_type valid_event_types,
-  CHECK (end_date>=begin_date)
+  CONSTRAINT curlingevent_pkey PRIMARY KEY (id),
+  CONSTRAINT curlingevent_check CHECK (end_date >= begin_date)
 );
+
 
 /* Organization - a club or other organization to which a curler is affiliated */
 create table Organization
 (
-  ID Serial PRIMARY KEY,
+  ID Serial,
   short_name text,
-  full_name text
+  full_name text,
+  CONSTRAINT organization_pkey PRIMARY KEY (id)
 );
+
 
 /*
  * Pool - a group of teams that compete against each other in a 'pools' 
@@ -39,11 +43,18 @@ create table Organization
  */
 create table Pool
 (
-  ID Serial PRIMARY KEY,
-  event_id integer NOT NULL REFERENCES CurlingEvent ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
+  ID Serial,
+  event_id integer NOT NULL, 
   name text,
-  color text
+  color text,
+  CONSTRAINT pool_pkey PRIMARY KEY (id),
+  CONSTRAINT pool_event_id_fkey FOREIGN KEY (event_id)
+    REFERENCES public.curlingevent (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE
+    DEFERRABLE INITIALLY DEFERRED
 );
+
 
 /* 
  * Bracket - a group of teams that compete against each other in a 'brackets' 
@@ -52,10 +63,17 @@ create table Pool
  */
 create table Bracket
 (
-  ID Serial NOT NULL PRIMARY KEY,
-  event_id integer NOT NULL REFERENCES CurlingEvent(ID) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
-  name text
+  ID Serial,
+  event_id integer NOT NULL,
+  name text,
+  CONSTRAINT bracket_pkey PRIMARY KEY (id),
+  CONSTRAINT bracket_event_id_fkey FOREIGN KEY (event_id)
+    REFERENCES public.curlingevent (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE
+	DEFERRABLE INITIALLY DEFERRED
 );
+
 
 /* 
  * CurlingTeam - a team that competes in a a curling event 
@@ -65,23 +83,40 @@ create table Bracket
  *   be entered as separate teams, one per event. This is fine for v1.0 and 
  *   can be revisited for future versions of the bonspiel tracking system.
  */
-create table CurlingTeam
+create table CurlingTeamT
 (
-  ID Serial PRIMARY KEY,
-  affiliation integer REFERENCES Organization(ID) DEFERRABLE INITIALLY DEFERRED,
+  ID Serial,
+  affiliation integer,
   name text,
-  note text
+  note text,
+  CONSTRAINT curlingteam_pkey PRIMARY KEY (id),
+  CONSTRAINT curlingteam_affiliation_fkey FOREIGN KEY (affiliation)
+	REFERENCES public.organization (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    DEFERRABLE INITIALLY DEFERRED
   /* dsc DECIMAL(6,2)  usually only 'championship' type events use this field */
   /* might also want to model photos or other media for the team */
   /* might want to also model contact info such as phone, email address */
   /* might want to also model 'coach' */
 );
 
+
 create table eventteams
 (
-  event_id integer REFERENCES curlingevent(ID) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
-  team_id integer REFERENCES curlingteam(ID) DEFERRABLE INITIALLY DEFERRED,
-  PRIMARY KEY(event_id, team_id)
+  event_id integer,
+  team_id integer,
+  CONSTRAINT eventteams_pkey PRIMARY KEY (event_id, team_id),
+  CONSTRAINT eventteams_event_id_fkey FOREIGN KEY (event_id)
+    REFERENCES public.curlingevent (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE
+    DEFERRABLE INITIALLY DEFERRED,
+  CONSTRAINT eventteams_team_id_fkey FOREIGN KEY (team_id)
+    REFERENCES public.curlingteam (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    DEFERRABLE INITIALLY DEFERRED
 );
 
 
@@ -93,24 +128,41 @@ create type valid_throwing_order_types as enum
 ('third', 'second', 'lead', 'fourth', 'alternate');
 create table Curler
 (
-  ID serial PRIMARY KEY,
+  ID serial,
   name text,
   position valid_position_types,
   photo_url text,
   throwing_order valid_throwing_order_types,
-  affiliation integer REFERENCES Organization(ID) DEFERRABLE INITIALLY DEFERRED,
-  CurlingTeam_id integer REFERENCES CurlingTeam(ID) DEFERRABLE INITIALLY DEFERRED
-  /* might also want to model a photo for the curler */
+  affiliation integer,
+  CurlingTeam_id integer,
+  CONSTRAINT curler_pkey PRIMARY KEY (id),
+  CONSTRAINT curler_affiliation_fkey FOREIGN KEY (affiliation)
+    REFERENCES public.organization (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    DEFERRABLE INITIALLY DEFERRED,
+  CONSTRAINT curler_curlingteam_id_fkey FOREIGN KEY (curlingteam_id)
+    REFERENCES public.curlingteam (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    DEFERRABLE INITIALLY DEFERRED
 );
+
 
 /* Draw - a collection of curling games that all start at the begin at the same time. */
 create table Draw
 (
-  ID serial PRIMARY KEY,
-  event_id integer NOT NULL REFERENCES CurlingEvent(ID) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
+  ID serial,
+  event_id integer NOT NULL,
   name text,
   start timestamp,
-  video_url text
+  video_url text,
+  CONSTRAINT draw_pkey PRIMARY KEY (id),
+  CONSTRAINT draw_event_id_fkey FOREIGN KEY (event_id)
+    REFERENCES public.curlingevent (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE
+    DEFERRABLE INITIALLY DEFERRED
   /* 
      * game_draw = TRUE just means that the draw contains games. 
      * this is the default case and the most common case.
@@ -121,6 +173,7 @@ create table Draw
 	game_draw boolean DEFAULT TRUE, */
 );
 
+
 /* Game - a pair of teams competing against each other */
 create type valid_stone_colors as enum
 ('red', 'yellow');
@@ -128,25 +181,62 @@ create type valid_ice_sheets as enum
 ('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', '1', '2', '3', '4', '5', '6', '7', '8');
 create table Game
 (
-  ID Serial PRIMARY KEY,
+  ID Serial,
   event_type valid_event_types,
   game_name text,
   notes text,
-  bracket_id integer REFERENCES Bracket(ID) DEFAULT NULL DEFERRABLE INITIALLY DEFERRED,
-  pool_id integer REFERENCES Pool(ID) DEFAULT NULL DEFERRABLE INITIALLY DEFERRED,
-  draw_id integer NOT NULL REFERENCES Draw(ID) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
-  CurlingTeam1_id integer REFERENCES CurlingTeam(ID) DEFERRABLE INITIALLY DEFERRED,
-  CurlingTeam2_id integer REFERENCES CurlingTeam(ID) DEFERRABLE INITIALLY DEFERRED,
+  bracket_id integer DEFAULT NULL,
+  pool_id integer DEFAULT NULL,
+  draw_id integer NOT NULL,
+  CurlingTeam1_id integer REFERENCES CurlingTeam(ID),
+  CurlingTeam2_id integer REFERENCES CurlingTeam(ID),
   stone_color1 valid_stone_colors DEFAULT 'red',
   stone_color2 valid_stone_colors DEFAULT 'yellow',
-  winner_dest integer REFERENCES Game(ID) DEFERRABLE INITIALLY DEFERRED,
-  loser_dest integer REFERENCES Game(ID) DEFERRABLE INITIALLY DEFERRED,
+  winner_dest integer,
+  loser_dest integer,
   ice_sheet valid_ice_sheets,
   finished boolean DEFAULT FALSE,
   /*currentEnd integer,*/
   winner integer DEFAULT NULL,
-  CHECK (CurlingTeam1_id <> CurlingTeam2_id)
+  CONSTRAINT game_pkey PRIMARY KEY (id),
+  CONSTRAINT game_bracket_id_fkey FOREIGN KEY (bracket_id)
+    REFERENCES public.bracket (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    DEFERRABLE INITIALLY DEFERRED,
+  CONSTRAINT game_curlingteam1_id_fkey FOREIGN KEY (curlingteam1_id)
+    REFERENCES public.curlingteam (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    DEFERRABLE INITIALLY DEFERRED,
+  CONSTRAINT game_curlingteam2_id_fkey FOREIGN KEY (curlingteam2_id)
+    REFERENCES public.curlingteam (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    DEFERRABLE INITIALLY DEFERRED,
+  CONSTRAINT game_draw_id_fkey FOREIGN KEY (draw_id)
+    REFERENCES public.draw (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE
+    DEFERRABLE INITIALLY DEFERRED,
+  CONSTRAINT game_loser_dest_fkey FOREIGN KEY (loser_dest)
+    REFERENCES public.game (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    DEFERRABLE INITIALLY DEFERRED,
+  CONSTRAINT game_pool_id_fkey FOREIGN KEY (pool_id)
+    REFERENCES public.pool (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    DEFERRABLE INITIALLY DEFERRED,
+  CONSTRAINT game_winner_dest_fkey FOREIGN KEY (winner_dest)
+    REFERENCES public.game (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    DEFERRABLE INITIALLY DEFERRED,
+  CONSTRAINT game_check CHECK (curlingteam1_id <> curlingteam2_id)
 );
+
 
 
 /* 
@@ -157,33 +247,35 @@ create table Game
  */
 create table EndScore
 (
-  ID Serial PRIMARY KEY,
-  game_id integer NOT NULL REFERENCES Game(ID) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED,
+  ID Serial,
+  game_id integer NOT NULL,
   end_number integer,
   blank boolean,
   CurlingTeam1_scored boolean,
   score integer,
-  CHECK (end_number>=1),
-  CHECK (end_number<=11)
+  CONSTRAINT endscore_pkey PRIMARY KEY (id),
+  CONSTRAINT endscore_game_id_fkey FOREIGN KEY (game_id)
+    REFERENCES public.game (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE
+    DEFERRABLE INITIALLY DEFERRED,
+  CONSTRAINT endscore_end_number_check CHECK (end_number >= 1),
+  CONSTRAINT endscore_end_number_check1 CHECK (end_number <= 11)
 );
 
 
-create table Email
-(
-  name text,
-  email text,
-  PRIMARY KEY(name, email)
-);
 
 create table Admins
 (
-  username text PRIMARY KEY,
+  username text,
   hash text,
   salt text,
   hashLength integer,
   isSuperAdmin boolean DEFAULT FALSE,
-  active boolean DEFAULT TRUE
+  active boolean DEFAULT TRUE,
+  CONSTRAINT admins_pkey PRIMARY KEY (username)
 );
+
 
 CREATE VIEW vw_game_draw
 AS
