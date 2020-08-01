@@ -780,7 +780,6 @@ class CurlingEventService {
     for (let i = 0; i < games.length; i++) {
       nodes.push({
         id: games[i].game_id.toString(),
-        label: `${games[i].team_name1} vs ${games[i].team_name2}`
       });
     }
 
@@ -794,11 +793,6 @@ class CurlingEventService {
         edges.push({
           source: games[i].game_id.toString(),
           target: games[i].winner_dest.toString()
-        });
-
-        edges.push({
-          source: games[i].game_id.toString(),
-          target: games[i].loser_dest.toString()
         });
       }
     }
