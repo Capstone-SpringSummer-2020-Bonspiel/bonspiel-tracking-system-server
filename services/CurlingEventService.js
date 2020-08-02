@@ -379,6 +379,7 @@ class CurlingEventService {
       let teamNames = [...new Set(curlers.rows.map((value, index, self) => {
         return JSON.stringify({
           "curlingteam_name": value.curlingteam_name,
+          "note": value.curlingteam_note,
           "id": value.curlingteam_id
         });
       }))].map((val => JSON.parse(val)));
@@ -388,6 +389,7 @@ class CurlingEventService {
         teamObj[team.curlingteam_name] = {
           "team_name": team.curlingteam_name,
           "id": team.id,
+          "note": team.note,
           "curlers": []
         }
       }
