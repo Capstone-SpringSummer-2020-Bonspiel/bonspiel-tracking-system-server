@@ -26,14 +26,26 @@ WHERE curlingteam.id=$1;
 `;
 
 const GET_ALL_GAMES_IN_CURLING_EVENT = `
-SELECT curlingteam1.name as team_name1, curlingteam2.name as team_name2,
-game.id as game_id, game.event_type, game.game_name, game.notes, game.bracket_id, game.pool_id, game.draw_id, game.curlingteam1_id, game.curlingteam2_id, game.stone_color1, game.stone_color2, game.winner_dest, game.loser_dest, game.ice_sheet, game.finished, game.winner
+SELECT 
+curlingteam1.name as team_name1, curlingteam2.name as team_name2, 
+game.id as game_id, game.event_type, game.game_name, game.notes, game.bracket_id, game.pool_id, game.draw_id, game.curlingteam1_id, game.curlingteam2_id, game.stone_color1, game.stone_color2, game.winner_dest, game.loser_dest, game.ice_sheet, game.finished, game.winner, 
+endscore.id as endscore_id, endscore.end_number, endscore.curlingteam1_scored, endscore.score, endscore.blank
 FROM game
 JOIN curlingteam as curlingteam1 ON game.curlingteam1_id=curlingteam1.id
 JOIN curlingteam as curlingteam2 ON game.curlingteam2_id=curlingteam2.id
 JOIN draw ON game.draw_id=draw.id
+LEFT OUTER JOIN (
+SELECT endscore.*
+FROM (
+	SELECT endscore.game_id, MAX(endscore.end_number) as end_number
+	FROM endscore
+	GROUP BY endscore.game_id
+) as max_end_number inner join endscore 
+on endscore.end_number=max_end_number.end_number
+and endscore.game_id=max_end_number.game_id
+) as endscore ON endscore.game_id=game.id
 WHERE draw.event_id=$1
-ORDER BY game.id;`;
+ORDER BY curlingteam1_id;`;
 
 const GET_ALL_EVENT_TEAMS_IN_EVENT = `
 SELECT event_id, team_id, affiliation, curlingteam.name as team_name, note
