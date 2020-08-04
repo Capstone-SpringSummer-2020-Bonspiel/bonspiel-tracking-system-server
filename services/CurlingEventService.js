@@ -380,6 +380,11 @@ class CurlingEventService {
         return JSON.stringify({
           "curlingteam_name": value.curlingteam_name,
           "note": value.curlingteam_note,
+          "affiliation": {
+            "id": value.curlingteam_affiliation,
+            "shortName": value.curlingteam_org_short_name,
+            "fullName": value.curlingteam_org_full_name
+          },
           "id": value.curlingteam_id
         });
       }))].map((val => JSON.parse(val)));
@@ -390,6 +395,7 @@ class CurlingEventService {
           "team_name": team.curlingteam_name,
           "id": team.id,
           "note": team.note,
+          "affiliation": team.affiliation.id == null ? null : team.affiliation,
           "curlers": []
         }
       }
