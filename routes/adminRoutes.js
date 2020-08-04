@@ -207,7 +207,7 @@ router.put('/game/:gameId', async (req, res) => {
     }
 
     Exceptions.throwIfNull({
-      eventType, gameName, drawId, stoneColor1,
+      gameName, drawId, stoneColor1,
       stoneColor2, iceSheet, finished
     })
 
