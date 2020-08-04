@@ -379,6 +379,7 @@ class CurlingEventService {
       let teamNames = [...new Set(curlers.rows.map((value, index, self) => {
         return JSON.stringify({
           "curlingteam_name": value.curlingteam_name,
+          "note": value.curlingteam_note,
           "id": value.curlingteam_id
         });
       }))].map((val => JSON.parse(val)));
@@ -388,6 +389,7 @@ class CurlingEventService {
         teamObj[team.curlingteam_name] = {
           "team_name": team.curlingteam_name,
           "id": team.id,
+          "note": team.note,
           "curlers": []
         }
       }
@@ -780,7 +782,7 @@ class CurlingEventService {
     for (let i = 0; i < games.length; i++) {
       nodes.push({
         id: games[i].game_id.toString(),
-        label: `${games[i].team_name1} vs ${games[i].team_name2}`
+        label: `${games[i].game_name}`
       });
     }
 
@@ -793,12 +795,8 @@ class CurlingEventService {
       if (games[i].winner_dest && games[i].loser_dest) {
         edges.push({
           source: games[i].game_id.toString(),
-          target: games[i].winner_dest.toString()
-        });
-
-        edges.push({
-          source: games[i].game_id.toString(),
-          target: games[i].loser_dest.toString()
+          target: games[i].winner_dest.toString(),
+          label: ''
         });
       }
     }
