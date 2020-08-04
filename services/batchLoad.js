@@ -460,6 +460,7 @@ class BatchLoad {
 
   async createEvent(req, res) {
     try {
+
       let event = req.body;
       let { name, beginDate, endDate, completed, info, eventType } = event;
       let pgClient = req.pgClient;
