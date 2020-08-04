@@ -13,7 +13,7 @@ router.get('/events/:curlingEventId/teams/:teamId/games', async (req, res) => {
     res.status(200).send(gamesByTeam);
   }
   catch (error) {
-    res.status(404).send(error);
+    res.status(400).send({ error, message: error.message });
   }
 });
 
@@ -26,7 +26,7 @@ router.get('/events/:curlingEventId/teams/:teamId/scores', async (req, res) => {
     res.status(200).send(gamesByTeam);
   }
   catch (error) {
-    res.status(404).send(error);
+    res.status(400).send({ error, message: error.message });
   }
 });
 
@@ -36,7 +36,7 @@ router.get('/events/:curlingEventId/teams', async (req, res) => {
     res.status(200).send(events);
   }
   catch (error) {
-    res.status(404).send(error);
+    res.status(400).send({ error, message: error.message });
   }
 });
 
@@ -46,7 +46,7 @@ router.get('/events/:curlingEventId/games', async (req, res) => {
     res.status(200).send(games);
   }
   catch (error) {
-    res.status(404).send(error);
+    res.status(400).send({ error, message: error.message });
   }
 
 });
@@ -57,18 +57,37 @@ router.get('/events/:curlingEventId/draws', async (req, res) => {
     res.status(200).send(draws);
   }
   catch (error) {
-    res.status(404).send(error);
+    res.status(400).send({ error, message: error.message });
   }
 });
 
 router.get('/events/:curlingEventId/scores', async (req, res) => {
-
   try {
     let scores = await curlingEventService.getAllGamesAndScores(req.params.curlingEventId);
     res.status(200).send(scores);
   }
   catch (error) {
-    res.status(404).send(error);
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.get('/events/:curlingEventId/event-teams', async (req, res) => {
+  try {
+    let eventTeams = await curlingEventService.getAllEventTeamsInEvent(req.params.curlingEventId);
+    res.status(200).send(eventTeams);
+  }
+  catch (error) {
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
+router.get('/events/:curlingEventId/generate-brackets', async (req, res) => {
+  try {
+    const brackets = await curlingEventService.generateBrackets(req.params.curlingEventId);
+    res.status(200).send(brackets);
+  }
+  catch (error) {
+    res.status(400).send({ error, message: error.message });
   }
 });
 
@@ -78,7 +97,7 @@ router.get('/events/', async (req, res) => {
     res.status(200).send(events);
   }
   catch (error) {
-    res.status(404).send(error);
+    res.status(400).send({ error, message: error.message });
   }
 });
 
@@ -88,7 +107,7 @@ router.get('/teams/', async (req, res) => {
     res.status(200).send(curlers);
   }
   catch (error) {
-    res.status(404).send(error);
+    res.status(400).send({ error, message: error.message });
   }
 });
 
@@ -99,7 +118,7 @@ router.get('/:eventId/brackets', async (req, res) => {
     res.status(200).send(brackets);
   }
   catch (error) {
-    res.status(404).send(error);
+    res.status(400).send({ error, message: error.message });
   }
 });
 
@@ -107,10 +126,10 @@ router.get('/:eventId/pools', async (req, res) => {
   try {
     let eventId = req.params.eventId;
     let pools = await curlingEventService.getPoolsForEvent(eventId);
-    res.status(200).send(brackets);
+    res.status(200).send(pools);
   }
   catch (error) {
-    res.status(404).send(error);
+    res.status(400).send({ error, message: error.message });
   }
 });
 
@@ -121,7 +140,7 @@ router.get('/teams/:teamId', async (req, res) => {
     res.status(200).send(team);
   }
   catch (error) {
-    res.status(404).send(error);
+    res.status(400).send({ error, message: error.message });
   }
 });
 
@@ -132,7 +151,7 @@ router.get('/orgs/:orgId/curlers', async (req, res) => {
     res.status(200).send(org);
   }
   catch (error) {
-    res.status(404).send(error);
+    res.status(400).send({ error, message: error.message });
   }
 });
 
@@ -143,7 +162,7 @@ router.get('/orgs/:orgId', async (req, res) => {
     res.status(200).send(org);
   }
   catch (error) {
-    res.status(404).send(error);
+    res.status(400).send({ error, message: error.message });
   }
 });
 
@@ -153,7 +172,7 @@ router.get('/orgs/', async (req, res) => {
     res.status(200).send(orgs);
   }
   catch (error) {
-    res.status(404).send(error);
+    res.status(400).send({ error, message: error.message });
   }
 });
 

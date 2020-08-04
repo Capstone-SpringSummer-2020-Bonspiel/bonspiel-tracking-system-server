@@ -224,7 +224,7 @@ class CurlingEventService {
 
   async updateDraw(drawId, draw) {
     try {
-      const values = [drawId, name, start, videoUrl];
+      const values = [drawId, draw.name, draw.start, draw.videoUrl];
       let data = await this.#pool
         .query(Queries.UPDATE_DRAW, values);
       if (data.rowCount == 0) {
@@ -255,10 +255,10 @@ class CurlingEventService {
     }
   }
 
-  async addBracket(eventId, bracket) {
+  async addBracket(eventId, bracket, pgClient = this.#pool) {
     try {
       const values = [eventId, bracket.name];
-      let data = await this.#pool
+      let data = await pgClient
         .query(Queries.ADD_BRACKET, values);
       if (data.rowCount == 0) {
         throw Exceptions.invalidIdException();
@@ -285,10 +285,10 @@ class CurlingEventService {
     }
   }
 
-  async addPool(eventId, pool) {
+  async addPool(eventId, pool, pgClient = this.#pool) {
     try {
       const values = [eventId, pool.name];
-      let data = await this.#pool
+      let data = await pgClient
         .query(Queries.ADD_POOL, values);
       if (data.rowCount == 0) {
         throw Exceptions.invalidIdException();
@@ -315,10 +315,10 @@ class CurlingEventService {
     }
   }
 
-  async addEnd(gameId, end) {
+  async addEnd(gameId, end, pgClient = this.#pool) {
     try {
       const values = [gameId, end.endNumber, end.blank, end.curlingTeam1Scored, end.score];
-      let data = await this.#pool
+      let data = await pgClient
         .query(Queries.ADD_END, values);
       if (data.rowCount == 0) {
         throw Exceptions.invalidIdException();
@@ -345,10 +345,10 @@ class CurlingEventService {
     }
   }
 
-  async addTeamToEvent(eventId, teamId) {
+  async addTeamToEvent(eventId, teamId, pgClient = this.#pool) {
     try {
       const values = [eventId, teamId];
-      let data = await this.#pool
+      let data = await pgClient
         .query(Queries.ADD_TEAM_TO_EVENT, values);
       if (data.rowCount == 0) {
         throw Exceptions.invalidIdException();
@@ -470,6 +470,19 @@ class CurlingEventService {
     }
   }
 
+  async getAllEventTeamsInEvent(curlingEventId) {
+    try {
+      const values = [curlingEventId];
+      const data = await this.#pool
+        .query(Queries.GET_ALL_EVENT_TEAMS_IN_EVENT, values);
+      return data.rows;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
+
   async getAllGamesAndScoresByTeam(curlingEventId, curlingTeamId) {
     try {
       const values = [curlingEventId, curlingTeamId];
@@ -524,6 +537,24 @@ class CurlingEventService {
     }
   }
 
+  async deleteEvent(eventId) {
+    try {
+      const values = [eventId];
+      const data = await this.#pool
+        .query(Queries.DELETE_EVENT, values);
+
+      if (data.rowCount == 0) {
+        Exceptions.invalidIdException();
+      }
+
+      return data;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
+
   async getPoolsForEvent(eventId) {
     try {
       const values = [eventId];
@@ -551,12 +582,12 @@ class CurlingEventService {
     }
   }
 
-  async addGame(game) {
+  async addGame(game, pgClient = this.#pool) {
     try {
       let values = [game.eventType, game.notes, game.gameName, game.bracketId, game.poolId, game.drawId,
       game.curlingTeam1Id, game.curlingTeam2Id, game.stoneColor1, game.stoneColor2,
-      game.winnerDest, game.loserDest, game.iceSheet, game.finished, game.winner];
-      const data = await this.#pool
+      game.destWinner, game.destLoser, game.iceSheet, game.finished, game.winner];
+      const data = await pgClient
         .query(Queries.INSERT_GAME, values);
       return data;
     }
@@ -566,11 +597,11 @@ class CurlingEventService {
     }
   }
 
-  async addDraw(draw, eventId) {
+  async addDraw(draw, eventId, pgClient = this.#pool) {
     try {
       let drawData = [eventId, draw.name, draw.start, draw.videoUrl]
 
-      const data = await this.#pool
+      const data = await pgClient
         .query(Queries.INSERT_DRAW, drawData);
       return data;
     }
@@ -580,11 +611,11 @@ class CurlingEventService {
     }
   }
 
-  async addEvent(event) {
+  async addEvent(event, pgClient = this.#pool) {
     try {
       const eventData = [event.name, event.beginDate, event.endDate,
       event.completed, event.info, event.eventType];
-      const data = await this.#pool
+      const data = await pgClient
         .query(Queries.INSERT_EVENT, eventData);
       return data;
     }
@@ -594,12 +625,12 @@ class CurlingEventService {
     }
   }
 
-  async createTeam(name, affiliation, note) {
+  async createTeam(name, affiliation, note, pgClient = this.#pool) {
     const values = [name, affiliation, note];
     try {
-      const data = await this.#pool
+      const data = await pgClient
         .query(Queries.CREATE_TEAM, values);
-      return data.rows;
+      return data;
     }
     catch (err) {
       if (err.message.includes('affiliation')) {
@@ -630,12 +661,12 @@ class CurlingEventService {
     }
   }
 
-  async createCurler(name, position, affiliation, curlingTeamId) {
-    const values = [name, position, affiliation, curlingTeamId];
+  async createCurler(name, position, affiliation, curlingTeamId, throwingOrder, pgClient = this.#pool) {
+    const values = [name, position, affiliation, curlingTeamId, throwingOrder];
     try {
-      const data = await this.#pool
+      const data = await pgClient
         .query(Queries.CREATE_CURLER, values);
-      return data.rows;
+      return data;
     }
     catch (err) {
       if (err.message.includes("valid_position_types")) {
@@ -648,8 +679,8 @@ class CurlingEventService {
     }
   }
 
-  async updateCurler(id, name, position, affiliation, curlingTeamId) {
-    const values = [id, name, position, affiliation, curlingTeamId];
+  async updateCurler(id, name, position, affiliation, curlingTeamId, throwingOrder) {
+    const values = [id, name, position, affiliation, curlingTeamId, throwingOrder];
     try {
       const data = await this.#pool
         .query(Queries.UPDATE_CURLER, values);
@@ -666,12 +697,12 @@ class CurlingEventService {
     }
   }
 
-  async createOrganization(shortName, fullName) {
+  async createOrganization(shortName, fullName, pgClient = this.#pool) {
     const values = [shortName, fullName];
     try {
-      const data = await this.#pool
+      const data = await pgClient
         .query(Queries.CREATE_ORGANIZATION, values);
-      return data.rows;
+      return data;
     }
     catch (err) {
       throw Exceptions.insertionException(err.message);
@@ -725,6 +756,53 @@ class CurlingEventService {
       console.error(err.message);
       throw err;
     }
+  }
+
+  async generateBrackets(curlingEventId) {
+    try {
+      const games = await this.getAllGamesAndScores(curlingEventId);
+      let nodes = this.createBracketNodes(games);
+      let edges = this.createBracketEdges(games);
+
+      return {
+        nodes,
+        edges
+      };
+    }
+    catch (err) {
+      console.error(err.message);
+      throw err;
+    }
+  }
+
+  createBracketNodes(games) {
+    const nodes = [];
+    for (let i = 0; i < games.length; i++) {
+      nodes.push({
+        id: games[i].game_id.toString(),
+        label: `${games[i].team_name1} vs ${games[i].team_name2}`
+      });
+    }
+
+    return nodes;
+  }
+
+  createBracketEdges(games) {
+    const edges = [];
+    for (let i = 0; i < games.length; i++) {
+      if (games[i].winner_dest && games[i].loser_dest) {
+        edges.push({
+          source: games[i].game_id.toString(),
+          target: games[i].winner_dest.toString()
+        });
+
+        edges.push({
+          source: games[i].game_id.toString(),
+          target: games[i].loser_dest.toString()
+        });
+      }
+    }
+    return edges;
   }
 }
 
