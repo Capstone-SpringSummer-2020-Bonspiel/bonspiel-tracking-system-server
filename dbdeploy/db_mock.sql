@@ -1,7 +1,7 @@
 
 
 
-INSERT INTO CurlingEvent VALUES (DEFAULT, 'Granite Jr. Bonspiel', '1/25/2020', '1/26/2020', TRUE, 'Come on out to the State Fair.', 'pools');
+INSERT INTO CurlingEvent VALUES (DEFAULT, 'Granite Jr Bonspiel', '1/25/2020 10:00-08', '1/26/2020 16:00-08', TRUE, 'Come on out to the State Fair', 'pools');
 
 
 
@@ -17,20 +17,20 @@ INSERT INTO Pool VALUES (DEFAULT,  1, 'Cattle-B', 'pink');
 
 
 
-INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Piglettes', 'Winner');
-INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Pygmy Goats', '2nd place');
-INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Sheep', '3rd place');	
-INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Chickens', '4th place');
-INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Horses', NULL);
-INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Rabbits', NULL);
-INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Ayrshire', NULL);
-INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Highland', NULL);
-INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Holstein', NULL);
-INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Jersey', NULL);
-INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Brown Swiss', NULL);
-INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Red Angus', NULL);
-INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Hereford', NULL);
-INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Guernsey', NULL);
+INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Piglettes', '');
+INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Pygmy Goats', '');
+INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Sheep', '');	
+INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Chickens', '');
+INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Horses', '');
+INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Rabbits', '');
+INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Ayrshire', '');
+INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Highland', '');
+INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Holstein', '');
+INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Jersey', '');
+INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Brown Swiss', '');
+INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Red Angus', '');
+INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Hereford', '');
+INSERT INTO CurlingTeam VALUES (DEFAULT, NULL, 'Guernsey', '');
 
 
 
@@ -97,45 +97,45 @@ INSERT INTO Curler VALUES (DEFAULT, 'Lila Farwell', NULL, NULL, NULL, 3, 11);
 
 
 
-INSERT INTO Draw VALUES (DEFAULT, 1, 'Draw #1', '2020-01-25 08:30', NULL);
-INSERT INTO Draw VALUES (DEFAULT, 1, 'Draw #2', '2020-01-25 10:15', NULL);
-INSERT INTO Draw VALUES (DEFAULT, 1, 'Lunch', '2020-01-25 12:15', NULL);
-INSERT INTO Draw VALUES (DEFAULT, 1, 'Draw #3', '2020-01-25 13:15', NULL);
-INSERT INTO Draw VALUES (DEFAULT, 1, 'Draw #4', '2020-01-25 15:30', NULL);
-INSERT INTO Draw VALUES (DEFAULT, 1, 'Banquet', '2020-01-25 17:30', NULL);
-INSERT INTO Draw VALUES (DEFAULT, 1, 'Draw #5', '2020-01-25 19:00', NULL);
-INSERT INTO Draw VALUES (DEFAULT, 1, 'Draw #6', '2020-01-26 09:00', NULL);
-INSERT INTO Draw VALUES (DEFAULT, 1, 'Draw #7', '2020-01-26 11:30', NULL);
+INSERT INTO Draw VALUES (DEFAULT, 1, 'Draw #1', '2020-01-25 08:30-08', NULL);
+INSERT INTO Draw VALUES (DEFAULT, 1, 'Draw #2', '2020-01-25 10:15-08', NULL);
+INSERT INTO Draw VALUES (DEFAULT, 1, 'Lunch', '2020-01-25 12:15-08', NULL);
+INSERT INTO Draw VALUES (DEFAULT, 1, 'Draw #3', '2020-01-25 13:15-08', NULL);
+INSERT INTO Draw VALUES (DEFAULT, 1, 'Draw #4', '2020-01-25 15:30-08', NULL);
+INSERT INTO Draw VALUES (DEFAULT, 1, 'Banquet', '2020-01-25 17:30-08', NULL);
+INSERT INTO Draw VALUES (DEFAULT, 1, 'Draw #5', '2020-01-25 19:00-08', NULL);
+INSERT INTO Draw VALUES (DEFAULT, 1, 'Draw #6', '2020-01-26 09:00-08', NULL);
+INSERT INTO Draw VALUES (DEFAULT, 1, 'Draw #7', '2020-01-26 11:30-08', NULL);
 
 
 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 2, 1, 7, 8, DEFAULT, DEFAULT, NULL, NULL,  '2', TRUE, 7); 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 3, 1, 11, 12, DEFAULT, DEFAULT, NULL, NULL, '3', TRUE, 11); 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 2, 1, 9, 10, DEFAULT, DEFAULT, NULL, NULL, '4', TRUE, 9); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 1', '', NULL, 2, 1, 7, 8, DEFAULT, DEFAULT, NULL, NULL,  '2', TRUE, 7); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 2', '', NULL, 3, 1, 11, 12, DEFAULT, DEFAULT, NULL, NULL, '3', TRUE, 11); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 3', '', NULL, 2, 1, 9, 10, DEFAULT, DEFAULT, NULL, NULL, '4', TRUE, 9); 
 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 1, 2, 1, 3, DEFAULT, DEFAULT, NULL, NULL, '2', TRUE,  1); 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 1, 2, 2, 6, DEFAULT, DEFAULT, NULL, NULL, '3', TRUE,  2); 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 1, 2, 4, 5, DEFAULT, DEFAULT, NULL, NULL,  '5', TRUE,  4);
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 4', '', NULL, 1, 2, 1, 3, DEFAULT, DEFAULT, NULL, NULL, '2', TRUE,  1); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 5', '', NULL, 1, 2, 2, 6, DEFAULT, DEFAULT, NULL, NULL, '3', TRUE,  2); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 6', '', NULL, 1, 2, 4, 5, DEFAULT, DEFAULT, NULL, NULL,  '5', TRUE,  4);
 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 3, 4, 13, 11, DEFAULT, DEFAULT, NULL, NULL,  '1', TRUE,  11); 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 2, 4, 10, 7, DEFAULT, DEFAULT, NULL, NULL, '2', TRUE,  7); 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 3, 4, 12, 14, DEFAULT, DEFAULT, NULL, NULL,  '3', TRUE, 12); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 7', '', NULL, 3, 4, 13, 11, DEFAULT, DEFAULT, NULL, NULL,  '1', TRUE,  11); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 8', '', NULL, 2, 4, 10, 7, DEFAULT, DEFAULT, NULL, NULL, '2', TRUE,  7); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 9', '', NULL, 3, 4, 12, 14, DEFAULT, DEFAULT, NULL, NULL,  '3', TRUE, 12); 
  
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 2, 5, 7, 9, DEFAULT, DEFAULT, NULL, NULL,  '1', TRUE,  7); 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 3, 5, 11, 14, DEFAULT, DEFAULT, NULL, NULL,  '2', TRUE,  11); 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 1, 5, 5, 1, DEFAULT, DEFAULT, NULL, NULL,  '3', TRUE,  1);  
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 10', '', NULL, 2, 5, 7, 9, DEFAULT, DEFAULT, NULL, NULL,  '1', TRUE,  7); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 11', '', NULL, 3, 5, 11, 14, DEFAULT, DEFAULT, NULL, NULL,  '2', TRUE,  11); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 12', '', NULL, 1, 5, 5, 1, DEFAULT, DEFAULT, NULL, NULL,  '3', TRUE,  1);  
 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 1, 7, 2, 5, DEFAULT, DEFAULT, NULL, NULL,  '1', TRUE, 2); 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 1, 7, 3, 6, DEFAULT, DEFAULT, NULL, NULL, '2', TRUE, 3);  
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 2, 7, 10, 8, DEFAULT, DEFAULT, NULL, NULL,  '3', TRUE, 8); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 13', '', NULL, 1, 7, 2, 5, DEFAULT, DEFAULT, NULL, NULL,  '1', TRUE, 2); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 14', '', NULL, 1, 7, 3, 6, DEFAULT, DEFAULT, NULL, NULL, '2', TRUE, 3);  
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 15', '', NULL, 2, 7, 10, 8, DEFAULT, DEFAULT, NULL, NULL,  '3', TRUE, 8); 
  
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 1, 8, 1, 6, DEFAULT, DEFAULT, NULL, NULL,  '1', TRUE,  1); 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 1, 8, 4, 2, DEFAULT, DEFAULT, NULL, NULL,  '2', TRUE,  4); 
-INSERT INTO Game VALUES (DEFAULT, 'pools', 'Pool Champs', NULL, NULL, NULL, 8, 11, 7, DEFAULT, DEFAULT, NULL, NULL, '3', TRUE, 7); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 16', '', NULL, 1, 8, 1, 6, DEFAULT, DEFAULT, NULL, NULL,  '1', TRUE,  1); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 17', '', NULL, 1, 8, 4, 2, DEFAULT, DEFAULT, NULL, NULL,  '2', TRUE,  4); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Pool Champs', '', NULL, 2, 8, 11, 7, DEFAULT, DEFAULT, NULL, NULL, '3', TRUE, 7); 
 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 1, 9, 5, 6, DEFAULT, DEFAULT, NULL, NULL,  '2', TRUE,  5); 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 1, 9, 3, 4, DEFAULT, DEFAULT, NULL, NULL,  '3', TRUE,  3); 
-INSERT INTO Game VALUES (DEFAULT, 'pools', NULL, NULL, NULL, 1, 9, 2, 1, DEFAULT, DEFAULT, NULL, NULL, '4', TRUE,  1); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 19', '', NULL, 1, 9, 5, 6, DEFAULT, DEFAULT, NULL, NULL,  '2', TRUE,  5); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 20', '', NULL, 1, 9, 3, 4, DEFAULT, DEFAULT, NULL, NULL,  '3', TRUE,  3); 
+INSERT INTO Game VALUES (DEFAULT, 'pools', 'Game 21', '', NULL, 1, 9, 2, 1, DEFAULT, DEFAULT, NULL, NULL, '4', TRUE,  1); 
 
 
 
@@ -329,7 +329,7 @@ INSERT INTO endscore VALUES (DEFAULT, 21, 7, FALSE, TRUE, 0);
 INSERT INTO endscore VALUES (DEFAULT, 21, 8, FALSE, FALSE, 3);
 
 
-INSERT INTO CurlingEvent VALUES(5, 'Hollywood Open', '7/4/2020', '7/5/2020', TRUE, NULL, 'pools');
+INSERT INTO CurlingEvent VALUES(5, 'Hollywood Open', '7/4/2020 9:00-08', '7/5/2020 18:00-08', TRUE, '', 'pools');
 
 INSERT INTO CurlingTeam VALUES (DEFAULT, 1, 'Olsen Twins & Co', '');
 INSERT INTO CurlingTeam VALUES (DEFAULT, 1, 'A Series of Unfortunate Ends', '');
@@ -348,7 +348,7 @@ INSERT INTO CurlingTeam VALUES (DEFAULT, 1, 'Junk Up the Front', '');
 INSERT INTO CurlingTeam VALUES (DEFAULT, 1, 'Flock Yeah', '');
 INSERT INTO CurlingTeam VALUES (DEFAULT, 1, 'Grosse Pointe Blank Ends', '');
 INSERT INTO CurlingTeam VALUES (DEFAULT, 1, 'Casablankends', '');
-INSERT INTO CurlingTeam VALUES (DEFAULT, 1, 'Mystery Inc.', '');
+INSERT INTO CurlingTeam VALUES (DEFAULT, 1, 'Mystery Inc', '');
 INSERT INTO CurlingTeam VALUES (DEFAULT, 1, 'The Jerks', '');
 INSERT INTO CurlingTeam VALUES (DEFAULT, 1, 'Team Umali', '');
 INSERT INTO CurlingTeam VALUES (DEFAULT, 1, 'Double - Double Ds', '');
@@ -382,58 +382,358 @@ INSERT INTO eventteams VALUES(5, 37);
 INSERT INTO eventteams VALUES(5, 38);
 
 
-INSERT INTO Draw VALUES (81, 5, 'Draw #1', '2020-07-04 11:40', '');
-INSERT INTO Draw VALUES (82, 5, 'Draw #2', '2020-07-04 14:00', '');
-INSERT INTO Draw VALUES (84, 5, 'Draw #4', '2020-07-05 12:30', '');
-INSERT INTO Draw VALUES (86, 5, 'Draw #6', '2020-07-05 19:00', '');
-INSERT INTO Draw VALUES (87, 5, 'Draw #7', '2020-07-05 21:40', '');
-INSERT INTO Draw VALUES (89, 5, 'Draw #9', '2020-07-06 11:30', '');
-INSERT INTO Draw VALUES (810, 5, 'Draw #10', '2020-07-06 14:15', '');
-INSERT INTO Draw VALUES (811, 5, 'Draw #11', '2020-07-06 16:45', '');
-INSERT INTO Draw VALUES (812, 5, 'Draw #12', '2020-07-07 08:15', '');
-INSERT INTO Draw VALUES (813, 5, 'Draw #13', '2020-07-07 11:00', '');
+INSERT INTO Draw VALUES (81, 5, 'Draw #1', '2020-07-04 11:40-08', '');
+INSERT INTO Draw VALUES (82, 5, 'Draw #2', '2020-07-04 14:00-08', '');
+INSERT INTO Draw VALUES (84, 5, 'Draw #4', '2020-07-05 12:30-08', '');
+INSERT INTO Draw VALUES (86, 5, 'Draw #6', '2020-07-05 19:00-08', '');
+INSERT INTO Draw VALUES (87, 5, 'Draw #7', '2020-07-05 21:40-08', '');
+INSERT INTO Draw VALUES (89, 5, 'Draw #9', '2020-07-06 11:30-08', '');
+INSERT INTO Draw VALUES (810, 5, 'Draw #10', '2020-07-06 14:15-08', '');
+INSERT INTO Draw VALUES (811, 5, 'Draw #11', '2020-07-06 16:45-08', '');
+INSERT INTO Draw VALUES (812, 5, 'Draw #12', '2020-07-07 08:15-08', '');
+INSERT INTO Draw VALUES (813, 5, 'Draw #13', '2020-07-07 11:00-08', '');
 
-INSERT INTO Game VALUES (844, 'pools', 'Game 44', NULL, NULL, NULL, 813, 19, 15, 'red', 'yellow', NULL, NULL, 'B', TRUE, 15);
-INSERT INTO Game VALUES (842, 'pools', 'Game 42', NULL, NULL, NULL, 813, 25, 16, 'red', 'yellow', NULL, NULL, 'C', TRUE, 16);
-INSERT INTO Game VALUES (843, 'pools', 'Game 43', NULL, NULL, NULL, 813, 20, 24, 'red', 'yellow', NULL, NULL, 'D', TRUE, 20);
-INSERT INTO Game VALUES (841, 'pools', 'Game 41', NULL, NULL, NULL, 813, 33, 22, 'red', 'yellow', NULL, NULL, 'E', TRUE, 22);
-INSERT INTO Game VALUES (834, 'pools', 'Game 34', NULL, NULL, NULL, 811, 15, 23, 'red', 'yellow', 844, NULL, 'D', TRUE, 15);
-INSERT INTO Game VALUES (833, 'pools', 'Game 33', NULL, NULL, NULL, 811, 24, 34, 'red', 'yellow', 843, NULL, 'E', TRUE, 24);
-INSERT INTO Game VALUES (837, 'pools', 'Game 37', NULL, NULL, NULL, 812, 35, 22, 'red', 'yellow', 841, NULL, 'A', TRUE, 22);
-INSERT INTO Game VALUES (838, 'pools', 'Game 38', NULL, NULL, NULL, 812, 16, 28, 'red', 'yellow', 842, NULL, 'D', TRUE, 16);
-INSERT INTO Game VALUES (829, 'pools', 'Game 29', NULL, NULL, NULL, 810, 22, 37, 'red', 'yellow', 837, NULL, 'E', TRUE, 22);
-INSERT INTO Game VALUES (839, 'pools', 'Game 39', NULL, NULL, NULL, 811, 36, 33, 'red', 'yellow', 841, NULL, 'A', TRUE, 33);
-INSERT INTO Game VALUES (835, 'pools', 'Game 35', NULL, NULL, NULL, 811, 32, 20, 'red', 'yellow', 843, NULL, 'B', TRUE, 20);
-INSERT INTO Game VALUES (836, 'pools', 'Game 36', NULL, NULL, NULL, 811, 19, 21, 'red', 'yellow', 844, NULL, 'C', TRUE, 19);
-INSERT INTO Game VALUES (832, 'pools', 'Game 32', NULL, NULL, NULL, 810, 28, 31, 'red', 'yellow', 838, NULL, 'A', TRUE, 14);
-INSERT INTO Game VALUES (831, 'pools', 'Game 31', NULL, NULL, NULL, 810, 38, 35, 'red', 'yellow', 837, NULL, 'B', TRUE, 35);
-INSERT INTO Game VALUES (830, 'pools', 'Game 30', NULL, NULL, NULL, 810, 16, 30, 'red', 'yellow', 838, NULL, 'C', TRUE, 16);
-INSERT INTO Game VALUES (840, 'pools', 'Game 40', NULL, NULL, NULL, 810, 29, 25, 'red', 'yellow', 842, NULL, 'D', TRUE, 25);
-INSERT INTO Game VALUES (827, 'pools', 'Game 27', NULL, NULL, NULL, 89,  27, 34, 'red', 'yellow', 833, NULL, 'B', TRUE, 34);
-INSERT INTO Game VALUES (826, 'pools', 'Game 26', NULL, NULL, NULL, 89,  15, 18, 'red', 'yellow', 834, NULL, 'C', TRUE, 15);
-INSERT INTO Game VALUES (825, 'pools', 'Game 25', NULL, NULL, NULL, 89,  26, 24, 'red', 'yellow', 833, NULL, 'D', TRUE, 24);
-INSERT INTO Game VALUES (828, 'pools', 'Game 28', NULL, NULL, NULL, 89,  23, 17, 'red', 'yellow', 834, NULL, 'A', TRUE, 23);
-INSERT INTO Game VALUES (823, 'pools', 'Game 23', NULL, NULL, NULL, 89,  33, 20, 'red', 'yellow', 835, 839, 'E', TRUE, 20);
-INSERT INTO Game VALUES (821, 'pools', 'Game 21', NULL, NULL, NULL, 87,  36, 32, 'red', 'yellow', 835, 839, 'C', TRUE, 32);
-INSERT INTO Game VALUES (820, 'pools', 'Game 20', NULL, NULL, NULL, 87,  17, 31, 'red', 'yellow', 828, 832, 'D', TRUE, 31);
-INSERT INTO Game VALUES (819, 'pools', 'Game 19', NULL, NULL, NULL, 87,  35, 34, 'red', 'yellow', 827, 831, 'E', TRUE, 34);
-INSERT INTO Game VALUES (818, 'pools', 'Game 18', NULL, NULL, NULL, 86,  28, 23, 'red', 'yellow', 828, 832, 'D', TRUE, 23);
-INSERT INTO Game VALUES (816, 'pools', 'Game 16', NULL, NULL, NULL, 86,  28, 30, 'red', 'yellow', 826, 830, 'E', TRUE, 18);
-INSERT INTO Game VALUES (824, 'pools', 'Game 24', NULL, NULL, NULL, 87,  19, 29, 'red', 'yellow', 836, 840, 'A', TRUE, 19);
-INSERT INTO Game VALUES (822, 'pools', 'Game 22', NULL, NULL, NULL, 87,  21, 25, 'red', 'yellow', 836, 840, 'B', TRUE, 21);
-INSERT INTO Game VALUES (810, 'pools', 'Game 10', NULL, NULL, NULL, 84,  36, 21, 'red', 'yellow', 822, 821, 'E', TRUE, 21);
-INSERT INTO Game VALUES (815, 'pools', 'Game 15', NULL, NULL, NULL, 86,  22, 36, 'red', 'yellow', 825, 829, 'A', TRUE, 36);
-INSERT INTO Game VALUES (813, 'pools', 'Game 13', NULL, NULL, NULL, 86,  24, 37, 'red', 'yellow', 825, 829, 'B', TRUE, 24);
-INSERT INTO Game VALUES (817, 'pools', 'Game 17', NULL, NULL, NULL, 86,  38, 27, 'red', 'yellow', 827, 831, 'C', TRUE, 27);
-INSERT INTO Game VALUES (809, 'pools', 'Game 9',  NULL, NULL, NULL, 84,  32, 25, 'red', 'yellow', 822, 821, 'A', TRUE, 25);
-INSERT INTO Game VALUES (814, 'pools', 'Game 14', NULL, NULL, NULL, 84,  16, 15, 'red', 'yellow', 826, 830, 'B', TRUE, 15);
-INSERT INTO Game VALUES (811, 'pools', 'Game 11', NULL, NULL, NULL, 84,  20, 29, 'red', 'yellow', 824, 823, 'C', TRUE, 29);
-INSERT INTO Game VALUES (812, 'pools', 'Game 12', NULL, NULL, NULL, 84,  33, 19, 'red', 'yellow', 824, 823, 'D', TRUE, 19);
-INSERT INTO Game VALUES (807, 'pools', 'Game 7',  NULL, NULL, NULL, 82,  34, 31, 'red', 'yellow', 820, 819, 'B', TRUE, 31);
-INSERT INTO Game VALUES (808, 'pools', 'Game 8',  NULL, NULL, NULL, 82,  17, 35, 'red', 'yellow', 820, 819, 'C', TRUE, 17);
-INSERT INTO Game VALUES (806, 'pools', 'Game 6',  NULL, NULL, NULL, 82,  23, 27, 'red', 'yellow', 818, 817, 'D', TRUE, 23);
-INSERT INTO Game VALUES (805, 'pools', 'Game 5',  NULL, NULL, NULL, 82,  38, 28, 'red', 'yellow', 818, 817, 'E', TRUE, 28);
-INSERT INTO Game VALUES (801, 'pools', 'Game 1',  NULL, NULL, NULL, 81,  24, 16, 'red', 'yellow', 814, 813, 'A', TRUE, 16);
-INSERT INTO Game VALUES (803, 'pools', 'Game 3',  NULL, NULL, NULL, 81,  26, 30, 'red', 'yellow', 816, 815, 'B', TRUE, 30);
-INSERT INTO Game VALUES (804, 'pools', 'Game 4',  NULL, NULL, NULL, 81,  18, 22, 'red', 'yellow', 816, 815, 'C', TRUE, 18);
-INSERT INTO Game VALUES (802, 'pools', 'Game 2',  NULL, NULL, NULL, 81,  37, 15, 'red', 'yellow', 814, 813, 'D', TRUE, 15);
+INSERT INTO Game VALUES (844, 'pools', 'Game 44', '', NULL, NULL, 813, 19, 15, 'red', 'yellow', NULL, NULL, 'B', TRUE, 15);
+INSERT INTO Game VALUES (842, 'pools', 'Game 42', '', NULL, NULL, 813, 25, 16, 'red', 'yellow', NULL, NULL, 'C', TRUE, 16);
+INSERT INTO Game VALUES (843, 'pools', 'Game 43', '', NULL, NULL, 813, 20, 24, 'red', 'yellow', NULL, NULL, 'D', TRUE, 20);
+INSERT INTO Game VALUES (841, 'pools', 'Game 41', '', NULL, NULL, 813, 33, 22, 'red', 'yellow', NULL, NULL, 'E', TRUE, 22);
+INSERT INTO Game VALUES (834, 'pools', 'Game 34', '', NULL, NULL, 811, 15, 23, 'red', 'yellow', 844, NULL, 'D', TRUE, 15);
+INSERT INTO Game VALUES (833, 'pools', 'Game 33', '', NULL, NULL, 811, 24, 34, 'red', 'yellow', 843, NULL, 'E', TRUE, 24);
+INSERT INTO Game VALUES (837, 'pools', 'Game 37', '', NULL, NULL, 812, 35, 22, 'red', 'yellow', 841, NULL, 'A', TRUE, 22);
+INSERT INTO Game VALUES (838, 'pools', 'Game 38', '', NULL, NULL, 812, 16, 28, 'red', 'yellow', 842, NULL, 'D', TRUE, 16);
+INSERT INTO Game VALUES (829, 'pools', 'Game 29', '', NULL, NULL, 810, 22, 37, 'red', 'yellow', 837, NULL, 'E', TRUE, 22);
+INSERT INTO Game VALUES (839, 'pools', 'Game 39', '', NULL, NULL, 811, 36, 33, 'red', 'yellow', 841, NULL, 'A', TRUE, 33);
+INSERT INTO Game VALUES (835, 'pools', 'Game 35', '', NULL, NULL, 811, 32, 20, 'red', 'yellow', 843, NULL, 'B', TRUE, 20);
+INSERT INTO Game VALUES (836, 'pools', 'Game 36', '', NULL, NULL, 811, 19, 21, 'red', 'yellow', 844, NULL, 'C', TRUE, 19);
+INSERT INTO Game VALUES (832, 'pools', 'Game 32', '', NULL, NULL, 810, 28, 31, 'red', 'yellow', 838, NULL, 'A', TRUE, 14);
+INSERT INTO Game VALUES (831, 'pools', 'Game 31', '', NULL, NULL, 810, 38, 35, 'red', 'yellow', 837, NULL, 'B', TRUE, 35);
+INSERT INTO Game VALUES (830, 'pools', 'Game 30', '', NULL, NULL, 810, 16, 30, 'red', 'yellow', 838, NULL, 'C', TRUE, 16);
+INSERT INTO Game VALUES (840, 'pools', 'Game 40', '', NULL, NULL, 810, 29, 25, 'red', 'yellow', 842, NULL, 'D', TRUE, 25);
+INSERT INTO Game VALUES (827, 'pools', 'Game 27', '', NULL, NULL, 89,  27, 34, 'red', 'yellow', 833, NULL, 'B', TRUE, 34);
+INSERT INTO Game VALUES (826, 'pools', 'Game 26', '', NULL, NULL, 89,  15, 18, 'red', 'yellow', 834, NULL, 'C', TRUE, 15);
+INSERT INTO Game VALUES (825, 'pools', 'Game 25', '', NULL, NULL, 89,  26, 24, 'red', 'yellow', 833, NULL, 'D', TRUE, 24);
+INSERT INTO Game VALUES (828, 'pools', 'Game 28', '', NULL, NULL, 89,  23, 17, 'red', 'yellow', 834, NULL, 'A', TRUE, 23);
+INSERT INTO Game VALUES (823, 'pools', 'Game 23', '', NULL, NULL, 89,  33, 20, 'red', 'yellow', 835, 839, 'E', TRUE, 20);
+INSERT INTO Game VALUES (821, 'pools', 'Game 21', '', NULL, NULL, 87,  36, 32, 'red', 'yellow', 835, 839, 'C', TRUE, 32);
+INSERT INTO Game VALUES (820, 'pools', 'Game 20', '', NULL, NULL, 87,  17, 31, 'red', 'yellow', 828, 832, 'D', TRUE, 31);
+INSERT INTO Game VALUES (819, 'pools', 'Game 19', '', NULL, NULL, 87,  35, 34, 'red', 'yellow', 827, 831, 'E', TRUE, 34);
+INSERT INTO Game VALUES (818, 'pools', 'Game 18', '', NULL, NULL, 86,  28, 23, 'red', 'yellow', 828, 832, 'D', TRUE, 23);
+INSERT INTO Game VALUES (816, 'pools', 'Game 16', '', NULL, NULL, 86,  28, 30, 'red', 'yellow', 826, 830, 'E', TRUE, 18);
+INSERT INTO Game VALUES (824, 'pools', 'Game 24', '', NULL, NULL, 87,  19, 29, 'red', 'yellow', 836, 840, 'A', TRUE, 19);
+INSERT INTO Game VALUES (822, 'pools', 'Game 22', '', NULL, NULL, 87,  21, 25, 'red', 'yellow', 836, 840, 'B', TRUE, 21);
+INSERT INTO Game VALUES (810, 'pools', 'Game 10', '', NULL, NULL, 84,  36, 21, 'red', 'yellow', 822, 821, 'E', TRUE, 21);
+INSERT INTO Game VALUES (815, 'pools', 'Game 15', '', NULL, NULL, 86,  22, 36, 'red', 'yellow', 825, 829, 'A', TRUE, 36);
+INSERT INTO Game VALUES (813, 'pools', 'Game 13', '', NULL, NULL, 86,  24, 37, 'red', 'yellow', 825, 829, 'B', TRUE, 24);
+INSERT INTO Game VALUES (817, 'pools', 'Game 17', '', NULL, NULL, 86,  38, 27, 'red', 'yellow', 827, 831, 'C', TRUE, 27);
+INSERT INTO Game VALUES (809, 'pools', 'Game 9',  '', NULL, NULL, 84,  32, 25, 'red', 'yellow', 822, 821, 'A', TRUE, 25);
+INSERT INTO Game VALUES (814, 'pools', 'Game 14', '', NULL, NULL, 84,  16, 15, 'red', 'yellow', 826, 830, 'B', TRUE, 15);
+INSERT INTO Game VALUES (811, 'pools', 'Game 11', '', NULL, NULL, 84,  20, 29, 'red', 'yellow', 824, 823, 'C', TRUE, 29);
+INSERT INTO Game VALUES (812, 'pools', 'Game 12', '', NULL, NULL, 84,  33, 19, 'red', 'yellow', 824, 823, 'D', TRUE, 19);
+INSERT INTO Game VALUES (807, 'pools', 'Game 7',  '', NULL, NULL, 82,  34, 31, 'red', 'yellow', 820, 819, 'B', TRUE, 31);
+INSERT INTO Game VALUES (808, 'pools', 'Game 8',  '', NULL, NULL, 82,  17, 35, 'red', 'yellow', 820, 819, 'C', TRUE, 17);
+INSERT INTO Game VALUES (806, 'pools', 'Game 6',  '', NULL, NULL, 82,  23, 27, 'red', 'yellow', 818, 817, 'D', TRUE, 23);
+INSERT INTO Game VALUES (805, 'pools', 'Game 5',  '', NULL, NULL, 82,  38, 28, 'red', 'yellow', 818, 817, 'E', TRUE, 28);
+INSERT INTO Game VALUES (801, 'pools', 'Game 1',  '', NULL, NULL, 81,  24, 16, 'red', 'yellow', 814, 813, 'A', TRUE, 16);
+INSERT INTO Game VALUES (803, 'pools', 'Game 3',  '', NULL, NULL, 81,  26, 30, 'red', 'yellow', 816, 815, 'B', TRUE, 30);
+INSERT INTO Game VALUES (804, 'pools', 'Game 4',  '', NULL, NULL, 81,  18, 22, 'red', 'yellow', 816, 815, 'C', TRUE, 18);
+INSERT INTO Game VALUES (802, 'pools', 'Game 2',  '', NULL, NULL, 81,  37, 15, 'red', 'yellow', 814, 813, 'D', TRUE, 15);
+
+INSERT INTO CurlingEvent VALUES (99, 'Lupus Pro-Am Bonspiel', '11/2/2018 19:00-08', '11/4/2018 13:00-08', TRUE, '', 'brackets');
+
+INSERT INTO bracket VALUES (990, 99, '1st');
+INSERT INTO bracket VALUES (991, 99, '2nd');
+INSERT INTO bracket VALUES (992, 99, '3rd');
+
+INSERT INTO curlingteam VALUES (9900, 2, 'Lehto', '');
+INSERT INTO curlingteam VALUES (9901, 2, 'Schultz', '');
+INSERT INTO curlingteam VALUES (9902, 2, 'Nixon', '');
+INSERT INTO curlingteam VALUES (9903, 2, 'Kauffman', '');
+INSERT INTO curlingteam VALUES (9904, 2, 'Trask', '');
+INSERT INTO curlingteam VALUES (9905, 2, 'Pleasants', '');
+INSERT INTO curlingteam VALUES (9906, 2, 'TBirr', '');
+INSERT INTO curlingteam VALUES (9907, 2, 'Ryan', '');
+INSERT INTO curlingteam VALUES (9908, 2, 'Larway', '');
+INSERT INTO curlingteam VALUES (9909, 2, 'RBirr', '');
+INSERT INTO curlingteam VALUES (9910, 2, 'Way', '');
+INSERT INTO curlingteam VALUES (9911, 2, 'McAuley', '');
+INSERT INTO curlingteam VALUES (9912, 2, 'Violette', '');
+INSERT INTO curlingteam VALUES (9913, 2, 'Maxie', '');
+INSERT INTO curlingteam VALUES (9914, 2, 'Rutan', '');
+INSERT INTO curlingteam VALUES (9915, 2, 'Walsh', '');
+INSERT INTO curlingteam VALUES (9916, 2, 'Galey/Seig', '');
+INSERT INTO curlingteam VALUES (9917, 2, 'Bond', '');
+INSERT INTO curlingteam VALUES (9918, 2, 'Kleibrink', '');
+INSERT INTO curlingteam VALUES (9919, 2, 'Clark', '');
+INSERT INTO curlingteam VALUES (9920, 2, 'Clawson', '');
+INSERT INTO curlingteam VALUES (9921, 2, 'Vukich', '');
+
+INSERT INTO eventteams VALUES (99, 9900);
+INSERT INTO eventteams VALUES (99, 9901);
+INSERT INTO eventteams VALUES (99, 9902);
+INSERT INTO eventteams VALUES (99, 9903);
+INSERT INTO eventteams VALUES (99, 9904);
+INSERT INTO eventteams VALUES (99, 9905);
+INSERT INTO eventteams VALUES (99, 9906);
+INSERT INTO eventteams VALUES (99, 9907);
+INSERT INTO eventteams VALUES (99, 9908);
+INSERT INTO eventteams VALUES (99, 9909);
+INSERT INTO eventteams VALUES (99, 9910);
+INSERT INTO eventteams VALUES (99, 9911);
+INSERT INTO eventteams VALUES (99, 9912);
+INSERT INTO eventteams VALUES (99, 9913);
+INSERT INTO eventteams VALUES (99, 9914);
+INSERT INTO eventteams VALUES (99, 9915);
+INSERT INTO eventteams VALUES (99, 9916);
+INSERT INTO eventteams VALUES (99, 9917);
+INSERT INTO eventteams VALUES (99, 9918);
+INSERT INTO eventteams VALUES (99, 9919);
+INSERT INTO eventteams VALUES (99, 9920);
+INSERT INTO eventteams VALUES (99, 9921);
+
+INSERT INTO Curler VALUES (900, 'Darren Lehto', NULL, NULL, NULL, 2, 9900);
+INSERT INTO Curler VALUES (901, 'Kervin Lemmi', NULL, NULL, NULL, 2, 9900);
+INSERT INTO Curler VALUES (902, 'Max Sando', NULL, NULL, NULL, 2, 9900);
+INSERT INTO Curler VALUES (903, 'Abby Marteny', NULL, NULL, NULL, 2, 9900);
+INSERT INTO Curler VALUES (904, 'Rick Mathis', NULL, NULL, NULL, 2, 9900);
+INSERT INTO Curler VALUES (905, 'Jessica Schultz', NULL, NULL, NULL, 2, 9901);
+INSERT INTO Curler VALUES (906, 'Jonathan Lee', NULL, NULL, NULL, 2, 9901);
+INSERT INTO Curler VALUES (907, 'Matt Kane', NULL, NULL, NULL, 2, 9901);
+INSERT INTO Curler VALUES (908, 'Jeff Bruce', NULL, NULL, NULL, 2, 9901);
+INSERT INTO Curler VALUES (909, 'Jessica Javaherian', NULL, NULL, NULL, 2, 9901);
+INSERT INTO Curler VALUES (910, 'Amy Nixon', NULL, NULL, NULL, 2, 9902);
+INSERT INTO Curler VALUES (911, 'Chris Sherry', NULL, NULL, NULL, 2, 9902);
+INSERT INTO Curler VALUES (912, 'Gina Trolo', NULL, NULL, NULL, 2, 9902);
+INSERT INTO Curler VALUES (913, 'Stephen Grant', NULL, NULL, NULL, 2, 9902);
+INSERT INTO Curler VALUES (914, 'Doug Kaffman', NULL, NULL, NULL, 2, 9903);
+INSERT INTO Curler VALUES (915, 'Sarah Walsh', NULL, NULL, NULL, 2, 9903);
+INSERT INTO Curler VALUES (916, 'Auria Moore', NULL, NULL, NULL, 2, 9903);
+INSERT INTO Curler VALUES (917, 'Porsche Stephenson', NULL, NULL, NULL, 2, 9903);
+INSERT INTO Curler VALUES (918, 'Ken Trask', NULL, NULL, NULL, 2, 9904);
+INSERT INTO Curler VALUES (919, 'June Fox', NULL, NULL, NULL, 2, 9904);
+INSERT INTO Curler VALUES (920, 'John Canning', NULL, NULL, NULL, 2, 9904);
+INSERT INTO Curler VALUES (921, 'Susanna Pearson', NULL, NULL, NULL, 2, 9904);
+INSERT INTO Curler VALUES (922, 'Jeff Pearson', NULL, NULL, NULL, 2, 9904);
+INSERT INTO Curler VALUES (923, 'Jim Pleasants', NULL, NULL, NULL, 2, 9905);
+INSERT INTO Curler VALUES (924, 'Greg Smith', NULL, NULL, NULL, 2, 9905);
+INSERT INTO Curler VALUES (925, 'Jen Nguyen', NULL, NULL, NULL, 2, 9905);
+INSERT INTO Curler VALUES (926, 'Marc Eilers', NULL, NULL, NULL, 2, 9905);
+INSERT INTO Curler VALUES (927, 'Kim Hitchcock', NULL, NULL, NULL, 2, 9905);
+INSERT INTO Curler VALUES (928, 'Todd Birr', NULL, NULL, NULL, 2, 9906);
+INSERT INTO Curler VALUES (929, 'Adrian Pawlowski', NULL, NULL, NULL, 2, 9906);
+INSERT INTO Curler VALUES (930, 'Ethan Bradford', NULL, NULL, NULL, 2, 9906);
+INSERT INTO Curler VALUES (931, 'Charles Edward Smith', NULL, NULL, NULL, 2, 9906);
+INSERT INTO Curler VALUES (932, 'Pat Ryan', NULL, NULL, NULL, 2, 9907);
+INSERT INTO Curler VALUES (933, 'Lisa Rauliuk', NULL, NULL, NULL, 2, 9907);
+INSERT INTO Curler VALUES (934, 'Jeff Bruce', NULL, NULL, NULL, 2, 9907);
+INSERT INTO Curler VALUES (935, 'Tim Eng', NULL, NULL, NULL, 2, 9907);
+INSERT INTO Curler VALUES (936, 'Megan Goodenkauf', NULL, NULL, NULL, 2, 9907);
+INSERT INTO Curler VALUES (937, 'Chris Sherry', NULL, NULL, NULL, 2, 9907);
+INSERT INTO Curler VALUES (938, 'Joel Larway', NULL, NULL, NULL, 2, 9908);
+INSERT INTO Curler VALUES (939, 'Mike Glenn', NULL, NULL, NULL, 2, 9908);
+INSERT INTO Curler VALUES (940, 'Brian Danell', NULL, NULL, NULL, 2, 9908);
+INSERT INTO Curler VALUES (941, 'Katie Moran', NULL, NULL, NULL, 2, 9908);
+INSERT INTO Curler VALUES (942, 'Regan Birr', NULL, NULL, NULL, 2, 9909);
+INSERT INTO Curler VALUES (943, 'Geoff McAlpin', NULL, NULL, NULL, 2, 9909);
+INSERT INTO Curler VALUES (944, 'Will Dimmit', NULL, NULL, NULL, 2, 9909);
+INSERT INTO Curler VALUES (945, 'Kate Fox', NULL, NULL, NULL, 2, 9909);
+INSERT INTO Curler VALUES (946, 'Travis way', NULL, NULL, NULL, 2, 9910);
+INSERT INTO Curler VALUES (947, 'Jennifer Westhagen', NULL,  NULL, NULL, 2, 9910);
+INSERT INTO Curler VALUES (948, 'Brigid Knowles', NULL, NULL, NULL, 2, 9910);
+INSERT INTO Curler VALUES (949, 'Heather Betzhold', NULL, NULL, NULL, 2, 9910);
+INSERT INTO Curler VALUES (950, 'Evan McAuley', NULL, NULL, NULL, 2, 9911);
+INSERT INTO Curler VALUES (951, 'Richard Palmason', NULL, NULL, NULL, 2, 9911);
+INSERT INTO Curler VALUES (952, 'Kathy Justice', NULL, NULL, NULL, 2, 9911);
+INSERT INTO Curler VALUES (953, 'Melanie Zahn', NULL, NULL, NULL, 2, 9911);
+INSERT INTO Curler VALUES (954, 'Luc Violette', NULL, NULL, NULL, 2, 9912);
+INSERT INTO Curler VALUES (955, 'Jamie Scholz', NULL, NULL, NULL, 2, 9912);
+INSERT INTO Curler VALUES (956, 'James Cramer', NULL, NULL, NULL, 2, 9912);
+INSERT INTO Curler VALUES (957, 'Robin Gavelin', NULL, NULL, NULL, 2, 9912);
+INSERT INTO Curler VALUES (958, 'Fred Maxie', NULL, NULL, NULL, 2, 9913);
+INSERT INTO Curler VALUES (959, 'Bowen Zheng', NULL, NULL, NULL, 2, 9913);
+INSERT INTO Curler VALUES (960, 'Alex Lee', NULL, NULL, NULL, 2, 9913);
+INSERT INTO Curler VALUES (961, 'Jonah Sterkowicz', NULL, NULL, NULL, 2, 9913);
+INSERT INTO Curler VALUES (962, 'Duane Rutan', NULL, NULL, NULL, 2, 9914);
+INSERT INTO Curler VALUES (963, 'Andrew Carpenter', NULL, NULL, NULL, 2, 9914);
+INSERT INTO Curler VALUES (964, 'Alex Zimmerman', NULL, NULL, NULL, 2, 9914);
+INSERT INTO Curler VALUES (965, 'Dave Desertspring', NULL, NULL, NULL, 2, 9914);
+INSERT INTO Curler VALUES (966, 'Frank Walsh', NULL, NULL, NULL, 2, 9915);
+INSERT INTO Curler VALUES (967, 'Gregory Major', NULL, NULL, NULL, 2, 9915);
+INSERT INTO Curler VALUES (968, 'Joe Purvis', NULL, NULL, NULL, 2, 9915);
+INSERT INTO Curler VALUES (969, 'Phil Shryock', NULL, NULL, NULL, 2, 9915);
+INSERT INTO Curler VALUES (970, 'Sam Galey', NULL, NULL, NULL, 2, 9916);
+INSERT INTO Curler VALUES (971, 'Lyle Seig', NULL, NULL, NULL, 2, 9916);
+INSERT INTO Curler VALUES (972, 'Connor Kauffman', NULL, NULL, NULL, 2, 9916);
+INSERT INTO Curler VALUES (973, 'Alex Couckuyt', NULL, NULL, NULL, 2, 9916);
+INSERT INTO Curler VALUES (974, 'Arjun Thomas', NULL, NULL, NULL, 2, 9916);
+INSERT INTO Curler VALUES (975, 'Chris Bond', NULL, NULL, NULL, 2, 9917);
+INSERT INTO Curler VALUES (976, 'Arianna Rauliuk', NULL, NULL, NULL, 2, 9917);
+INSERT INTO Curler VALUES (977, 'Allison Tan', NULL, NULL, NULL, 2, 9917);
+INSERT INTO Curler VALUES (978, 'Cheryl McGuire', NULL, NULL, NULL, 2, 9917);
+INSERT INTO Curler VALUES (979, 'Shannon Kleibrink', NULL, NULL, NULL, 2, 9918);
+INSERT INTO Curler VALUES (980, 'Miyo Konno', NULL, NULL, NULL, 2, 9918);
+INSERT INTO Curler VALUES (981, 'Elizabeth', NULL, NULL, NULL, 2, 9918);
+INSERT INTO Curler VALUES (982, 'Larry Spokoiny', NULL, NULL, NULL, 2, 9918);
+INSERT INTO Curler VALUES (983, 'Cristin Clark', NULL, NULL, NULL, 2, 9919);
+INSERT INTO Curler VALUES (984, 'Rhiannon Howard', NULL, NULL, NULL, 2, 9919);
+INSERT INTO Curler VALUES (985, 'Devon Rooney', NULL, NULL, NULL, 2, 9919);
+INSERT INTO Curler VALUES (986, 'Chris Sohlberg', NULL, NULL, NULL, 2, 9919);
+INSERT INTO Curler VALUES (987, 'Adam Krebs', NULL, NULL, NULL, 2, 9919);
+INSERT INTO Curler VALUES (988, 'Eric Harris', NULL, NULL, NULL, 2, 9919);
+INSERT INTO Curler VALUES (989, 'Hunter Clawson', NULL, NULL, NULL, 2, 9920);
+INSERT INTO Curler VALUES (990, 'Abby Lin', NULL, NULL, NULL, 2, 9920);
+INSERT INTO Curler VALUES (991, 'Mari Toii-Karch', NULL, NULL, NULL, 2, 9920);
+INSERT INTO Curler VALUES (992, 'Amelia Tan', NULL, NULL, NULL, 2, 9920);
+INSERT INTO Curler VALUES (993, 'Dan Ness', NULL, NULL, NULL, 2, 9920);
+INSERT INTO Curler VALUES (994, 'Sharon Vukich', NULL, NULL, NULL, 2, 9921);
+INSERT INTO Curler VALUES (995, 'Brent Campbell', NULL, NULL, NULL, 2, 9921);
+INSERT INTO Curler VALUES (996, 'George Thomsen', NULL, NULL, NULL, 2, 9921);
+INSERT INTO Curler VALUES (997, 'Shannon Gates-Thomsen', NULL, NULL, NULL, 2, 9921);
+
+INSERT INTO Draw VALUES (900, 99, 'Draw 1', '2018-11-2 19:00', NULL);
+INSERT INTO Draw VALUES (910, 99, 'Draw 2', '2018-11-2 21:15', NULL);
+INSERT INTO Draw VALUES (920, 99, 'Draw 3', '2018-11-3 08:00', NULL);
+INSERT INTO Draw VALUES (930, 99, 'Draw 4', '2018-11-3 10:15', NULL);
+INSERT INTO Draw VALUES (940, 99, 'Draw 5', '2018-11-2 13:30', NULL);
+INSERT INTO Draw VALUES (950, 99, 'Draw 6', '2018-11-2 15:45', NULL);
+INSERT INTO Draw VALUES (960, 99, 'Draw 7', '2018-11-4 09:30', NULL);
+INSERT INTO Draw VALUES (970, 99, 'Draw 8', '2018-11-4 12:00', NULL);
+
+INSERT INTO Game VALUES (90309, 'brackets', 'Game 309', '', 992, NULL, 970, 9911, 9903, DEFAULT, DEFAULT, NULL, NULL, '1', TRUE, 9903);
+INSERT INTO Game VALUES (90308, 'brackets', 'Game 308', '', 992, NULL, 970, 9910, 9905, DEFAULT, DEFAULT, NULL, NULL, '5', TRUE, 9905);
+INSERT INTO Game VALUES (90307, 'brackets', 'Game 307', '', 992, NULL, 970, 9909, 9904, DEFAULT, DEFAULT, NULL, NULL, '2', TRUE, 9904);
+INSERT INTO Game VALUES (90304, 'brackets', 'Game 304', '', 992, NULL, 960, 9905, 9917, DEFAULT, DEFAULT, 90308, NULL, '3', TRUE, 9905);
+INSERT INTO Game VALUES (90306, 'brackets', 'Game 306', '', 992, NULL, 960, 9903, 9918, DEFAULT, DEFAULT, 90309, NULL, '5', TRUE, 9903);
+INSERT INTO Game VALUES (90305, 'brackets', 'Game 305', '', 992, NULL, 950, 9913, 9911, DEFAULT, DEFAULT, 90309, NULL, '3', TRUE, 9911);
+INSERT INTO Game VALUES (90301, 'brackets', 'Game 301', '', 992, NULL, 950, 9909, 9921, DEFAULT, DEFAULT, 90307, NULL, '1', TRUE, 9909);
+INSERT INTO Game VALUES (90302, 'brackets', 'Game 302', '', 992, NULL, 940, 9904, 9920, DEFAULT, DEFAULT, 90307, NULL, '5', TRUE, 9904);
+INSERT INTO Game VALUES (90303, 'brackets', 'Game 303', '', 992, NULL, 940, 9910, 9919, DEFAULT, DEFAULT, 90308, NULL, '4', TRUE, 9910);
+INSERT INTO Game VALUES (90210, 'brackets', 'Game 210', '', 991, NULL, 970, 9908, 9902, DEFAULT, DEFAULT, NULL, NULL, '4', TRUE, 9902);
+INSERT INTO Game VALUES (90208, 'brackets', 'Game 208', '', 991, NULL, 960, 9908, 9915, DEFAULT, DEFAULT, 90210, NULL, '1', TRUE, 9908);
+INSERT INTO Game VALUES (90204, 'brackets', 'Game 204', '', 991, NULL, 950, 9916, 9908, DEFAULT, DEFAULT, 90208, NULL, '5', TRUE, 9908);
+INSERT INTO Game VALUES (90205, 'brackets', 'Game 205', '', 991, NULL, 950, 9915, 9917, DEFAULT, DEFAULT, 90208, 90304, '4', TRUE, 9915);
+INSERT INTO Game VALUES (90209, 'brackets', 'Game 209', '', 991, NULL, 940, 9902, 9914, DEFAULT, DEFAULT, 90210, NULL, '3', TRUE, 9902);
+INSERT INTO Game VALUES (90201, 'brackets', 'Game 201', '', 991, NULL, 930, 9911, 9916, DEFAULT, DEFAULT, 90204, 90305, '1', TRUE, 9916);
+INSERT INTO Game VALUES (90202, 'brackets', 'Game 202', '', 991, NULL, 930, 9908, 9921, DEFAULT, DEFAULT, 90204, 90301, '2', TRUE, 9908);
+INSERT INTO Game VALUES (90203, 'brackets', 'Game 203', '', 991, NULL, 930, 9918, 9917, DEFAULT, DEFAULT, 90205, 90306, '3', TRUE, 9917);
+INSERT INTO Game VALUES (90206, 'brackets', 'Game 206', '', 991, NULL, 920, 9919, 9902, DEFAULT, DEFAULT, 90209, 90303, '5', TRUE, 9902);
+INSERT INTO Game VALUES (90207, 'brackets', 'Game 207', '', 991, NULL, 920, 9914, 9920, DEFAULT, DEFAULT, 90209, 90302, '3', TRUE, 9914);
+INSERT INTO Game VALUES (90121, 'brackets', 'Game 121', '', 990, NULL, 970, 9900, 9901, DEFAULT, DEFAULT, NULL, NULL, '3', TRUE, 9900);
+INSERT INTO Game VALUES (90119, 'brackets', 'Game 119', '', 990, NULL, 960, 9906, 9900, DEFAULT, DEFAULT, 90121, NULL, '4', TRUE, 9900);
+INSERT INTO Game VALUES (90120, 'brackets', 'Game 120', '', 990, NULL, 960, 9901, 9907, DEFAULT, DEFAULT, 90121, NULL, '2', TRUE, 9901);
+INSERT INTO Game VALUES (90115, 'brackets', 'Game 115', '', 990, NULL, 950, 9912, 9906, DEFAULT, DEFAULT, 90119, NULL, '2', TRUE, 9906);
+INSERT INTO Game VALUES (90116, 'brackets', 'Game 116', '', 990, NULL, 940, 9903, 9900, DEFAULT, DEFAULT, 90119, 90306, '2', TRUE, 9900);
+INSERT INTO Game VALUES (90117, 'brackets', 'Game 117', '', 990, NULL, 940, 9901, 9905, DEFAULT, DEFAULT, 90120, 90304, '1', TRUE, 9901);
+INSERT INTO Game VALUES (90107, 'brackets', 'Game 107', '', 990, NULL, 930, 9912, 9909, DEFAULT, DEFAULT, 90115, 90301, '4', TRUE, 9912);
+INSERT INTO Game VALUES (90118, 'brackets', 'Game 118', '', 990, NULL, 930, 9907, 9913, DEFAULT, DEFAULT, 90120, 90305, '5', TRUE, 9907);
+INSERT INTO Game VALUES (90108, 'brackets', 'Game 108', '', 990, NULL, 920, 9906, 9904, DEFAULT, DEFAULT, 90115, 90302, '4', TRUE, 9906);
+INSERT INTO Game VALUES (90109, 'brackets', 'Game 109', '', 990, NULL, 920, 9910, 9903, DEFAULT, DEFAULT, 90116, 90303, '1', TRUE, 9903);
+INSERT INTO Game VALUES (90110, 'brackets', 'Game 110', '', 990, NULL, 920, 9900, 9915, DEFAULT, DEFAULT, 90116, 90205, '3', TRUE, 9900);
+INSERT INTO Game VALUES (90101, 'brackets', 'Game 101', '', 990, NULL, 910, 9918, 9912, DEFAULT, DEFAULT, 90107, 90203, '1', TRUE, 9912);
+INSERT INTO Game VALUES (90111, 'brackets', 'Game 111', '', 990, NULL, 910, 9911, 9901, DEFAULT, DEFAULT, 90117, 90201, '5', TRUE, 9901);
+INSERT INTO Game VALUES (90112, 'brackets', 'Game 112', '', 990, NULL, 910, 9905, 9916, DEFAULT, DEFAULT, 90117, 90201, '2', TRUE, 9905);
+INSERT INTO Game VALUES (90113, 'brackets', 'Game 113', '', 990, NULL, 910, 9908, 9907, DEFAULT, DEFAULT, 90118, 90202, '3', TRUE, 9907);
+INSERT INTO Game VALUES (90114, 'brackets', 'Game 114', '', 990, NULL, 910, 9921, 9913, DEFAULT, DEFAULT, 90118, 90202, '4', TRUE, 9913);
+INSERT INTO Game VALUES (90102, 'brackets', 'Game 102', '', 990, NULL, 900, 9917, 9909, DEFAULT, DEFAULT, 90107, 90203, '1', TRUE, 9909);
+INSERT INTO Game VALUES (90103, 'brackets', 'Game 103', '', 990, NULL, 900, 9906, 9919, DEFAULT, DEFAULT, 90108, 90206, '2', TRUE, 9909);
+INSERT INTO Game VALUES (90104, 'brackets', 'Game 104', '', 990, NULL, 900, 9902, 9904, DEFAULT, DEFAULT, 90108, 90206, '3', TRUE, 9904);
+INSERT INTO Game VALUES (90105, 'brackets', 'Game 105', '', 990, NULL, 900, 9903, 9914, DEFAULT, DEFAULT, 90109, 90207, '4', TRUE, 9903);
+INSERT INTO Game VALUES (90106, 'brackets', 'Game 106', '', 990, NULL, 900, 9910, 9920, DEFAULT, DEFAULT, 90109, 90207, '5', TRUE, 9910);
+
+INSERT INTO CurlingEvent VALUES(10, 'YOG/U18 Junior Clinic', '9/20/2019 10:00-08', '9/22/2019 12:00-08', TRUE, '', 'pools');
+
+INSERT INTO CurlingTeam VALUES (100, 2, 'Tan YOG', '');
+INSERT INTO CurlingTeam VALUES (101, 2, 'MOPAC #8 Su', '');
+INSERT INTO CurlingTeam VALUES (102, 2, 'GCC U18', '');
+INSERT INTO CurlingTeam VALUES (103, 2, 'Kauffman YOG', '');
+INSERT INTO CurlingTeam VALUES (104, 2, 'Zheng U18', '');
+INSERT INTO CurlingTeam VALUES (105, 2, 'Portland U18', '');
+INSERT INTO CurlingTeam VALUES (106, 2, 'Portland YOG', '');
+INSERT INTO CurlingTeam VALUES (107, 2, 'MOPAC #8 Sa', '');
+INSERT INTO CurlingTeam VALUES (108, 2, 'Tam (Port Moody)', '');
+INSERT INTO CurlingTeam VALUES (109, 2, 'GCC #7', '');
+
+INSERT INTO Curler VALUES (DEFAULT, 'Allison Tan', NULL, NULL, NULL, 2, 100);
+INSERT INTO Curler VALUES (DEFAULT, 'Andrew Bell', NULL, NULL, NULL, 2, 100);
+INSERT INTO Curler VALUES (DEFAULT, 'Abby Lin', NULL, NULL, NULL, 2, 100);
+INSERT INTO Curler VALUES (DEFAULT, 'Lehua Morely', NULL, NULL, NULL, 2, 101);
+INSERT INTO Curler VALUES (DEFAULT, 'Shiyon Kim', NULL, NULL, NULL, 2, 101);
+INSERT INTO Curler VALUES (DEFAULT, 'Alex Couckuyt', NULL, NULL, NULL, 2, 102);
+INSERT INTO Curler VALUES (DEFAULT, 'Mari Torii-Karch', NULL, NULL, NULL, 2, 102);
+INSERT INTO Curler VALUES (DEFAULT, 'Arjun Thomas', NULL, NULL, NULL, 2, 102);
+INSERT INTO Curler VALUES (DEFAULT, 'Conner Kauffman', NULL, NULL, NULL, 2, 103);
+INSERT INTO Curler VALUES (DEFAULT, 'Arianna Rauliuk', NULL, NULL, NULL, 2, 103);
+INSERT INTO Curler VALUES (DEFAULT, 'Nick Soto', NULL, NULL, NULL, 2, 103);
+INSERT INTO Curler VALUES (DEFAULT, 'Rese Elza', NULL, NULL, NULL, 2, 103);
+INSERT INTO Curler VALUES (DEFAULT, 'Bowen Zheng', NULL, NULL, NULL, 2, 104);
+INSERT INTO Curler VALUES (DEFAULT, 'Alex', NULL, NULL, NULL, 2, 104);
+INSERT INTO Curler VALUES (DEFAULT, 'Lennox Weiner', NULL, NULL, NULL, 2, 104);
+INSERT INTO Curler VALUES (DEFAULT, 'Alex Ge', NULL, NULL, NULL, 2, 104);
+INSERT INTO Curler VALUES (DEFAULT, 'Oliver Chally', NULL, NULL, NULL, 2, 105);
+INSERT INTO Curler VALUES (DEFAULT, 'Zander Emerson', NULL, NULL, NULL, 2, 105);
+INSERT INTO Curler VALUES (DEFAULT, 'Jacob Feldman', NULL, NULL, NULL, 2, 105);
+INSERT INTO Curler VALUES (DEFAULT, 'Steven Hagen', NULL, NULL, NULL, 2, 105);
+
+INSERT INTO Curler VALUES (DEFAULT, 'Oliver Chally', NULL, NULL, NULL, 2, 106);
+INSERT INTO Curler VALUES (DEFAULT, 'Lehua Morley', NULL, NULL, NULL, 2, 106);
+INSERT INTO Curler VALUES (DEFAULT, 'Shiyon Kim', NULL, NULL, NULL, 2, 106);
+INSERT INTO Curler VALUES (DEFAULT, 'Steven Hagen', NULL, NULL, NULL, 2, 106);
+INSERT INTO Curler VALUES (DEFAULT, 'Ben Shoesmith', NULL, NULL, NULL, 2, 107);
+INSERT INTO Curler VALUES (DEFAULT, 'Zander Emerson', NULL, NULL, NULL, 2, 107);
+INSERT INTO Curler VALUES (DEFAULT, 'Jacob Feldman', NULL, NULL, NULL, 2, 107);
+INSERT INTO Curler VALUES (DEFAULT, 'Adrian Tam', NULL, NULL, NULL, 2, 108);
+INSERT INTO Curler VALUES (DEFAULT, 'Ethan Chiu', NULL, NULL, NULL, 2, 108);
+INSERT INTO Curler VALUES (DEFAULT, 'Andrew Baker', NULL, NULL, NULL, 2, 108);
+INSERT INTO Curler VALUES (DEFAULT, 'Vance Werier', NULL, NULL, NULL, 2, 108);
+INSERT INTO Curler VALUES (DEFAULT, 'Abi Marteny', NULL, NULL, NULL, 2, 109);
+INSERT INTO Curler VALUES (DEFAULT, 'Locke Curfman', NULL, NULL, NULL, 2, 109);
+INSERT INTO Curler VALUES (DEFAULT, 'Faye Alesse', NULL, NULL, NULL, 2, 109);
+
+INSERT INTO eventteams VALUES (10, 100);
+INSERT INTO eventteams VALUES (10, 101);
+INSERT INTO eventteams VALUES (10, 102);
+INSERT INTO eventteams VALUES (10, 103);
+INSERT INTO eventteams VALUES (10, 104);
+INSERT INTO eventteams VALUES (10, 105);
+INSERT INTO eventteams VALUES (10, 106);
+INSERT INTO eventteams VALUES (10, 107);
+INSERT INTO eventteams VALUES (10, 108);
+INSERT INTO eventteams VALUES (10, 109);
+
+INSERT INTO Pool VALUES (100, 10, 'A', NULL);
+
+INSERT INTO Draw VALUES (1000, 10, 'Draw #1', '2019-09-21 10:00', NULL);
+INSERT INTO Draw VALUES (1001, 10, 'Draw #2', '2019-09-21 11:00', NULL);
+INSERT INTO Draw VALUES (1002, 10, 'Draw #3', '2019-09-21 14:00', NULL);
+INSERT INTO Draw VALUES (1003, 10, 'Draw #4', '2019-09-21 15:00', NULL);
+INSERT INTO Draw VALUES (1004, 10, 'Draw #5', '2019-09-22 09:00', NULL);
+INSERT INTO Draw VALUES (1005, 10, 'Draw #6', '2019-09-22 10:00', NULL);
+
+INSERT INTO Game VALUES (1001, 'pools', 'Game 1', '', NULL, 100, 1000, 103, 108, DEFAULT, DEFAULT, NULL, NULL, '1', TRUE, 103);
+INSERT INTO Game VALUES (1002, 'pools', 'Game 2', '', NULL, 100, 1000, 107, 109, DEFAULT, DEFAULT, NULL, NULL, '2', TRUE, 107);
+INSERT INTO Game VALUES (1003, 'pools', 'Game 3', '', NULL, 100, 1000, 104, 100, DEFAULT, DEFAULT, NULL, NULL, '3', TRUE, 100);
+INSERT INTO Game VALUES (1004, 'pools', 'Game 4', '', NULL, 100, 1000, 102, 106, DEFAULT, DEFAULT, NULL, NULL, '4', TRUE, 102);
+
+INSERT INTO Game VALUES (1005, 'pools', 'Game 5', '', NULL, 100, 1001, 107, 104, DEFAULT, DEFAULT, NULL, NULL, '1', TRUE, 104);
+INSERT INTO Game VALUES (1006, 'pools', 'Game 6', '', NULL, 100, 1001, 106, 108, DEFAULT, DEFAULT, NULL, NULL, '3', TRUE, 106);
+INSERT INTO Game VALUES (1007, 'pools', 'Game 7', '', NULL, 100, 1001, 100, 103, DEFAULT, DEFAULT, NULL, NULL, '4', TRUE, 100);
+INSERT INTO Game VALUES (1008, 'pools', 'Game 8', '', NULL, 100, 1001, 102, 109, DEFAULT, DEFAULT, NULL, NULL, '5', TRUE, 102);
+
+INSERT INTO Game VALUES (1009, 'pools', 'Game 9', '', NULL, 100, 1002, 103, 106, DEFAULT, DEFAULT, NULL, NULL, '1', TRUE, 103);
+INSERT INTO Game VALUES (1010, 'pools', 'Game 10', '', NULL, 100, 1002, 104, 109, DEFAULT, DEFAULT, NULL, NULL, '2', TRUE, 104);
+INSERT INTO Game VALUES (1011, 'pools', 'Game 11', '', NULL, 100, 1002, 108, 102, DEFAULT, DEFAULT, NULL, NULL, '4', TRUE, 102);
+INSERT INTO Game VALUES (1012, 'pools', 'Game 12', '', NULL, 100, 1002, 107, 100, DEFAULT, DEFAULT, NULL, NULL, '5', TRUE, 100);
+
+INSERT INTO Game VALUES (1013, 'pools', 'Game 13', '', NULL, 100, 1003, 106, 100, DEFAULT, DEFAULT, NULL, NULL, '2', TRUE, 100);
+INSERT INTO Game VALUES (1014, 'pools', 'Game 14', '', NULL, 100, 1003, 102, 107, DEFAULT, DEFAULT, NULL, NULL, '3', TRUE, 102);
+INSERT INTO Game VALUES (1015, 'pools', 'Game 15', '', NULL, 100, 1003, 109, 103, DEFAULT, DEFAULT, NULL, NULL, '4', TRUE, 103);
+INSERT INTO Game VALUES (1016, 'pools', 'Game 16', '', NULL, 100, 1003, 104, 108, DEFAULT, DEFAULT, NULL, NULL, '5', TRUE, 103);
+
+INSERT INTO Game VALUES (1017, 'pools', 'Game 17', '', NULL, 100, 1004, 108, 100, DEFAULT, DEFAULT, NULL, NULL, '1', TRUE, 100);
+INSERT INTO Game VALUES (1018, 'pools', 'Game 18', '', NULL, 100, 1004, 103, 102, DEFAULT, DEFAULT, NULL, NULL, '2', TRUE, 102);
+INSERT INTO Game VALUES (1019, 'pools', 'Game 19', '', NULL, 100, 1004, 109, 101, DEFAULT, DEFAULT, NULL, NULL, '3', TRUE, 101);
+INSERT INTO Game VALUES (1020, 'pools', 'Game 20', '', NULL, 100, 1004, 104, 105, DEFAULT, DEFAULT, NULL, NULL, '4', TRUE, 104);
+
+INSERT INTO Game VALUES (1021, 'pools', 'Game 21', '', NULL, 100, 1005, 105, 109, DEFAULT, DEFAULT, NULL, NULL, '1', TRUE, 105);
+INSERT INTO Game VALUES (1022, 'pools', 'Game 22', '', NULL, 100, 1005, 101, 108, DEFAULT, DEFAULT, NULL, NULL, '2', TRUE, 101);
+INSERT INTO Game VALUES (1023, 'pools', 'Game 23', '', NULL, 100, 1005, 100, 102, DEFAULT, DEFAULT, NULL, NULL, '4', TRUE, 100);
+
