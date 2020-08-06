@@ -264,8 +264,8 @@ create table endScore
 
 create table defaultevent
 (
-  event_id integer;
-  active_flag boolean;
+  event_id integer,
+  active_flag boolean,
   CONSTRAINT defaultevent_pkey PRIMARY KEY (event_id),
   CONSTRAINT defaultevent_event_id_fkey FOREIGN KEY (event_id)
     REFERENCES public.curlingevent (id) MATCH SIMPLE
