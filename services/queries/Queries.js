@@ -279,7 +279,7 @@ VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;
 
 const UPDATE_EVENT = `
 UPDATE curlingevent
-SET name=$2, begin_date=$3, end_date=$4, completed=$5, info=$6, event_type=$7)
+SET name=$2, begin_date=$3, end_date=$4, completed=$5, info=$6, event_type=$7
 WHERE id=$1;
 `;
 
