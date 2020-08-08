@@ -132,7 +132,7 @@ class CurlingEventService {
   async getDefaultEventId() {
     try {
       const data = await this.#pool
-        .query('SELECT * FROM public.defaultevent WHERE active_flag = true ORDER BY id ASC')
+        .query('SELECT * FROM public.defaultevent WHERE active_flag = true')
       return data.rows;
     }
     catch (error) {
