@@ -4,6 +4,16 @@ const CurlingEventService = require('../services/CurlingEventService');
 const Exceptions = new (require('../services/Exceptions'));
 const curlingEventService = new CurlingEventService();
 
+router.get('/defaultEventId/', async (req, res) => {
+  try {
+    let eventId = await curlingEventService.getDefaultEventId();
+    res.status(200).send(eventId);
+  }
+  catch (error) {
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
 router.get('/events/:curlingEventId/teams/:teamId/games', async (req, res) => {
   const curlingEventId = req.params.curlingEventId;
   const teamId = req.params.teamId;
