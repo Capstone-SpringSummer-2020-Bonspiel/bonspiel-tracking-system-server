@@ -431,8 +431,8 @@ router.get('/defaultEventId/:eventId', async (req, res) => {
   const eventId = req.params.eventId;
 
   try {
-    let res = await curlingEventService.setDefaultEventId(eventId);
-    res.status(200).send(res);
+    let result = await curlingEventService.setDefaultEventId(eventId);
+    res.status(200).send(result);
   }
   catch (error) {
     res.status(400).send({ error, message: error.message });
