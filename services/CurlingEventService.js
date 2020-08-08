@@ -129,6 +129,18 @@ class CurlingEventService {
     }
   }
 
+  async getDefaultEventId() {
+    try {
+      const data = await this.#pool
+        .query('SELECT * FROM public.defaultevent WHERE active_flag = true ORDER BY id ASC')
+      return data.rows;
+    }
+    catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
+
   async checkGamesPlayedByTeamInEvent(eventId, teamId) {
     try {
       const values = [eventId, teamId];
