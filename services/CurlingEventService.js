@@ -144,7 +144,7 @@ class CurlingEventService {
   async setDefaultEventId(eventId) {
     try {
       const data = await this.#pool
-        .query(`UPDATE public.defaultevent SET event_id = ${event_id} WHERE active_flag = true`)
+        .query(`UPDATE public.defaultevent SET event_id = ${eventId} WHERE active_flag = true`)
       return data.rows;
     }
     catch (error) {
