@@ -427,4 +427,16 @@ router.post('/:eventId/draw', async (req, res) => batchLoad.createDraw(req, res)
 
 router.post('/event', async (req, res) => batchLoad.createEvent(req, res));
 
+router.post('/defaultEventId/:eventId', async (req, res) => {
+  const eventId = req.params.eventId;
+
+  try {
+    let result = await curlingEventService.setDefaultEventId(eventId);
+    res.status(200).send(result);
+  }
+  catch (error) {
+    res.status(400).send({ error, message: error.message });
+  }
+});
+
 module.exports = router;
