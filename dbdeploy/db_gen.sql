@@ -1,9 +1,8 @@
-drop table if exists CurlingEvent, Organization, Pool, Bracket, CurlingTeam, Curler, Draw, Game, EndScore, EventTeams, Admins
-CASCADE;
-drop type if exists valid_event_types
-, valid_position_types, valid_stone_colors, valid_ice_sheets, valid_throwing_order_types CASCADE;
+drop table if exists CurlingEvent, Organization, Pool, Bracket, CurlingTeam, Curler, Draw, Game, EndScore, EventTeams, defaultevent CASCADE;
 
+drop type if exists valid_event_types, valid_position_types, valid_stone_colors, valid_ice_sheets, valid_throwing_order_types CASCADE;
 
+SET search_path TO public;
 /* 
  * CurlingEvent: an event to be tracked by the bonspiel app. 
  * there are 3 types: a pool-based event, a bracket event (typical of bonspiels), 
@@ -12,12 +11,12 @@ drop type if exists valid_event_types
 
 create type valid_event_types as enum
 ('friendly', 'pools', 'brackets', 'championship');
-create table CurlingEvent
+create table curlingEvent
 (
   ID Serial,
   name text,
-  begin_date timestamp,
-  end_date timestamp,
+  begin_date timestamp with time zone,
+  end_date timestamp with time zone,
   completed boolean DEFAULT FALSE,
   info text,
   event_type valid_event_types,
@@ -27,7 +26,7 @@ create table CurlingEvent
 
 
 /* Organization - a club or other organization to which a curler is affiliated */
-create table Organization
+create table organization
 (
   ID Serial,
   short_name text,
@@ -41,7 +40,7 @@ create table Organization
  * or 'championship' type of event. pools generally have a static set 
  * of games determined when the event begins.
  */
-create table Pool
+create table pool
 (
   ID Serial,
   event_id integer NOT NULL, 
@@ -61,7 +60,7 @@ create table Pool
  * or 'championship' type of event. Brackets have special rules about teams 
  * advancing to future games.
  */
-create table Bracket
+create table bracket
 (
   ID Serial,
   event_id integer NOT NULL,
@@ -83,7 +82,7 @@ create table Bracket
  *   be entered as separate teams, one per event. This is fine for v1.0 and 
  *   can be revisited for future versions of the bonspiel tracking system.
  */
-create table CurlingTeamT
+create table curlingTeam
 (
   ID Serial,
   affiliation integer,
@@ -126,7 +125,7 @@ create type valid_position_types as enum
 
 create type valid_throwing_order_types as enum
 ('third', 'second', 'lead', 'fourth', 'alternate');
-create table Curler
+create table curler
 (
   ID serial,
   name text,
@@ -150,12 +149,12 @@ create table Curler
 
 
 /* Draw - a collection of curling games that all start at the begin at the same time. */
-create table Draw
+create table draw
 (
   ID serial,
   event_id integer NOT NULL,
   name text,
-  start timestamp,
+  start timestamp with time zone,
   video_url text,
   CONSTRAINT draw_pkey PRIMARY KEY (id),
   CONSTRAINT draw_event_id_fkey FOREIGN KEY (event_id)
@@ -179,7 +178,7 @@ create type valid_stone_colors as enum
 ('red', 'yellow');
 create type valid_ice_sheets as enum
 ('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', '1', '2', '3', '4', '5', '6', '7', '8');
-create table Game
+create table game
 (
   ID Serial,
   event_type valid_event_types,
@@ -188,8 +187,8 @@ create table Game
   bracket_id integer DEFAULT NULL,
   pool_id integer DEFAULT NULL,
   draw_id integer NOT NULL,
-  CurlingTeam1_id integer REFERENCES CurlingTeam(ID),
-  CurlingTeam2_id integer REFERENCES CurlingTeam(ID),
+  CurlingTeam1_id integer,
+  CurlingTeam2_id integer,
   stone_color1 valid_stone_colors DEFAULT 'red',
   stone_color2 valid_stone_colors DEFAULT 'yellow',
   winner_dest integer,
@@ -245,7 +244,7 @@ create table Game
  * the losing team concedes) or more (if the game is defined to be longer 
  * or if an 8-end game is tied and goes to an extra, 9th end).
  */
-create table EndScore
+create table endScore
 (
   ID Serial,
   game_id integer NOT NULL,
@@ -263,9 +262,22 @@ create table EndScore
   CONSTRAINT endscore_end_number_check1 CHECK (end_number <= 11)
 );
 
+create table defaultevent
+(
+  event_id integer,
+  active_flag boolean,
+  CONSTRAINT defaultevent_pkey PRIMARY KEY (event_id),
+  CONSTRAINT defaultevent_event_id_fkey FOREIGN KEY (event_id)
+    REFERENCES public.curlingevent (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE
+    DEFERRABLE INITIALLY DEFERRED
+);
 
 
-create table Admins
+
+
+create table if not exists admins
 (
   username text,
   hash text,
@@ -275,13 +287,3 @@ create table Admins
   active boolean DEFAULT TRUE,
   CONSTRAINT admins_pkey PRIMARY KEY (username)
 );
-
-
-CREATE VIEW vw_game_draw
-AS
-  (SELECT g.id AS game_id, d.event_id, g.draw_id, d.name, g.event_type, g.notes, g.bracket_id, g.pool_id,
-    g.curlingteam1_id, g.curlingteam2_id, g.stone_color1, g.stone_color2,
-    g.winner_dest, g.loser_dest, g.ice_sheet, g.finished, g.winner, d.id, d.start, d.video_url
-  FROM game g
-    JOIN draw d
-    ON d.id = g.draw_id)
