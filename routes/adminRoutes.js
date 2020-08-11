@@ -427,7 +427,7 @@ router.post('/:eventId/draw', async (req, res) => batchLoad.createDraw(req, res)
 
 router.post('/event', async (req, res) => batchLoad.createEvent(req, res));
 
-router.get('/defaultEventId/:eventId', async (req, res) => {
+router.post('/defaultEventId/:eventId', async (req, res) => {
   const eventId = req.params.eventId;
 
   try {

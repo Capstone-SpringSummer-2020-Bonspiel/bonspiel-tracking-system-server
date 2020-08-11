@@ -1,6 +1,11 @@
 /*
  * @param event_id
  */
+const GET_ALL_EVENTS = `
+SELECT *
+FROM public.curlingevent
+ORDER BY id ASC`;
+
 const GET_ALL_TEAMS_IN_CURLING_EVENT = `
 SELECT curler.id as curler_id, curler.name as curler_name, curler.position as curler_position, curler.throwing_order as throwing_order, curlingteam.id as curlingteam_id, curler.affiliation as curler_affiliation, curlingteam.affiliation as curlingteam_affiliation, curlingteam.name as curlingteam_name, curlingteam.note as curlingteam_note, organization.short_name as org_short_name, organization.full_name as org_full_name
 FROM eventteams as eventTeams 
@@ -27,8 +32,7 @@ WHERE curlingteam.id=$1;
 `;
 
 const GET_ALL_GAMES_IN_CURLING_EVENT = `
-SELECT 
-curlingteam1.name as team_name1, curlingteam2.name as team_name2, 
+SELECT curlingteam1.name as team_name1, curlingteam2.name as team_name2, 
 game.id as game_id, game.event_type, game.game_name, game.notes, game.bracket_id, game.pool_id, game.draw_id, game.curlingteam1_id, game.curlingteam2_id, game.stone_color1, game.stone_color2, game.winner_dest, game.loser_dest, game.ice_sheet, game.finished, game.winner, 
 endscore.id as endscore_id, endscore.end_number, endscore.curlingteam1_scored, endscore.score, endscore.blank
 FROM game
@@ -73,8 +77,7 @@ WHERE curlingevent.id=$1
 `;
 
 const GET_ALL_GAMES_AND_SCORES = `
-SELECT 
-curlingteam1.name as team_name1, curlingteam2.name as team_name2, 
+SELECT curlingteam1.name as team_name1, curlingteam2.name as team_name2, 
 game.id as game_id, game.event_type, game.game_name, game.notes, game.bracket_id, game.pool_id, game.draw_id, game.curlingteam1_id, game.curlingteam2_id, game.stone_color1, game.stone_color2, game.winner_dest, game.loser_dest, game.ice_sheet, game.finished, game.winner, 
 endscore.id as endscore_id, endscore.end_number, endscore.curlingteam1_scored, endscore.score, endscore.blank
 FROM game
@@ -87,8 +90,7 @@ ORDER BY curlingteam1_id;
 `;
 
 const GET_ALL_GAMES_AND_SCORES_BY_TEAM = `
-SELECT 
-curlingteam1.name as team_name1, curlingteam2.name as team_name2, 
+SELECT curlingteam1.name as team_name1, curlingteam2.name as team_name2, 
 game.id as game_id, game.event_type, game.game_name, game.notes, game.bracket_id, game.pool_id, game.draw_id, game.curlingteam1_id, game.curlingteam2_id, game.stone_color1, game.stone_color2, game.winner_dest, game.loser_dest, game.ice_sheet, game.finished, game.winner, 
 endscore.id as endscore_id, endscore.end_number, endscore.curlingteam1_scored, endscore.score, endscore.blank
 FROM game
@@ -207,9 +209,9 @@ VALUES ($1, $2, $3) RETURNING id;
 `;
 
 const UPDATE_TEAM = `
-  UPDATE curlingteam
-	SET affiliation=$3, name=$2, note=$4
-	WHERE id=$1;
+UPDATE curlingteam
+SET affiliation=$3, name=$2, note=$4
+WHERE id=$1;
 `;
 
 const CREATE_CURLER = `
@@ -218,9 +220,9 @@ VALUES ($1, $2, $3, $4, $5) RETURNING id;
 `;
 
 const UPDATE_CURLER = `
-  UPDATE curler 
-	SET name=$2, position=$3, affiliation=$4, curlingteam_id=$5, throwing_order=$6
-	WHERE id=$1;
+UPDATE curler 
+SET name=$2, position=$3, affiliation=$4, curlingteam_id=$5, throwing_order=$6
+WHERE id=$1;
 `;
 
 const CREATE_ORGANIZATION = `
@@ -229,9 +231,9 @@ VALUES ($1, $2) RETURNING id;
 `;
 
 const UPDATE_ORGANIZATION = `
-  UPDATE organization 
-	SET short_name=$2, full_name=$3
-	WHERE id=$1;
+UPDATE organization 
+SET short_name=$2, full_name=$3
+WHERE id=$1;
 `;
 
 const CREATE_ADMIN = `
@@ -338,7 +340,20 @@ DELETE FROM curlingevent
 WHERE id=$1
 `;
 
+const GET_DEFAULT_EVENT_ID = `
+'SELECT *
+FROM public.defaultevent
+WHERE active_flag=true'
+`;
+
+const UPDATE_DEFAULT_EVENT_ID = `
+UPDATE public.defaultevent
+SET event_id=$1
+WHERE active_flag=true
+`;
+
 module.exports = {
+  GET_ALL_EVENTS,
   GET_ALL_CURLERS,
   GET_ALL_DRAWS_IN_CURLING_EVENT,
   GET_ALL_GAMES_IN_CURLING_EVENT,
@@ -357,6 +372,8 @@ module.exports = {
   GET_FRIENDLY_EVENTS_BY_TEAM,
   GET_ALL_ORGANIZATIONS,
   GET_CURLERS_IN_ORG,
+  GET_DEFAULT_EVENT_ID,
+  UPDATE_DEFAULT_EVENT_ID,
   DELETE_DRAW,
   DELETE_TEAM,
   DELETE_CURLER,

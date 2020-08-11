@@ -120,7 +120,7 @@ class CurlingEventService {
   async getAllEvents() {
     try {
       const data = await this.#pool
-        .query('SELECT * FROM public.curlingevent ORDER BY id ASC')
+        .query(Queries.GET_ALL_EVENTS)
       return data.rows;
     }
     catch (error) {
@@ -132,7 +132,7 @@ class CurlingEventService {
   async getDefaultEventId() {
     try {
       const data = await this.#pool
-        .query('SELECT * FROM public.defaultevent WHERE active_flag = true')
+        .query(Queries.GET_DEFAULT_EVENT_ID)
       return data.rows;
     }
     catch (error) {
@@ -143,8 +143,9 @@ class CurlingEventService {
 
   async setDefaultEventId(eventId) {
     try {
+      const values = [eventId];
       const data = await this.#pool
-        .query(`UPDATE public.defaultevent SET event_id = ${eventId} WHERE active_flag = true`)
+        .query(Queries.UPDATE_DEFAULT_EVENT_ID, values)
       return data.rows;
     }
     catch (error) {
