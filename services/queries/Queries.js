@@ -341,13 +341,13 @@ WHERE id=$1
 `;
 
 const GET_DEFAULT_EVENT_ID = `
-'SELECT *
-FROM public.defaultevent
-WHERE active_flag=true'
+SELECT *
+FROM defaultevent
+WHERE active_flag=true
 `;
 
 const UPDATE_DEFAULT_EVENT_ID = `
-UPDATE public.defaultevent
+UPDATE defaultevent
 SET event_id=$1
 WHERE active_flag=true
 `;
