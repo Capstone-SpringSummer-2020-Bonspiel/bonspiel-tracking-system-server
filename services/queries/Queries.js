@@ -11,10 +11,11 @@ WHERE eventTeams.event_id=$1;
 `;
 
 const GET_ALL_CURLERS = `
-SELECT curler.id as curler_id, curler.name as curler_name, curler.position as curler_position, curler.throwing_order as throwing_order, curlingteam.id as curlingteam_id, curler.affiliation as curler_affiliation, curlingteam.affiliation as curlingteam_affiliation, curlingteam.name as curlingteam_name, curlingteam.note as curlingteam_note, organization.short_name as org_short_name, organization.full_name as org_full_name
+SELECT curler.id as curler_id, curler.name as curler_name, curler.position as curler_position, curler.throwing_order as throwing_order, curlingteam.id as curlingteam_id, curler.affiliation as curler_affiliation, curlingteam.affiliation as curlingteam_affiliation, curlingteam.name as curlingteam_name, curlingteam.note as curlingteam_note, team_org.short_name as curlingteam_org_short_name, team_org.full_name as curlingteam_org_full_name, curler_org.short_name as curler_org_short_name, curler_org.full_name as curler_org_full_name
 FROM curlingteam
 FULL JOIN curler on curler.curlingteam_id=curlingteam.id
-LEFT JOIN organization on organization.id=curler.affiliation;
+LEFT JOIN organization as team_org on team_org.id=curlingteam.affiliation
+LEFT JOIN organization as curler_org on curler_org.id=curler.affiliation;
 `;
 
 const GET_CURLING_TEAM = `
@@ -278,7 +279,7 @@ VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;
 
 const UPDATE_EVENT = `
 UPDATE curlingevent
-SET name=$2, begin_date=$3, end_date=$4, completed=$5, info=$6, event_type=$7)
+SET name=$2, begin_date=$3, end_date=$4, completed=$5, info=$6, event_type=$7
 WHERE id=$1;
 `;
 
