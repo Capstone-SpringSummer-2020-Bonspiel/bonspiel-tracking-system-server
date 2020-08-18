@@ -76,11 +76,6 @@ create table bracket
 
 /* 
  * CurlingTeam - a team that competes in a a curling event 
- *   note that by including a "pool" field and a "dsc" field we are 
- *   essentially implying that a team exists only for the duration of one event.
- *   iow, if the same team entered multiple events then the team would need to 
- *   be entered as separate teams, one per event. This is fine for v1.0 and 
- *   can be revisited for future versions of the bonspiel tracking system.
  */
 create table curlingTeam
 (
@@ -94,10 +89,6 @@ create table curlingTeam
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     DEFERRABLE INITIALLY DEFERRED
-  /* dsc DECIMAL(6,2)  usually only 'championship' type events use this field */
-  /* might also want to model photos or other media for the team */
-  /* might want to also model contact info such as phone, email address */
-  /* might want to also model 'coach' */
 );
 
 
